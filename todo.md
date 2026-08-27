@@ -175,6 +175,6 @@
 ## Publicação e sincronização final
 
 - [x] Reexecutar validações de tipos, testes e compilação da versão atual.
-- [ ] Salvar checkpoint Manus com os ajustes visuais posteriores ao checkpoint `be83856a`.
+- [x] Salvar checkpoint Manus com os ajustes visuais posteriores ao checkpoint `be83856a`.
 - [ ] Enviar o histórico local e a versão atual ao repositório GitHub autorizado.
 - [ ] Confirmar o branch `main` e os arquivos publicados no repositório remoto.

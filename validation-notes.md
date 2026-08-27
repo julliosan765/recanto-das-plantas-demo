@@ -62,3 +62,5 @@ Na validação local do catálogo, a sacola fixa `SACOLA 0` permaneceu visível 
 Na seção de produtos, os dois botões `ADICIONAR AO PEDIDO` ficaram visíveis simultaneamente, enquanto o acesso fixo `SACOLA 0` continuou disponível. O primeiro produto pode ser adicionado sem sair da página.
 
 Validação local da sacola com produto: ao clicar em `ADICIONAR AO PEDIDO`, a sacola abriu automaticamente com `Cactos decorativos`, quantidade 1, preço R$ 24,90, controles de menos/mais, remoção e botão `ENVIAR PEDIDO PARA O WHATSAPP`. Em viewport móvel, a barra fixa inferior mostra `SACOLA · 0` quando vazia e permanece acessível sem cobrir os cards; o estado com item foi confirmado no navegador conectado.
+
+A revisão mobile confirmou que a seção Sobre mantém leitura compacta, mostra o bloco `Desde 2004` e o tempo calculado, enquanto a rota administrativa continua protegida e apresenta apenas o acesso Google quando não há sessão. O formulário completo aguarda a sessão do administrador para teste interativo.

@@ -117,10 +117,21 @@ describe("fluxos administrativos da loja", () => {
     expect(getProductStoragePaths({ ...existingProduct, imageUrls: ["https://cdn.example.com/imagem-externa.jpg"] })).toEqual([]);
   });
 
-  it("normaliza WhatsApp e remove espaços do Instagram para os links públicos", () => {
-    expect(buildStoreSettingsDraft(" (82) 99999-8888 ", " https://www.instagram.com/recanto/ ")).toEqual({
+  it("normaliza contatos e preserva os campos editáveis de Sobre nós", () => {
+    expect(buildStoreSettingsDraft(" (82) 99999-8888 ", " https://www.instagram.com/recanto/ ", 2004, " História do Recanto em Maceió. ", " Atendimento próximo para cada espaço. ")).toEqual({
       whatsappNumber: "5582999998888",
       instagramUrl: "https://www.instagram.com/recanto/",
+      aboutSinceYear: 2004,
+      aboutIntro: "História do Recanto em Maceió.",
+      aboutDetail: "Atendimento próximo para cada espaço.",
+    });
+  });
+
+  it("usa valores padrão para ano inválido e textos vazios de Sobre nós", () => {
+    expect(buildStoreSettingsDraft("5582999998888", "https://www.instagram.com/recanto/", 1800, " ", " ")).toMatchObject({
+      aboutSinceYear: 2004,
+      aboutIntro: expect.stringContaining("Em Maceió"),
+      aboutDetail: expect.stringContaining("Fale com a equipe"),
     });
   });
 

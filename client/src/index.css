@@ -209,3 +209,12 @@ button, a { -webkit-tap-highlight-color: transparent; } a { color: inherit; text
   .mobile-action button { border:0; }
   .order-empty { min-height:190px; }
 }
+
+
+.about-years { align-items:baseline; border-bottom:1px solid rgba(24,59,44,.16); border-top:1px solid rgba(24,59,44,.16); display:flex; gap:12px; margin:0 0 23px!important; padding:12px 0; }
+.about-years strong { color:#1F5C3E; font:600 27px/1 "Cormorant Garamond",serif; letter-spacing:-.04em; }
+.about-years span { color:#A65C39; font-size:9px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+@media (max-width:620px) { .about-years { align-items:flex-start; flex-direction:column; gap:4px; margin-bottom:19px!important; padding:10px 0; }.about-years strong { font-size:25px; }.about-years span { font-size:8px; } }
+
+.store-settings-form textarea { background:#F7F4ED; border:1px solid rgba(31,92,62,.16); border-radius:0; color:#183B2C; font:400 14px/1.55 "DM Sans",sans-serif; min-height:84px; outline:none; padding:13px; resize:vertical; text-transform:none; }
+.store-settings-form textarea:focus { border-color:#A65C39; box-shadow:0 0 0 3px rgba(166,92,57,.12); }

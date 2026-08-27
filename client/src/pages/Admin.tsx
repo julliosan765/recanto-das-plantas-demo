@@ -184,17 +184,20 @@ export default function Admin() {
     event.preventDefault();
     const whatsappNumber = normalizeWhatsAppNumber(settings.whatsappNumber);
     const instagramUrl = settings.instagramUrl.trim();
+    const aboutSinceYear = Number.parseInt(String(settings.aboutSinceYear), 10);
     if (whatsappNumber.length < 12 || whatsappNumber.length > 15) { setNotice("Informe um número de WhatsApp válido, com DDD."); return; }
+    if (!Number.isInteger(aboutSinceYear) || aboutSinceYear < 1900 || aboutSinceYear > new Date().getFullYear()) { setNotice("Informe um ano de início válido."); return; }
+    if (settings.aboutIntro.trim().length < 20 || settings.aboutDetail.trim().length < 20) { setNotice("Escreva textos de Sobre nós com pelo menos 20 caracteres."); return; }
     try {
       const parsedInstagram = new URL(instagramUrl);
       if (parsedInstagram.protocol !== "https:" || !parsedInstagram.hostname.endsWith("instagram.com")) throw new Error();
     } catch { setNotice("Informe um link completo do Instagram, por exemplo: https://www.instagram.com/sualoja/"); return; }
     setSavingSettings(true); setNotice("");
     try {
-      const nextSettings = buildStoreSettingsDraft(whatsappNumber, instagramUrl);
+      const nextSettings = buildStoreSettingsDraft(whatsappNumber, instagramUrl, aboutSinceYear, settings.aboutIntro, settings.aboutDetail);
       await saveStoreSettings(nextSettings);
       setSettings(nextSettings);
-      setNotice("WhatsApp e Instagram atualizados no site.");
+      setNotice("Informações da loja e conteúdo de Sobre nós atualizados no site.");
     } catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível atualizar as informações da loja."); }
     finally { setSavingSettings(false); }
   }
@@ -230,7 +233,7 @@ export default function Admin() {
       </form>
       <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <div className="admin-empty-state"><p>Nenhum produto real cadastrado ainda.</p><small>Cadastre um produto acima para ele aparecer aqui e, quando estiver disponível com preço, na vitrine pública.</small></div> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{getProductImages(product)[0] ? <img src={getProductImages(product)[0].url} alt="" style={{ objectPosition: `center ${getProductImages(product)[0].focusY}%` }} /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => startEdit(product)}>Editar</button><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button><button className="admin-delete" type="button" disabled={saving} onClick={() => handleDelete(product)} aria-label={`Apagar produto ${product.name}`}>Apagar produto</button></div></div>)}</div>}</aside>
     </section>
-    <section className="store-settings-section"><div><p className="eyebrow"><span /> Informações da loja</p><h2>WhatsApp e Instagram.</h2><p>Altere somente estes dois dados quando precisar. Os botões do site acompanham a mudança.</p></div><form className="store-settings-form" onSubmit={handleSaveSettings}><label>Número do WhatsApp<input inputMode="tel" value={settings.whatsappNumber} onChange={(event) => setSettings({ ...settings, whatsappNumber: event.target.value })} placeholder="Ex.: (82) 99999-9999" /></label><label>Link do Instagram<input inputMode="url" value={settings.instagramUrl} onChange={(event) => setSettings({ ...settings, instagramUrl: event.target.value })} placeholder="https://www.instagram.com/sualoja/" /></label><button className="admin-primary" type="submit" disabled={savingSettings}>{savingSettings ? <Loader2 className="admin-loader" size={18} /> : <PencilLine size={18} />} Salvar informações</button>{notice && <p className="admin-notice">{notice}</p>}</form></section>
+    <section className="store-settings-section"><div><p className="eyebrow"><span /> Informações da loja</p><h2>Contatos e<br /><em>Sobre nós.</em></h2><p>Altere os contatos e a história institucional. O conteúdo salvo aqui aparece automaticamente na vitrine pública.</p></div><form className="store-settings-form" onSubmit={handleSaveSettings}><label>Número do WhatsApp<input inputMode="tel" value={settings.whatsappNumber} onChange={(event) => setSettings({ ...settings, whatsappNumber: event.target.value })} placeholder="Ex.: (82) 99999-9999" /></label><label>Link do Instagram<input inputMode="url" value={settings.instagramUrl} onChange={(event) => setSettings({ ...settings, instagramUrl: event.target.value })} placeholder="https://www.instagram.com/sualoja/" /></label><label>Ano de início da empresa<input inputMode="numeric" type="number" min="1900" max={new Date().getFullYear()} value={settings.aboutSinceYear} onChange={(event) => setSettings({ ...settings, aboutSinceYear: Number(event.target.value) })} placeholder="Ex.: 2004" /></label><label>Texto principal de Sobre nós<textarea value={settings.aboutIntro} onChange={(event) => setSettings({ ...settings, aboutIntro: event.target.value })} rows={4} placeholder="Conte brevemente a história da empresa." /></label><label>Complemento de Sobre nós<textarea value={settings.aboutDetail} onChange={(event) => setSettings({ ...settings, aboutDetail: event.target.value })} rows={3} placeholder="Adicione uma segunda informação importante." /></label><button className="admin-primary" type="submit" disabled={savingSettings}>{savingSettings ? <Loader2 className="admin-loader" size={18} /> : <PencilLine size={18} />} Salvar informações</button>{notice && <p className="admin-notice">{notice}</p>}</form></section>
   </main>;
 }
 

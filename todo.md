@@ -276,3 +276,20 @@
 - [x] Permitir revisar itens, quantidades, remoção e total antes do WhatsApp.
 - [x] Manter a sacola utilizável no celular sem cobrir o conteúdo e preservar o envio pelo WhatsApp.
 - [x] Criar ou atualizar testes para o fluxo da sacola e validar em celular e desktop.
+
+
+## História institucional no Sobre
+
+- [x] Atualizar a seção Sobre com a mensagem de mais de 22 anos de mercado e a referência “Desde 2004”.
+- [x] Remover o e-mail do texto institucional.
+- [x] Manter a narrativa profissional e não publicar avaliações de terceiros como depoimentos próprios.
+- [x] Validar a seção em celular e desktop, com testes e build antes da publicação.
+
+
+## Sobre nós editável pelo proprietário
+
+- [x] Adicionar campos de ano de referência e textos institucionais às configurações da loja no Supabase.
+- [x] Criar atualização protegida para que somente o administrador altere o conteúdo de Sobre nós.
+- [x] Adicionar formulário simples de Sobre nós no painel administrativo.
+- [x] Fazer a vitrine pública carregar e exibir os dados salvos, com valores padrão seguros.
+- [x] Criar testes e validar o fluxo em desktop e celular antes de publicar.

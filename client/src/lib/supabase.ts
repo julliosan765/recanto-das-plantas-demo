@@ -154,14 +154,20 @@ export async function updateProduct(product: StoreProduct) {
 
 export async function getStoreSettings(): Promise<StoreSettings> {
   if (!supabase) return defaultStoreSettings;
-  const { data, error } = await supabase.from("store_settings").select("whatsapp_number,instagram_url").eq("id", 1).maybeSingle();
+  const { data, error } = await supabase.from("store_settings").select("whatsapp_number,instagram_url,about_since_year,about_intro,about_detail").eq("id", 1).maybeSingle();
   if (error) throw error;
-  return data ? { whatsappNumber: data.whatsapp_number, instagramUrl: data.instagram_url } : defaultStoreSettings;
+  return data ? {
+    whatsappNumber: data.whatsapp_number,
+    instagramUrl: data.instagram_url,
+    aboutSinceYear: data.about_since_year ?? defaultStoreSettings.aboutSinceYear,
+    aboutIntro: data.about_intro ?? defaultStoreSettings.aboutIntro,
+    aboutDetail: data.about_detail ?? defaultStoreSettings.aboutDetail,
+  } : defaultStoreSettings;
 }
 
 export async function saveStoreSettings(settings: StoreSettings) {
   if (!supabase) throw new Error("Configure o Supabase antes de alterar as informações da loja.");
-  const { error } = await supabase.from("store_settings").upsert({ id: 1, whatsapp_number: settings.whatsappNumber, instagram_url: settings.instagramUrl });
+  const { error } = await supabase.from("store_settings").upsert({ id: 1, whatsapp_number: settings.whatsappNumber, instagram_url: settings.instagramUrl, about_since_year: settings.aboutSinceYear, about_intro: settings.aboutIntro, about_detail: settings.aboutDetail });
   if (error) throw error;
 }
 

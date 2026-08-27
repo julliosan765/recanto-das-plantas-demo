@@ -1,5 +1,5 @@
 import type { StoreProduct } from "./catalog";
-import { normalizeWhatsAppNumber, type StoreSettings } from "./store-settings";
+import { defaultStoreSettings, normalizeWhatsAppNumber, type StoreSettings } from "./store-settings";
 
 export type ProductFormState = {
   name: string;
@@ -83,10 +83,14 @@ export function getDeleteProductConfirmation(productName: string) {
   return `Apagar o produto “${productName}”? Essa ação não pode ser desfeita.`;
 }
 
-export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string): StoreSettings {
+export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string, aboutSinceYear: number | string, aboutIntro: string, aboutDetail: string): StoreSettings {
+  const parsedYear = typeof aboutSinceYear === "number" ? aboutSinceYear : Number.parseInt(aboutSinceYear, 10);
   return {
     whatsappNumber: normalizeWhatsAppNumber(whatsappNumber),
     instagramUrl: instagramUrl.trim(),
+    aboutSinceYear: Number.isInteger(parsedYear) && parsedYear >= 1900 && parsedYear <= new Date().getFullYear() ? parsedYear : defaultStoreSettings.aboutSinceYear,
+    aboutIntro: aboutIntro.trim() || defaultStoreSettings.aboutIntro,
+    aboutDetail: aboutDetail.trim() || defaultStoreSettings.aboutDetail,
   };
 }
 

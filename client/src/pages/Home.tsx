@@ -48,6 +48,7 @@ export default function Home() {
   const whatsapp = useMemo(() => makeWhatsAppUrl(storeSettings.whatsappNumber, defaultContactMessage), [storeSettings.whatsappNumber]);
   const categoryFilters = useMemo(() => buildCategoryFilters(catalog), [catalog]);
   const visibleCatalog = useMemo(() => filterCatalogProducts(catalog, catalogQuery, catalogCategory), [catalog, catalogQuery, catalogCategory]);
+  const yearsInBusiness = Math.max(0, new Date().getFullYear() - storeSettings.aboutSinceYear);
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
@@ -157,8 +158,9 @@ export default function Home() {
           <div className="about-copy">
             <p className="eyebrow"><span /> Sobre o Recanto</p>
             <h2>Não é só sobre<br />plantas. É sobre<br /><em>casa.</em></h2>
-            <p>Em Maceió, o Recanto reúne plantas, flores, vasos e itens para jardim para quem quer cultivar, renovar ou presentear.</p>
-            <p>Fale com a equipe, consulte a disponibilidade e escolha com mais calma o que combina com o seu espaço.</p>
+            <p className="about-years"><strong>Desde {storeSettings.aboutSinceYear}</strong><span>{yearsInBusiness} {yearsInBusiness === 1 ? "ano" : "anos"} de mercado</span></p>
+            <p>{storeSettings.aboutIntro}</p>
+            <p>{storeSettings.aboutDetail}</p>
             <a className="about-link" href="#visite">Venha nos visitar <ArrowDownRight size={17} /></a>
           </div>
           <p className="about-aside">verde para<br /><em>viver melhor.</em></p>

@@ -1,0 +1,15 @@
+# Integração futura: Supabase, Google e GitHub Pages
+
+## Fontes consultadas
+
+- [Login com Google no Supabase](https://supabase.com/docs/guides/auth/social-login/auth-google): para um site web, criar um cliente OAuth do tipo Web no Google Cloud, cadastrar a URL do site em **Authorized JavaScript origins**, cadastrar a URL de callback indicada pelo Supabase em **Authorized redirect URIs** e ativar o provedor Google dentro do painel do Supabase. O código web usa `signInWithOAuth({ provider: 'google', options: { redirectTo } })`.
+- [Autenticação no Supabase](https://supabase.com/docs/guides/auth): o Supabase Auth integra autenticação por Google com autorização no banco via JWT e políticas RLS.
+- [Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security): toda tabela do esquema exposto deve ter RLS ativado; é necessário revogar permissões excessivas e conceder ao público somente leitura de produtos publicados. A chave `service_role` nunca deve ir para o navegador.
+- [Publicação estática do Vite](https://vite.dev/guide/static-deploy): em GitHub Pages, uma URL de projeto usa `base: '/<repositorio>/'`; um domínio personalizado usa `base: '/'`. A publicação requer um workflow do GitHub Actions.
+- [Workflow GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages): o workflow deve ter permissões `contents: read`, `pages: write` e `id-token: write`, empacotar o build e fazer o deploy do artefato.
+
+## Regras de segurança da implementação
+
+1. Somente `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` serão expostas ao frontend; a chave `service_role` não será adicionada ao código, ao repositório ou ao GitHub Pages.
+2. O e-mail administrador deve ser controlado por tabela e política RLS no Supabase, e não somente escondido na interface do navegador.
+3. Até a empresa criar sua conta e informar as chaves, o catálogo continuará em modo demonstração e o painel administrativo não permitirá alterações persistentes.

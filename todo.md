@@ -28,3 +28,36 @@
 - [x] Substituir linguagem genérica por informações institucionais confirmadas da loja.
 - [x] Exibir endereço completo, retirada na loja, entrega e contato em uma versão comercial final.
 - [x] Revisar a página final para evitar promessas, horários, preços ou produtos não confirmados.
+- [ ] Verificar se a integração com GitHub está disponível para exportar o projeto.
+- [ ] Preparar as orientações de GitHub Pages para um site estático exportado.
+- [ ] Indicar como obter e divulgar a URL pública no Google Maps e no Instagram.
+- [ ] Escolher entre catálogo leve editável e painel completo de gestão de produtos.
+- [ ] Definir campos do produto: foto, nome, categoria, preço, disponibilidade e mensagem para WhatsApp.
+- [ ] Estruturar área segura para a empresa cadastrar e alterar produtos.
+- [ ] Montar pedido com itens e enviar resumo automaticamente para o WhatsApp.
+- [ ] Criar modelo de dados de produtos compatível com um catálogo de plantas administrável.
+- [ ] Documentar as variáveis e as etapas necessárias para conectar o Supabase posteriormente.
+- [ ] Configurar os arquivos necessários para publicar a versão estática no GitHub Pages.
+- [ ] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
+- [ ] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
+- [ ] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
+- [ ] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
+- [x] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
+- [x] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
+- [x] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
+- [x] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
+- [x] Manter o painel administrativo restrito a foto, nome, preço, categoria e disponibilidade.
+- [x] Garantir que o pedido seja enviado como texto pronto para o WhatsApp, sem pagamento online.
+- [x] Criar modelo de dados de produtos compatível com um catálogo de plantas administrável.
+- [x] Documentar as variáveis e as etapas necessárias para conectar o Supabase posteriormente.
+- [x] Configurar os arquivos necessários para publicar a versão estática no GitHub Pages.
+- [x] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
+- [x] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
+- [x] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
+- [x] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
+- [x] Corrigir a checagem de tipos da área administrativa antes de conectar serviços externos.
+- [ ] Criar o repositório de demonstração com a conta GitHub do usuário.
+- [ ] Criar projeto de demonstração no Supabase com a conta Google do usuário.
+- [ ] Registrar como transferir a permissão administrativa para o e-mail do proprietário após aprovação.
+- [ ] Manter o painel administrativo restrito a foto, nome, preço, categoria e disponibilidade.
+- [ ] Garantir que o pedido seja enviado como texto pronto para o WhatsApp, sem pagamento online.

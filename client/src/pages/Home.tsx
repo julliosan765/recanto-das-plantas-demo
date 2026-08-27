@@ -2,29 +2,40 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from "lucide-react";
-import { useState } from "react";
+import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Phone, Plus, ShoppingBag, Sparkles, X } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { demoProducts, formatPrice, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
+import { storeAsset } from "@/lib/assets";
+import { getPublicProducts } from "@/lib/supabase";
 
 const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20as%20plantas%2C%20flores%2C%20vasos%20e%20itens%20de%20jardim%20dispon%C3%ADveis.";
 const maps = "https://www.google.com/maps/search/?api=1&query=Recanto+das+Plantas%2C+Macei%C3%B3%2C+AL";
 const instagram = "https://www.instagram.com/recantodasplantasal/";
 const wa = (message: string) => `https://wa.me/558233287315?text=${encodeURIComponent(message)}`;
 
-const catalog = [
-  { n: "01", tag: "Para cultivar", title: "Cactos & suculentas", description: "Pequenos, resistentes e cheios de personalidade para diferentes cantos da casa.", image: "/manus-storage/recanto-cactos_5b0cc2c6.png", message: "Olá, gostaria de saber quais cactos e suculentas estão disponíveis.", style: "tall" },
-  { n: "02", tag: "Para compor", title: "Vasos & detalhes", description: "Peças e enfeites para dar um toque especial ao jardim ou a um presente.", image: "/manus-storage/recanto-joaninhas_d2016244.png", message: "Olá, gostaria de conhecer os vasos e itens de decoração disponíveis.", style: "short" },
-  { n: "03", tag: "Para florescer", title: "Flores em destaque", description: "Cores que transformam o ambiente e tornam qualquer ocasião ainda mais especial.", image: "/manus-storage/recanto-flor-deserto_f9c7231c.png", message: "Olá, gostaria de saber sobre flores e plantas em destaque disponíveis.", style: "tall" },
-];
-
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [catalog, setCatalog] = useState<StoreProduct[]>(demoProducts);
+  const [cart, setCart] = useState<CartLine[]>([]);
   const closeMenu = () => setMenuOpen(false);
+  const cartQuantity = useMemo(() => cart.reduce((total, item) => total + item.quantity, 0), [cart]);
+
+  useEffect(() => {
+    getPublicProducts().then((products) => { if (products.length) setCatalog(products); }).catch(() => undefined);
+  }, []);
+
+  function addToOrder(product: StoreProduct) {
+    setCart((current) => {
+      const found = current.find((line) => line.id === product.id);
+      return found ? current.map((line) => line.id === product.id ? { ...line, quantity: line.quantity + 1 } : line) : [...current, { ...product, quantity: 1 }];
+    });
+  }
 
   return (
     <div className="site-shell">
       <header className="site-header">
         <a className="brand-mark" href="#inicio" aria-label="Recanto das Plantas — início" onClick={closeMenu}>
-          <img src="/manus-storage/recanto-logo_e43dd42a.png" alt="Símbolo botânico Recanto das Plantas" className="brand-logo" />
+          <img src={storeAsset("recanto-logo_e43dd42a.png")} alt="Símbolo botânico Recanto das Plantas" className="brand-logo" />
           <span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span>
         </a>
         <nav className="desktop-nav" aria-label="Navegação principal">
@@ -54,7 +65,7 @@ export default function Home() {
             <div className="hero-details" aria-label="Atalhos para atendimento"><span><Leaf size={15} />Escolha com calma</span><span><MessageCircle size={15} />Fale pelo WhatsApp</span></div>
           </div>
           <figure className="hero-visual">
-            <img src="/manus-storage/recanto-espaco-aereo_e3d028fc.png" alt="Vista aérea da Recanto das Plantas na Avenida Menino Marcelo, em Maceió" />
+            <img src={storeAsset("recanto-espaco-aereo_e3d028fc.png")} alt="Vista aérea da Recanto das Plantas na Avenida Menino Marcelo, em Maceió" />
             <figcaption><span /> Conheça o espaço do Recanto</figcaption>
             <div className="floating-seal" aria-hidden="true"><span>cultivo</span><Leaf size={20} /><span>com cuidado</span></div>
           </figure>
@@ -76,19 +87,20 @@ export default function Home() {
             <p className="heading-copy">Fale com a equipe para consultar as opções disponíveis para sua casa, presente ou jardim.</p>
           </div>
           <div className="catalog-grid">
-            {catalog.map((item) => <article className={`catalog-card ${item.style}`} key={item.n}>
-              <div className="catalog-image-wrap"><img src={item.image} alt={item.title} loading="lazy" /><span>{item.n}</span></div>
+            {catalog.map((item, index) => <article className={`catalog-card ${index % 3 === 1 ? "short" : "tall"}`} key={item.id}>
+              <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span></div>
               <div className="catalog-content">
-                <div className="catalog-meta"><span>{item.tag}</span><i>seleção do recanto</i></div>
-                <h3>{item.title}</h3><p>{item.description}</p>
-                <a href={wa(item.message)} target="_blank" rel="noopener noreferrer">Consultar <ArrowUpRight size={17} /></a>
+                <div className="catalog-meta"><span>{item.category}</span><i>{formatPrice(item.priceCents)}</i></div>
+                <h3>{item.name}</h3><p>{item.description}</p>
+                <button className="catalog-action" type="button" onClick={() => addToOrder(item)}><Plus size={17} /> Adicionar ao pedido</button>
               </div>
             </article>)}
           </div>
+          {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><a href={whatsappOrderUrl(cart)} target="_blank" rel="noopener noreferrer">Enviar para o WhatsApp <ArrowUpRight size={17} /></a></div>}
         </section>
 
         <section id="cuidado" className="care-section">
-          <div className="care-image"><img src="/manus-storage/recanto-detail-folha_8cebcdbf.jpg" alt="Detalhe de folhas verdes com textura natural" loading="lazy" /></div>
+          <div className="care-image"><img src={storeAsset("recanto-detail-folha_8cebcdbf.jpg")} alt="Detalhe de folhas verdes com textura natural" loading="lazy" /></div>
           <div className="care-copy">
             <p className="eyebrow light"><span /> Escolhas que acompanham</p>
             <h2>Uma planta boa<br />começa com <em>escuta.</em></h2>
@@ -100,7 +112,7 @@ export default function Home() {
         </section>
 
         <section id="sobre" className="about-section">
-          <div className="about-symbol" aria-hidden="true"><img src="/manus-storage/recanto-logo_e43dd42a.png" alt="" /><span>RECANTO<br />DAS PLANTAS</span></div>
+          <div className="about-symbol" aria-hidden="true"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><span>RECANTO<br />DAS PLANTAS</span></div>
           <div className="about-copy">
             <p className="eyebrow"><span /> Sobre o Recanto</p>
             <h2>Não é só sobre<br />plantas. É sobre<br /><em>casa.</em></h2>
@@ -123,7 +135,7 @@ export default function Home() {
             <div className="service-note"><span>Retirada na loja</span><span>Entrega</span></div>
             <a className="instagram-link" href={instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
           </div>
-          <div className="visit-image"><img src="/manus-storage/recanto-joaninhas_d2016244.png" alt="Enfeites de joaninha disponíveis na Recanto das Plantas" loading="lazy" /><small>DETALHES QUE ENCANTAM</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
+          <div className="visit-image"><img src={storeAsset("recanto-joaninhas_d2016244.png")} alt="Enfeites de joaninha disponíveis na Recanto das Plantas" loading="lazy" /><small>DETALHES QUE ENCANTAM</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
         </section>
 
         <section id="localizacao" className="location-section" aria-label="Localização da Recanto das Plantas">
@@ -147,7 +159,7 @@ export default function Home() {
       </main>
 
       <footer className="site-footer">
-        <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src="/manus-storage/recanto-logo_e43dd42a.png" alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
+        <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
         <p>Plantas, flores, vasos e itens para jardim em Maceió.</p>
         <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a>
       </footer>

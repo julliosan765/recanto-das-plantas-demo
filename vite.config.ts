@@ -204,8 +204,10 @@ function vitePluginStorageProxy(): Plugin {
 }
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+const basePath = process.env.VITE_BASE_PATH || "/";
 
 export default defineConfig({
+  base: basePath,
   plugins,
   resolve: {
     alias: {
@@ -219,6 +221,12 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        site: path.resolve(import.meta.dirname, "client/index.html"),
+        admin: path.resolve(import.meta.dirname, "client/admin.html"),
+      },
+    },
   },
   server: {
     port: 3000,

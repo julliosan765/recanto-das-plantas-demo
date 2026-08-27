@@ -84,7 +84,7 @@ export function getDeleteProductConfirmation(productName: string) {
 }
 
 export function getAdminAccessDeniedMessage() {
-  return "Esta conta Google não tem permissão para acessar a área administrativa. Entre com a conta autorizada do proprietário.";
+  return "Esta conta Google não tem permissão para acessar a área administrativa.";
 }
 
 export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string, aboutSinceYear: number | string, aboutIntro: string, aboutDetail: string): StoreSettings {

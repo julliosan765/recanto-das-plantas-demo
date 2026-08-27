@@ -74,3 +74,7 @@ A barra de ações móvel passa a observar apenas `.map-wrap`: ela pode permanec
 Na revisão de segurança, a política CSP continua limitando origens de scripts, conexões, imagens, quadros e formulários aos recursos necessários. A auditoria de dependências de produção não encontrou vulnerabilidades conhecidas de severidade alta ou superior.
 
 As políticas RLS do Supabase mantêm leitura anônima apenas de produtos ativos, disponíveis e com preço. Alterar, inserir ou apagar produtos e modificar as informações da loja exige que a sessão autenticada esteja em `store_admins`; a tabela de administradores permite a cada usuário ler somente o seu próprio registro. O consultor do Supabase ainda alerta que a proteção contra senhas vazadas está desativada; o painel usa Google OAuth, mas a ativação dessa opção permanece recomendada caso o projeto venha a permitir login por senha.
+
+Na correção final do mapa em celular, `.route-card` passou a usar `display:none` até 620 px. O endereço e o botão “Abrir rota no Maps” continuam antes do mapa; assim, o cartão branco duplicado deixa de cobrir os controles e a área visual do Google Maps. A página foi revisada novamente em 390 px após a alteração.
+
+Na tela de acesso negado, a mensagem foi reduzida para “Esta conta Google não tem permissão para acessar a área administrativa.”. O teste automatizado confirma que o texto não cita proprietário, conta autorizada, e-mail ou identificadores internos; as ações “Ver a loja” e “Sair” foram preservadas para uma saída clara.

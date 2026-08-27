@@ -15,6 +15,7 @@ describe("fluxo da sacola na vitrine", () => {
 
   it("mantém a vitrine objetiva, sem blocos decorativos e convites repetidos", () => {
     const source = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+    const styles = readFileSync(resolve(process.cwd(), "client/src/index.css"), "utf8");
 
     expect(source).not.toContain('id="cuidado"');
     expect(source).not.toContain('id="visite"');
@@ -23,5 +24,6 @@ describe("fluxo da sacola na vitrine", () => {
     expect(source).toContain("Abrir rota no Maps");
     expect(source).toContain('document.querySelector<HTMLElement>("#localizacao .map-wrap")');
     expect(source).toContain('https://maps.google.com/maps?hl=pt-BR');
+    expect(styles).toMatch(/@media \(max-width:620px\) \{ \.route-card \{ display:none; \} \}/);
   });
 });

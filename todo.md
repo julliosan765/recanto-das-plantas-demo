@@ -325,3 +325,16 @@
 - [x] Manter somente catálogo, Sobre nós, contato essencial, mapa, Instagram, sacola e WhatsApp.
 - [x] Validar a página simplificada em celular, tablet e computador antes de publicar.
 - [x] Reduzir textos auxiliares repetidos no topo, mantendo uma única chamada clara para WhatsApp e catálogo.
+
+## Mapa sem sobreposição no celular
+
+- [x] Remover o cartão “Ficha de visita” sobreposto ao mapa em telas pequenas.
+- [x] Manter o endereço e o botão de rota acima do mapa, sem repetir o cartão dentro dele.
+- [x] Confirmar em celular que a área útil do Google Maps fica livre para visualização e interação.
+- [x] Validar, publicar e sincronizar a correção no GitHub Pages.
+
+## Mensagem de acesso negado
+
+- [x] Remover a referência à conta autorizada do proprietário da tela de acesso negado.
+- [x] Manter somente uma explicação curta de que a conta não tem permissão, sem dados ou instruções administrativas.
+- [x] Validar a tela e publicar a mensagem revisada.

@@ -104,7 +104,8 @@ describe("fluxos administrativos da loja", () => {
   });
 
   it("informa acesso negado sem expor identificadores da conta", () => {
-    expect(getAdminAccessDeniedMessage()).toBe("Esta conta Google não tem permissão para acessar a área administrativa. Entre com a conta autorizada do proprietário.");
+    expect(getAdminAccessDeniedMessage()).toBe("Esta conta Google não tem permissão para acessar a área administrativa.");
+    expect(getAdminAccessDeniedMessage()).not.toContain("proprietário");
   });
 
   it("seleciona somente as imagens do bucket de produtos para a limpeza após exclusão", () => {

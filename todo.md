@@ -207,8 +207,8 @@
 
 ## Evidência final do fluxo publicado
 
-- [ ] Validar no navegador conectado, em viewport mobile e desktop, o fluxo publicado completo: abrir loja, entrar em `/admin.html`, autenticar, usar "Ver a loja" e sair do painel.
-- [ ] Registrar evidência explícita da revalidação pós-ajustes de segurança do fluxo administrativo autenticado na versão publicada.
+- [x] Validar no navegador conectado, em viewport mobile e desktop, o fluxo publicado completo: abrir loja, entrar em `/admin.html`, autenticar, usar "Ver a loja" e sair do painel.
+- [x] Registrar evidência explícita da revalidação pós-ajustes de segurança do fluxo administrativo autenticado na versão publicada.
 
 ## Padronização do catálogo de produtos
 
@@ -222,4 +222,4 @@
 - [x] Salvar e carregar a galeria de fotos sem perder a foto principal nem o identificador do produto.
 - [x] Exibir miniaturas ou navegação simples das fotos no card/detalhe do catálogo público.
 - [x] Fazer o controle de enquadramento vertical atualizar a prévia imediatamente e persistir a posição escolhida.
-- [ ] Teste manual opcional: o dono selecionar duas ou mais fotos no painel e confirmar a galeria no celular e no desktop.
+- [x] Teste manual opcional: o dono selecionar duas ou mais fotos no painel e confirmar a galeria no celular e no desktop.

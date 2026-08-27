@@ -71,3 +71,4 @@ O wordmark deve unir uma serifada botânica em “Recanto” a uma assinatura sa
 - Utilizar o Verde Folhagem como cor de assinatura e garantir contraste alto em todo texto sobre imagens.
 - Toda fotografia deve parecer feita em casa, viveiro ou bancada editorial; fotos isoladas de produto em fundo branco, ou objetos de cor fria e saturada, ficam fora do sistema.
 - O catálogo sempre inclui uma etiqueta de cultivo ou uma nota de curadoria; os selos, etiquetas e traços botânicos devem reaparecer para costurar a experiência.
+- A apresentação institucional é breve e concreta: ela explica a proposta de cuidado da loja sem inventar história, fundador, anos de atuação ou promessas não confirmadas.

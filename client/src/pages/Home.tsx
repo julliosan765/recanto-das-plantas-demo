@@ -27,14 +27,14 @@ export default function Home() {
           <span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span>
         </a>
         <nav className="desktop-nav" aria-label="Navegação principal">
-          <a href="#catalogo">Coleções</a><a href="#cuidado">Como escolher</a><a href="#visite">A loja</a>
+          <a href="#catalogo">Coleções</a><a href="#cuidado">Como escolher</a><a href="#sobre">A loja</a>
         </nav>
         <a className="header-cta" href={whatsapp} target="_blank" rel="noopener noreferrer">Pedir pelo WhatsApp <ArrowUpRight size={15} strokeWidth={2.2} /></a>
         <button className="menu-trigger" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={23} /> : <Menu size={23} />}
         </button>
         {menuOpen && <nav className="mobile-nav" aria-label="Navegação móvel">
-          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#cuidado" onClick={closeMenu}>Como escolher</a><a href="#visite" onClick={closeMenu}>A loja</a>
+          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#cuidado" onClick={closeMenu}>Como escolher</a><a href="#sobre" onClick={closeMenu}>A loja</a>
           <a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>Pedir pelo WhatsApp <ArrowUpRight size={16} /></a>
         </nav>}
       </header>
@@ -96,6 +96,18 @@ export default function Home() {
             <p className="care-stamp"><Leaf size={14} /> cultivo com cuidado, desde a escolha</p>
             <a className="outline-button" href={wa("Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
           </div>
+        </section>
+
+        <section id="sobre" className="about-section">
+          <div className="about-symbol" aria-hidden="true"><img src="/manus-storage/recanto-logo_e43dd42a.png" alt="" /><span>RECANTO<br />DAS PLANTAS</span></div>
+          <div className="about-copy">
+            <p className="eyebrow"><span /> Sobre o Recanto</p>
+            <h2>Não é só sobre<br />plantas. É sobre<br /><em>casa.</em></h2>
+            <p>Mais do que escolher uma planta, queremos ajudar você a encontrar uma presença que combine com o seu espaço, sua luz e a sua rotina.</p>
+            <p>Por aqui, plantas, vasos e arranjos são apresentados com calma — para sua escolha continuar bonita depois de chegar em casa.</p>
+            <a className="about-link" href="#visite">Venha nos visitar <ArrowDownRight size={17} /></a>
+          </div>
+          <p className="about-aside">verde para<br /><em>viver melhor.</em></p>
         </section>
 
         <section id="visite" className="visit-section section-pad">

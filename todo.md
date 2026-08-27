@@ -9,3 +9,6 @@
 - [x] Reforçar a hierarquia comercial do hero, da navegação e das chamadas para ação.
 - [x] Adicionar sinais de confiança e uma apresentação mais completa dos serviços da loja.
 - [x] Ajustar o visual para uma linguagem mais universal de site profissional, sem perder a identidade botânica.
+- [x] Inserir uma seção institucional curta e verificável sobre a proposta da loja.
+- [x] Verificar clareza da navegação, links de contato e comportamento móvel após a inserção.
+- [x] Executar checagem final de compilação, logs e política de conteúdo antes da entrega.

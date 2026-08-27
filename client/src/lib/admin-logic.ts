@@ -83,6 +83,10 @@ export function getDeleteProductConfirmation(productName: string) {
   return `Apagar o produto “${productName}”? Essa ação não pode ser desfeita.`;
 }
 
+export function getAdminAccessDeniedMessage() {
+  return "Esta conta Google não tem permissão para acessar a área administrativa. Entre com a conta autorizada do proprietário.";
+}
+
 export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string, aboutSinceYear: number | string, aboutIntro: string, aboutDetail: string): StoreSettings {
   const parsedYear = typeof aboutSinceYear === "number" ? aboutSinceYear : Number.parseInt(aboutSinceYear, 10);
   return {

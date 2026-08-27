@@ -2,7 +2,7 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, Search, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Leaf, MapPin, Menu, Minus, Plus, Search, ShoppingBag, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { formatPrice, getProductImages, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
 import { buildCategoryFilters, filterCatalogProducts } from "@/lib/catalog-filters";
@@ -39,6 +39,7 @@ export default function Home() {
   const [cart, setCart] = useState<CartLine[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [storeSettings, setStoreSettings] = useState<StoreSettings>(defaultStoreSettings);
+  const [mapVisible, setMapVisible] = useState(false);
   const [catalogQuery, setCatalogQuery] = useState("");
   const [catalogCategory, setCatalogCategory] = useState("Todos");
   const closeMenu = () => setMenuOpen(false);
@@ -54,6 +55,14 @@ export default function Home() {
     if (!isSupabaseConfigured) return;
     getPublicProducts().then(setCatalog).catch(() => setCatalog([]));
     getStoreSettings().then(setStoreSettings).catch(() => undefined);
+  }, []);
+
+  useEffect(() => {
+    const mapContainer = document.querySelector<HTMLElement>("#localizacao .map-wrap");
+    if (!mapContainer || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(([entry]) => setMapVisible(entry.isIntersecting), { threshold: 0.2 });
+    observer.observe(mapContainer);
+    return () => observer.disconnect();
   }, []);
 
   function addToOrder(product: StoreProduct) {
@@ -77,14 +86,14 @@ export default function Home() {
           <span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span>
         </a>
         <nav className="desktop-nav" aria-label="Navegação principal">
-          <a href="#catalogo">Coleções</a><a href="#cuidado">Como escolher</a><a href="#sobre">A loja</a>
+          <a href="#catalogo">Coleções</a><a href="#sobre">A loja</a><a href="#localizacao">Localização</a>
         </nav>
         <a className="header-cta" href={whatsapp} target="_blank" rel="noopener noreferrer">Pedir pelo WhatsApp <ArrowUpRight size={15} strokeWidth={2.2} /></a>
         <button className="menu-trigger" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={23} /> : <Menu size={23} />}
         </button>
         {menuOpen && <nav className="mobile-nav" aria-label="Navegação móvel">
-          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#cuidado" onClick={closeMenu}>Como escolher</a><a href="#sobre" onClick={closeMenu}>A loja</a>
+          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#sobre" onClick={closeMenu}>A loja</a><a href="#localizacao" onClick={closeMenu}>Localização</a>
           <a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>Pedir pelo WhatsApp <ArrowUpRight size={16} /></a>
         </nav>}
       </header>
@@ -99,24 +108,11 @@ export default function Home() {
               <a className="primary-button" href={whatsapp} target="_blank" rel="noopener noreferrer">Consultar disponibilidade <ArrowUpRight size={18} /></a>
               <a className="text-link" href="#catalogo">Explorar coleções <ArrowDownRight size={17} /></a>
             </div>
-            <p className="hero-note"><Leaf size={18} strokeWidth={1.8} />Fale com a equipe e encontre opções para o seu espaço e a sua rotina.</p>
-            <div className="hero-details" aria-label="Atalhos para atendimento"><span><Leaf size={15} />Escolha com calma</span><span><MessageCircle size={15} />Fale pelo WhatsApp</span></div>
           </div>
           <figure className="hero-visual">
             <img src={storeAsset("recanto-espaco-aereo_e3d028fc.png")} alt="Vista aérea da Recanto das Plantas na Avenida Menino Marcelo, em Maceió" />
             <figcaption><span /> Conheça o espaço do Recanto</figcaption>
-            <div className="floating-seal" aria-hidden="true"><span>cultivo</span><Leaf size={20} /><span>com cuidado</span></div>
           </figure>
-          <p className="side-note">a casa também floresce</p>
-        </section>
-
-        <section className="selection-strip" aria-label="Como navegar pelo Recanto das Plantas">
-          <p>Do seu espaço<br />para <em>o seu recanto.</em></p>
-          <div className="selection-links">
-            <a href="#catalogo"><span>01</span><strong>Explore</strong><small>Conheça as coleções</small><ArrowDownRight size={18} /></a>
-            <a href="#cuidado"><span>02</span><strong>Converse</strong><small>Peça uma indicação</small><ArrowDownRight size={18} /></a>
-            <a href="#visite"><span>03</span><strong>Visite</strong><small>Encontre a loja</small><ArrowDownRight size={18} /></a>
-          </div>
         </section>
 
         <section id="catalogo" className="catalog-section section-pad">
@@ -141,58 +137,29 @@ export default function Home() {
           {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><button type="button" onClick={() => setCartOpen(true)}>Ver pedido <ArrowUpRight size={17} /></button></div>}
         </section>
 
-        <section id="cuidado" className="care-section">
-          <div className="care-image"><img src={storeAsset("recanto-detail-folha_8cebcdbf.jpg")} alt="Detalhe de folhas verdes com textura natural" loading="lazy" /></div>
-          <div className="care-copy">
-            <p className="eyebrow light"><span /> Escolhas que acompanham</p>
-            <h2>Uma planta boa<br />começa com <em>escuta.</em></h2>
-            <p>Luz, tempo, rotina e espaço fazem diferença. Conte como é o seu ambiente e a equipe ajuda você a escolher com mais segurança.</p>
-            <div className="care-points"><div><Sparkles size={19} />Orientação para escolher</div><div><Leaf size={19} />Dicas para os primeiros cuidados</div></div>
-            <p className="care-stamp"><Leaf size={14} /> cultivo com cuidado, desde a escolha</p>
-            <a className="outline-button" href={makeWhatsAppUrl(storeSettings.whatsappNumber, "Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
-          </div>
-        </section>
-
-        <section id="sobre" className="about-section">
-          <div className="about-symbol" aria-hidden="true"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><span>RECANTO<br />DAS PLANTAS</span></div>
+        <section id="sobre" className="about-section about-section-simple">
           <div className="about-copy">
             <p className="eyebrow"><span /> Sobre o Recanto</p>
             <h2>Não é só sobre<br />plantas. É sobre<br /><em>casa.</em></h2>
             <p className="about-years"><strong>Desde {storeSettings.aboutSinceYear}</strong><span>{yearsInBusiness} {yearsInBusiness === 1 ? "ano" : "anos"} de mercado</span></p>
             <p>{storeSettings.aboutIntro}</p>
             <p>{storeSettings.aboutDetail}</p>
-            <a className="about-link" href="#visite">Venha nos visitar <ArrowDownRight size={17} /></a>
+            <a className="about-link" href="#localizacao">Ver localização <ArrowDownRight size={17} /></a>
           </div>
-          <p className="about-aside">verde para<br /><em>viver melhor.</em></p>
-        </section>
-
-        <section id="visite" className="visit-section section-pad">
-          <div className="visit-label"><p className="eyebrow"><span /> Perto de você</p><p>Passe para sentir de perto</p></div>
-          <div className="visit-main">
-            <h2>Venha conhecer<br />o <em>Recanto.</em></h2>
-            <p>Visite a loja na Serraria, retire seu pedido no local e fale com a equipe pelo WhatsApp para confirmar a disponibilidade.</p>
-            <div className="contact-list">
-              <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo · Serraria</strong><small>Maceió · AL · 57046-000</small></span><ArrowUpRight size={17} /></a>
-              <a href="tel:+558233287315"><Phone size={20} /><span><strong>(82) 3328-7315</strong><small>Fale com a nossa equipe</small></span><ArrowUpRight size={17} /></a>
-            </div>
-            <div className="service-note"><span>Retirada na loja</span><span>Pedido pelo WhatsApp</span></div>
-            <a className="instagram-link" href={storeSettings.instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
-          </div>
-          <div className="visit-card"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Recanto das Plantas</p><strong>Serraria,<br /><em>Maceió.</em></strong><span>Visite a loja, retire seu pedido e fale com a equipe pelo WhatsApp.</span><i>cultivo com cuidado</i></div>
         </section>
 
         <section id="localizacao" className="location-section" aria-label="Localização da Recanto das Plantas">
           <div className="location-copy">
             <p className="eyebrow"><span /> Como chegar</p>
             <h2>O Recanto<br />fica <em>perto.</em></h2>
-            <p>Encontre a Recanto das Plantas na Av. Menino Marcelo, na Serraria. Abra a rota e venha visitar a loja.</p>
+            <p>Av. Menino Marcelo, Serraria — Maceió, AL. Abra a rota para visitar a loja ou fale com a equipe pelo WhatsApp para confirmar a disponibilidade.</p>
             <a className="primary-button" href={maps} target="_blank" rel="noopener noreferrer">Abrir rota no Maps <ArrowUpRight size={18} /></a>
           </div>
           <div className="map-wrap">
             <iframe
               className="location-map"
               title="Localização da Recanto das Plantas no Google Maps"
-              src="https://www.google.com/maps?q=Recanto+das+Plantas,+Av.+Menino+Marcelo+-+Serraria,+Macei%C3%B3+-+AL,+57046-000&output=embed"
+              src="https://maps.google.com/maps?hl=pt-BR&q=Recanto%20das%20Plantas%2C%20Av.%20Menino%20Marcelo%20-%20Serraria%2C%20Macei%C3%B3%20-%20AL%2C%2057046-000&z=15&output=embed"
               loading="eager"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
@@ -224,7 +191,7 @@ export default function Home() {
         <p>Plantas, flores, vasos e itens para jardim em Maceió.</p>
         <span className="footer-links"><a href={storeSettings.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a><a href={`${import.meta.env.BASE_URL}admin.html`}>Área da loja <ArrowUpRight size={15} /></a></span>
       </footer>
-      <div className="mobile-action" aria-label="Ações rápidas">
+      <div className={`mobile-action${mapVisible ? " map-visible" : ""}`} aria-label="Ações rápidas" aria-hidden={mapVisible}>
         <button type="button" onClick={() => setCartOpen(true)}><ShoppingBag size={17} />Sacola · {cartQuantity}</button>
         <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={17} />Como chegar</a>
       </div>

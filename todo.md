@@ -293,3 +293,35 @@
 - [x] Adicionar formulário simples de Sobre nós no painel administrativo.
 - [x] Fazer a vitrine pública carregar e exibir os dados salvos, com valores padrão seguros.
 - [x] Criar testes e validar o fluxo em desktop e celular antes de publicar.
+
+
+## Ajuste da barra mobile sobre o mapa
+
+- [x] Impedir que a barra fixa inferior cubra a área visível do Google Maps em telas pequenas.
+- [x] Manter a sacola acessível sem bloquear o mapa ou os controles de navegação.
+- [x] Preservar o botão “Como chegar” e o funcionamento do mapa incorporado.
+- [x] Validar em celular e desktop, executar testes e publicar a correção.
+
+
+## Acesso negado para conta não autorizada
+
+- [x] Trocar “Acesso aguardando liberação” por “Acesso negado” para contas fora de store_admins.
+- [x] Remover da tela o e-mail e o identificador interno exibidos para a conta não autorizada.
+- [x] Manter somente a explicação objetiva e as ações “Sair” e “Ver a loja”.
+- [x] Criar teste ou validação do fluxo protegido e publicar a correção em desktop e celular.
+
+## Revisão em todas as telas e segurança
+
+- [x] Revisar os breakpoints de celular, tablet e computador para manter conteúdo, ações e mapa legíveis.
+- [x] Validar a sacola e os botões fixos sem sobreposição em telas pequenas e médias.
+- [x] Revisar as proteções do painel, RLS e cabeçalhos sem enfraquecer as permissões existentes.
+- [x] Executar testes, build e conferência visual final antes da publicação.
+
+## Simplificação da vitrine
+
+- [x] Remover a seção decorativa de orientação e sua imagem, que repete o convite de atendimento.
+- [x] Remover o bloco visual redundante antes do texto Sobre nós.
+- [x] Consolidar a seção de visita, contato e localização para eliminar frases e informações repetidas.
+- [x] Manter somente catálogo, Sobre nós, contato essencial, mapa, Instagram, sacola e WhatsApp.
+- [x] Validar a página simplificada em celular, tablet e computador antes de publicar.
+- [x] Reduzir textos auxiliares repetidos no topo, mantendo uma única chamada clara para WhatsApp e catálogo.

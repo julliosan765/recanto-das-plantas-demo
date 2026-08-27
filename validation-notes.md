@@ -64,3 +64,13 @@ Na seção de produtos, os dois botões `ADICIONAR AO PEDIDO` ficaram visíveis 
 Validação local da sacola com produto: ao clicar em `ADICIONAR AO PEDIDO`, a sacola abriu automaticamente com `Cactos decorativos`, quantidade 1, preço R$ 24,90, controles de menos/mais, remoção e botão `ENVIAR PEDIDO PARA O WHATSAPP`. Em viewport móvel, a barra fixa inferior mostra `SACOLA · 0` quando vazia e permanece acessível sem cobrir os cards; o estado com item foi confirmado no navegador conectado.
 
 A revisão mobile confirmou que a seção Sobre mantém leitura compacta, mostra o bloco `Desde 2004` e o tempo calculado, enquanto a rota administrativa continua protegida e apresenta apenas o acesso Google quando não há sessão. O formulário completo aguarda a sessão do administrador para teste interativo.
+
+Na revisão da vitrine simplificada, foram retiradas a seção de orientação com foto de folhas, o painel visual de logotipo antes do Sobre e a seção de visita que repetia endereço, contato e convite. Permaneceram a apresentação inicial, catálogo, Sobre nós, localização, rota, sacola, WhatsApp e Instagram.
+
+Em celular (390 px), tablet (768 px) e computador (1280 px), a página passou a apresentar a sequência direta apresentação, catálogo, Sobre nós e localização. O mapa incorporado usa a origem `maps.google.com`; a abertura direta confirmou que o Google redireciona para o endpoint próprio de incorporação, que deve ser usado somente dentro do quadro. A captura automatizada não renderiza os azulejos de conteúdo de terceiros, mas o botão “Abrir rota no Maps” permaneceu acessível.
+
+A barra de ações móvel passa a observar apenas `.map-wrap`: ela pode permanecer disponível durante a leitura da localização e sai da frente quando a área efetiva do mapa entra na tela. O link de rota e o cartão de endereço permanecem disponíveis.
+
+Na revisão de segurança, a política CSP continua limitando origens de scripts, conexões, imagens, quadros e formulários aos recursos necessários. A auditoria de dependências de produção não encontrou vulnerabilidades conhecidas de severidade alta ou superior.
+
+As políticas RLS do Supabase mantêm leitura anônima apenas de produtos ativos, disponíveis e com preço. Alterar, inserir ou apagar produtos e modificar as informações da loja exige que a sessão autenticada esteja em `store_admins`; a tabela de administradores permite a cada usuário ler somente o seu próprio registro. O consultor do Supabase ainda alerta que a proteção contra senhas vazadas está desativada; o painel usa Google OAuth, mas a ativação dessa opção permanece recomendada caso o projeto venha a permitir login por senha.

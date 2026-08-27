@@ -4,7 +4,7 @@
 import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, PencilLine, Plus, ShieldCheck, Trash2, X } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import { getProductImages, type StoreProduct } from "@/lib/catalog";
-import { buildStoreSettingsDraft, emptyProductForm, getDeleteProductConfirmation, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, updateImageFocusY, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
+import { buildStoreSettingsDraft, emptyProductForm, getAdminAccessDeniedMessage, getDeleteProductConfirmation, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, updateImageFocusY, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, normalizeWhatsAppNumber, type StoreSettings } from "@/lib/store-settings";
 import { createProduct, currentUserIsStoreAdmin, deleteProduct, getAdminProducts, getAdminSession, getStoreSettings, isSupabaseConfigured, saveStoreSettings, setProductAvailability, signInAdminWithGoogle, supabase, updateProduct, uploadProductImage } from "@/lib/supabase";
@@ -205,7 +205,7 @@ export default function Admin() {
   if (!isSupabaseConfigured) return <AdminShell title="Conexão pendente"><p>O painel está pronto. Falta conectar o projeto Supabase e liberar a sua conta Google como administradora.</p><a className="admin-back" href={publicStoreUrl}>Voltar para o site <ArrowLeft size={16} /></a></AdminShell>;
   if (loading) return <AdminShell title="Verificando acesso"><Loader2 className="admin-loader" size={25} /><p>Um instante.</p></AdminShell>;
   if (!session) return <AdminShell><div className="admin-login-actions"><button className="admin-google-login" onClick={handleLogin}><ShieldCheck size={18} /> Entrar com Google</button><a className="admin-store-link" href={publicStoreUrl}><ArrowLeft size={16} /> Ver a loja</a></div>{notice && <p className="admin-notice">{notice}</p>}</AdminShell>;
-  if (!authorized) return <AdminShell title="Acesso aguardando liberação"><p>Você entrou como <strong>{session.user.email}</strong>. O administrador temporário será liberado no Supabase e, na transferência, essa permissão será passada para a conta Google do proprietário.</p><code className="admin-user-id">{session.user.id}</code><button className="admin-secondary" onClick={handleSignOut}>Sair</button></AdminShell>;
+  if (!authorized) return <AdminShell title="Acesso negado"><p>{getAdminAccessDeniedMessage()}</p><div className="admin-login-actions"><a className="admin-store-link" href={publicStoreUrl}><ArrowLeft size={16} /> Ver a loja</a><button className="admin-secondary" onClick={handleSignOut}><LogOut size={16} /> Sair</button></div></AdminShell>;
 
   return <main className="admin-page">
     <header className="admin-header"><a href={publicStoreUrl} className="admin-logo-link" aria-label="Recanto das Plantas — voltar ao site"><img className="admin-brand-logo" src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><span className="admin-brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a><div className="admin-header-actions"><a className="admin-store-link" href={publicStoreUrl}><ArrowLeft size={16} /> Ver a loja</a><button className="admin-signout" onClick={handleSignOut}><LogOut size={16} /> Sair</button></div></header>

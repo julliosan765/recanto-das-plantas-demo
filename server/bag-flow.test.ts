@@ -12,4 +12,16 @@ describe("fluxo da sacola na vitrine", () => {
     expect(source).toContain("Ver produtos");
     expect(source).toContain("Enviar pedido para o WhatsApp");
   });
+
+  it("mantém a vitrine objetiva, sem blocos decorativos e convites repetidos", () => {
+    const source = readFileSync(resolve(process.cwd(), "client/src/pages/Home.tsx"), "utf8");
+
+    expect(source).not.toContain('id="cuidado"');
+    expect(source).not.toContain('id="visite"');
+    expect(source).not.toContain('className="about-symbol"');
+    expect(source).toContain('href="#localizacao"');
+    expect(source).toContain("Abrir rota no Maps");
+    expect(source).toContain('document.querySelector<HTMLElement>("#localizacao .map-wrap")');
+    expect(source).toContain('https://maps.google.com/maps?hl=pt-BR');
+  });
 });

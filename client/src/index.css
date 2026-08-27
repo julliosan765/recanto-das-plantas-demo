@@ -205,7 +205,7 @@ button, a { -webkit-tap-highlight-color: transparent; } a { color: inherit; text
 .order-empty button { background:#1F5C3E; border:0; color:#FFF9EF; font:700 10px "DM Sans",sans-serif; letter-spacing:.07em; padding:12px 15px; text-transform:uppercase; }
 @media (max-width:620px) {
   .bag-trigger { display:none; }
-  .mobile-action { padding-bottom:env(safe-area-inset-bottom); }
+  .mobile-action { padding-bottom:env(safe-area-inset-bottom); transition:opacity 180ms cubic-bezier(.23,1,.32,1),transform 180ms cubic-bezier(.23,1,.32,1),visibility 180ms; }
   .mobile-action button { border:0; }
   .order-empty { min-height:190px; }
 }
@@ -218,3 +218,11 @@ button, a { -webkit-tap-highlight-color: transparent; } a { color: inherit; text
 
 .store-settings-form textarea { background:#F7F4ED; border:1px solid rgba(31,92,62,.16); border-radius:0; color:#183B2C; font:400 14px/1.55 "DM Sans",sans-serif; min-height:84px; outline:none; padding:13px; resize:vertical; text-transform:none; }
 .store-settings-form textarea:focus { border-color:#A65C39; box-shadow:0 0 0 3px rgba(166,92,57,.12); }
+
+@media (max-width:620px) { .mobile-action.map-visible { opacity:0; pointer-events:none; transform:translateY(110%); visibility:hidden; } }
+
+/* Vitrine direta: a história da loja permanece, sem painéis decorativos ou convites duplicados. */
+.about-section-simple { display:block; min-height:0; padding:clamp(72px,10vw,128px) clamp(22px,8vw,128px); }
+.about-section-simple .about-copy { margin:0 auto; max-width:640px; padding:0; }
+.about-section-simple .about-copy>p:not(.eyebrow) { max-width:560px; }
+@media (max-width:620px) { .about-section-simple { padding:64px 23px 72px; }.about-section-simple .about-copy { max-width:none; } }

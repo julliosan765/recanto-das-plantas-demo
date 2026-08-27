@@ -3,6 +3,7 @@ import type { StoreProduct } from "../client/src/lib/catalog";
 import { getProductStoragePaths } from "../client/src/lib/product-storage";
 import {
   buildStoreSettingsDraft,
+  getAdminAccessDeniedMessage,
   getDeleteProductConfirmation,
   getPublicStoreUrl,
   updateImageFocusY,
@@ -100,6 +101,10 @@ describe("fluxos administrativos da loja", () => {
 
   it("exibe uma confirmação explícita antes de apagar um produto", () => {
     expect(getDeleteProductConfirmation("Jiboia grande")).toBe("Apagar o produto “Jiboia grande”? Essa ação não pode ser desfeita.");
+  });
+
+  it("informa acesso negado sem expor identificadores da conta", () => {
+    expect(getAdminAccessDeniedMessage()).toBe("Esta conta Google não tem permissão para acessar a área administrativa. Entre com a conta autorizada do proprietário.");
   });
 
   it("seleciona somente as imagens do bucket de produtos para a limpeza após exclusão", () => {

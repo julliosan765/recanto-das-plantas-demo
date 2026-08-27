@@ -258,7 +258,7 @@
 - [x] Adicionar metadados Open Graph com título, descrição, URL e imagem.
 - [x] Adicionar Twitter Card como fallback para outras plataformas de compartilhamento.
 - [x] Validar o HTML gerado, o build e a disponibilidade pública da imagem.
-- [ ] Publicar a alteração no Manus e no GitHub Pages.
+- [x] Publicar a alteração no Manus e no GitHub Pages.
 
 
 ## Compactação mobile da vitrine

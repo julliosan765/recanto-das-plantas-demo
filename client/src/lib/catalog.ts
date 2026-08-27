@@ -1,6 +1,6 @@
-/**
- * Estufa Editorial: dados de produtos sustentam um catálogo simples, com linguagem clara e pedido por WhatsApp.
- */
+import { makeWhatsAppUrl } from "./store-settings";
+
+/** Estufa Editorial: dados de produtos sustentam um catálogo simples, com linguagem clara e pedido por WhatsApp. */
 export type StoreProduct = {
   id: string;
   name: string;
@@ -14,45 +14,9 @@ export type StoreProduct = {
   isAvailable: boolean;
   isFeatured: boolean;
   sortOrder: number;
-  isDemo?: boolean;
 };
 
 export type CartLine = StoreProduct & { quantity: number };
-import { storeAsset } from "./assets";
-import { makeWhatsAppUrl } from "./store-settings";
-
-export const demoProducts: StoreProduct[] = [
-  {
-    id: "cactos-decorativos-demo",
-    name: "Cactos decorativos",
-    category: "Plantas",
-    description: "Seleção de cactos para dar um toque verde, resistente e cheio de personalidade ao ambiente.",
-    imageUrl: storeAsset("recanto-cactos_5b0cc2c6.png"),
-    imageFocusY: 50,
-    imageUrls: [storeAsset("recanto-cactos_5b0cc2c6.png")],
-    imageFocusYs: [50],
-    priceCents: 2490,
-    isAvailable: true,
-    isFeatured: true,
-    sortOrder: 1,
-    isDemo: true,
-  },
-  {
-    id: "rosa-do-deserto-demo",
-    name: "Rosa-do-deserto",
-    category: "Flores",
-    description: "Flor de presença marcante para quem quer levar mais cor e delicadeza para o seu recanto.",
-    imageUrl: storeAsset("recanto-flor-deserto_f9c7231c.png"),
-    imageFocusY: 50,
-    imageUrls: [storeAsset("recanto-flor-deserto_f9c7231c.png")],
-    imageFocusYs: [50],
-    priceCents: 4590,
-    isAvailable: true,
-    isFeatured: true,
-    sortOrder: 2,
-    isDemo: true,
-  },
-];
 
 export function getProductImages(product: StoreProduct) {
   const urls = product.imageUrls?.length ? product.imageUrls : product.imageUrl ? [product.imageUrl] : [];
@@ -68,7 +32,7 @@ export function formatPrice(priceCents: number | null) {
 export function whatsappOrderUrl(lines: CartLine[], whatsappNumber: string) {
   const items = lines.map((line) => {
     const price = line.priceCents === null ? "valor a consultar" : formatPrice(line.priceCents);
-    return `• ${line.quantity}x ${line.name} — ${price}${line.isDemo ? " (valor de demonstração)" : ""}`;
+    return `• ${line.quantity}x ${line.name} — ${price}`;
   });
   const total = lines.every((line) => line.priceCents !== null)
     ? `\nTotal: ${formatPrice(lines.reduce((sum, line) => sum + (line.priceCents ?? 0) * line.quantity, 0))}`

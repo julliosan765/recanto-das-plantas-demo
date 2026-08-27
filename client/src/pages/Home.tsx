@@ -4,7 +4,7 @@
  */
 import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, Search, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { demoProducts, formatPrice, getProductImages, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
+import { formatPrice, getProductImages, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
 import { buildCategoryFilters, filterCatalogProducts } from "@/lib/catalog-filters";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, makeWhatsAppUrl, type StoreSettings } from "@/lib/store-settings";
@@ -27,7 +27,6 @@ function CatalogCard({ item, onAdd }: { item: StoreProduct; onAdd: () => void })
     </div>
     <div className="catalog-content">
       <div className="catalog-meta"><span>{item.category}</span><strong className="catalog-price">{formatPrice(item.priceCents)}</strong></div>
-      {item.isDemo && <span className="catalog-demo-label">Produto de demonstração</span>}
       <h3>{item.name}</h3><p>{item.description}</p>
       <button className="catalog-action" type="button" onClick={onAdd}><Plus size={17} /> Adicionar ao pedido</button>
     </div>
@@ -36,7 +35,7 @@ function CatalogCard({ item, onAdd }: { item: StoreProduct; onAdd: () => void })
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [catalog, setCatalog] = useState<StoreProduct[]>(demoProducts);
+  const [catalog, setCatalog] = useState<StoreProduct[]>([]);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [storeSettings, setStoreSettings] = useState<StoreSettings>(defaultStoreSettings);
@@ -52,7 +51,7 @@ export default function Home() {
 
   useEffect(() => {
     if (!isSupabaseConfigured) return;
-    getPublicProducts().then((products) => setCatalog(products.length ? products : demoProducts)).catch(() => setCatalog(demoProducts));
+    getPublicProducts().then(setCatalog).catch(() => setCatalog([]));
     getStoreSettings().then(setStoreSettings).catch(() => undefined);
   }, []);
 

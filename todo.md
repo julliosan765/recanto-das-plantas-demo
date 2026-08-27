@@ -12,3 +12,10 @@
 - [x] Inserir uma seção institucional curta e verificável sobre a proposta da loja.
 - [x] Verificar clareza da navegação, links de contato e comportamento móvel após a inserção.
 - [x] Executar checagem final de compilação, logs e política de conteúdo antes da entrega.
+- [x] Avaliar a experiência da versão atual no My Browser, sem fazer alterações nesta etapa.
+- [x] Avaliar as fotos públicas da Recanto das Plantas no Google Maps como referência visual.
+- [ ] Separar imagens possivelmente oficiais de imagens atribuídas a clientes ou terceiros.
+- [ ] Solicitar autorização ou arquivos originais antes de colocar imagens do Google Maps em uma publicação.
+- [x] Substituir linguagem genérica por informações institucionais confirmadas da loja.
+- [x] Exibir endereço completo, retirada na loja, entrega e contato em uma versão comercial final.
+- [x] Revisar a página final para evitar promessas, horários, preços ou produtos não confirmados.

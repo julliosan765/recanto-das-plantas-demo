@@ -5,14 +5,14 @@
 import { ArrowDownRight, ArrowUpRight, Leaf, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 
-const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20conhecer%20as%20plantas%20e%20arranjos%20dispon%C3%ADveis.";
+const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20as%20plantas%2C%20flores%2C%20vasos%20e%20itens%20de%20jardim%20dispon%C3%ADveis.";
 const maps = "https://www.google.com/maps/search/?api=1&query=Recanto+das+Plantas%2C+Macei%C3%B3%2C+AL";
 const wa = (message: string) => `https://wa.me/558233287315?text=${encodeURIComponent(message)}`;
 
 const catalog = [
-  { n: "01", tag: "Luz indireta", title: "Folhagens que ficam", description: "Verde para trazer presença, textura e um novo ritmo aos seus ambientes.", image: "/manus-storage/recanto-collection-folhagens_29f447ca.jpg", message: "Olá, gostaria de ver as folhagens disponíveis.", style: "tall" },
-  { n: "02", tag: "Feito à mão", title: "Vasos & cachepôs", description: "Peças que dão acabamento à planta e personalidade à casa.", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=88", message: "Olá, gostaria de conhecer os vasos e cachepôs disponíveis.", style: "short" },
-  { n: "03", tag: "Para presentear", title: "Arranjos com intenção", description: "Para presentear, celebrar ou simplesmente fazer o dia florescer.", image: "/manus-storage/recanto-arranjo-atmosfera_b754d2b3.jpg", message: "Olá, gostaria de conhecer os arranjos disponíveis.", style: "tall" },
+  { n: "01", tag: "Para cultivar", title: "Plantas & mudas", description: "Opções para começar, renovar ou completar o seu espaço com mais verde.", image: "/manus-storage/recanto-collection-folhagens_29f447ca.jpg", message: "Olá, gostaria de saber quais plantas e mudas estão disponíveis.", style: "tall" },
+  { n: "02", tag: "Para compor", title: "Vasos & jardim", description: "Vasos, terra e itens para cuidar ou transformar seu jardim com intenção.", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=88", message: "Olá, gostaria de conhecer os vasos e itens para jardim disponíveis.", style: "short" },
+  { n: "03", tag: "Para presentear", title: "Flores & arranjos", description: "Para marcar uma data especial ou levar mais beleza para o dia de alguém.", image: "/manus-storage/recanto-arranjo-atmosfera_b754d2b3.jpg", message: "Olá, gostaria de saber sobre flores e arranjos disponíveis.", style: "tall" },
 ];
 
 export default function Home() {
@@ -44,12 +44,12 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow"><span /> Viveiro & floricultura · Maceió, AL</p>
             <h1>Mais verde,<br /><em>mais vida.</em></h1>
-            <p className="hero-intro">Plantas, vasos e arranjos escolhidos para deixar a sua casa mais viva — no seu tempo e do seu jeito.</p>
+            <p className="hero-intro">Plantas, flores, vasos e itens para jardim para deixar sua casa mais viva e o seu espaço mais seu.</p>
             <div className="hero-actions">
-              <a className="primary-button" href={whatsapp} target="_blank" rel="noopener noreferrer">Ver disponibilidade <ArrowUpRight size={18} /></a>
+              <a className="primary-button" href={whatsapp} target="_blank" rel="noopener noreferrer">Consultar disponibilidade <ArrowUpRight size={18} /></a>
               <a className="text-link" href="#catalogo">Explorar coleções <ArrowDownRight size={17} /></a>
             </div>
-            <p className="hero-note"><Leaf size={18} strokeWidth={1.8} />Cada planta é única. A gente ajuda a encontrar a certa para você.</p>
+            <p className="hero-note"><Leaf size={18} strokeWidth={1.8} />Fale com a equipe e encontre opções para o seu espaço e a sua rotina.</p>
             <div className="hero-details" aria-label="Atalhos para atendimento"><span><Leaf size={15} />Escolha com calma</span><span><MessageCircle size={15} />Fale pelo WhatsApp</span></div>
           </div>
           <figure className="hero-visual">
@@ -71,8 +71,8 @@ export default function Home() {
 
         <section id="catalogo" className="catalog-section section-pad">
           <div className="section-heading">
-            <div><p className="eyebrow"><span /> Seleção da semana</p><h2>Para cultivar<br /><em>o seu canto.</em></h2></div>
-            <p className="heading-copy">Uma curadoria de verde para quem quer começar, renovar ou presentear com intenção.</p>
+            <div><p className="eyebrow"><span /> Produtos e possibilidades</p><h2>Para cultivar<br /><em>o seu canto.</em></h2></div>
+            <p className="heading-copy">Fale com a equipe para consultar as opções disponíveis para sua casa, presente ou jardim.</p>
           </div>
           <div className="catalog-grid">
             {catalog.map((item) => <article className={`catalog-card ${item.style}`} key={item.n}>
@@ -91,7 +91,7 @@ export default function Home() {
           <div className="care-copy">
             <p className="eyebrow light"><span /> Escolhas que acompanham</p>
             <h2>Uma planta boa<br />começa com <em>escuta.</em></h2>
-            <p>Luz, tempo, rotina e espaço fazem diferença. Conte como é o seu ambiente e a gente indica caminhos para o seu verde continuar bonito.</p>
+            <p>Luz, tempo, rotina e espaço fazem diferença. Conte como é o seu ambiente e a equipe ajuda você a escolher com mais segurança.</p>
             <div className="care-points"><div><Sparkles size={19} />Orientação para escolher</div><div><Leaf size={19} />Dicas para os primeiros cuidados</div></div>
             <p className="care-stamp"><Leaf size={14} /> cultivo com cuidado, desde a escolha</p>
             <a className="outline-button" href={wa("Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
@@ -103,8 +103,8 @@ export default function Home() {
           <div className="about-copy">
             <p className="eyebrow"><span /> Sobre o Recanto</p>
             <h2>Não é só sobre<br />plantas. É sobre<br /><em>casa.</em></h2>
-            <p>Mais do que escolher uma planta, queremos ajudar você a encontrar uma presença que combine com o seu espaço, sua luz e a sua rotina.</p>
-            <p>Por aqui, plantas, vasos e arranjos são apresentados com calma — para sua escolha continuar bonita depois de chegar em casa.</p>
+            <p>Em Maceió, o Recanto reúne plantas, flores, vasos e itens para jardim para quem quer cultivar, renovar ou presentear.</p>
+            <p>Fale com a equipe, consulte a disponibilidade e escolha com mais calma o que combina com o seu espaço.</p>
             <a className="about-link" href="#visite">Venha nos visitar <ArrowDownRight size={17} /></a>
           </div>
           <p className="about-aside">verde para<br /><em>viver melhor.</em></p>
@@ -113,12 +113,13 @@ export default function Home() {
         <section id="visite" className="visit-section section-pad">
           <div className="visit-label"><p className="eyebrow"><span /> Perto de você</p><p>Passe para sentir de perto</p></div>
           <div className="visit-main">
-            <h2>Venha escolher<br />com <em>calma.</em></h2>
-            <p>Estamos em Maceió para transformar a escolha da sua planta em um momento mais simples e mais bonito.</p>
+            <h2>Venha conhecer<br />o <em>Recanto.</em></h2>
+            <p>Visite a loja na Serraria, retire seu pedido no local ou fale com a equipe para consultar opções de entrega.</p>
             <div className="contact-list">
-              <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo</strong><small>Maceió · Alagoas</small></span><ArrowUpRight size={17} /></a>
+              <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo · Serraria</strong><small>Maceió · AL · 57046-000</small></span><ArrowUpRight size={17} /></a>
               <a href="tel:+558233287315"><Phone size={20} /><span><strong>(82) 3328-7315</strong><small>Fale com a nossa equipe</small></span><ArrowUpRight size={17} /></a>
             </div>
+            <div className="service-note"><span>Retirada na loja</span><span>Entrega</span></div>
           </div>
           <div className="visit-image"><img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=88" alt="Plantas em uma estufa iluminada" loading="lazy" /><small>FOLHAS, VASOS & ARRANJOS</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
         </section>

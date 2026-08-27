@@ -13,3 +13,13 @@
 1. Somente `VITE_SUPABASE_URL` e `VITE_SUPABASE_PUBLISHABLE_KEY` serão expostas ao frontend; a chave `service_role` não será adicionada ao código, ao repositório ou ao GitHub Pages.
 2. O e-mail administrador deve ser controlado por tabela e política RLS no Supabase, e não somente escondido na interface do navegador.
 3. Até a empresa criar sua conta e informar as chaves, o catálogo continuará em modo demonstração e o painel administrativo não permitirá alterações persistentes.
+
+## Estado final da demonstração — 27 de agosto de 2026
+
+O projeto Supabase da demonstração é `sdkyswgloohduydueqfo`, hospedado na região de São Paulo. O provedor Google está habilitado. O Site URL padrão está definido como `https://recantoplt-9svuvrks.manus.space/`, e as URLs de retorno permitidas incluem o domínio publicado, a prévia do Manus, `localhost:3000`, `127.0.0.1:3000` e o domínio planejado do GitHub Pages. A entrada administrativa usa `admin.html` e o servidor de desenvolvimento foi ajustado para servir essa página separadamente.
+
+A conta Google temporária `san765ad@gmail.com` foi localizada no Auth do Supabase e cadastrada em `public.store_admins`. Para transferir o projeto, o proprietário deverá entrar com a conta Google dele, confirmar o novo e-mail no Auth, inserir o novo `user_id` em `public.store_admins`, testar o painel e só depois remover a conta temporária. A credencial OAuth do Google Cloud também deverá ser recriada ou transferida para o projeto do proprietário antes da remoção da credencial temporária.
+
+O catálogo público pode ser visitado sem login: qualquer cliente pode pesquisar itens, ver os preços e montar o pedido. O pedido não realiza pagamento e é aberto no WhatsApp para a equipe confirmar disponibilidade e valor. O login Google é exigido somente na área `admin.html`, que protege o cadastro de produtos, WhatsApp e Instagram. O site informa somente a retirada na loja.
+
+O cliente agora remove automaticamente da barra de endereço os fragmentos que carregam tokens Supabase depois de processar a sessão, preservando âncoras comuns como `#catalogo`. A URL de teste que expôs tokens deve ser considerada comprometida; a sessão correspondente deve ser encerrada antes de novos testes.

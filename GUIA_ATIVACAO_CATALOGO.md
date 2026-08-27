@@ -31,7 +31,13 @@ insert into public.store_admins (user_id, email)
 values ('ID_DO_USUARIO_DO_SUPABASE', 'email-da-conta-google@exemplo.com');
 ```
 
-Depois disso, a conta cadastrada poderá adicionar fotos, nome, categoria, preço e disponibilidade. O site público buscará somente produtos ativos e disponíveis.
+Depois disso, a conta cadastrada poderá adicionar fotos, nome, categoria, preço, descrição e disponibilidade. No envio da foto, o painel também permite escolher o enquadramento vertical que ficará melhor no catálogo do celular; a imagem original é preservada. O site público buscará somente produtos ativos e disponíveis.
+
+## Manter o projeto gratuito ativo
+
+O repositório contém a rotina `Manter catálogo Supabase ativo`, configurada para fazer uma verificação simples todos os dias. Depois de exportar o código para o GitHub, abra **Settings → Secrets and variables → Actions** no repositório e crie estes dois segredos: `SUPABASE_URL` e `SUPABASE_PUBLISHABLE_KEY`. Use apenas a URL do projeto e a chave pública; nunca coloque a chave `service_role` no GitHub ou no site.
+
+Essa rotina não altera produtos e não lê dados do cliente. Ela reduz o risco de pausa por inatividade no plano gratuito, mas a garantia de não haver pausa automática continua sendo exclusiva dos planos pagos do Supabase.
 
 ## Entregar as contas ao proprietário depois da aprovação
 
@@ -72,3 +78,9 @@ No repositório, abra **Settings → Pages** e escolha **GitHub Actions** em *Bu
 [4] [GitHub Docs — Transferring a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/transferring-a-repository)
 
 [5] [Supabase Docs — Project transfers](https://supabase.com/docs/guides/platform/project-transfer)
+
+## Busca, categorias e nomes dos produtos
+
+A página principal continua sendo o catálogo público para testar os produtos cadastrados na área da loja. No painel, o campo **Nome do produto** deve receber o nome específico que o cliente reconheceria, como “Jiboia em vaso 20 cm”, “Cacto mandacaru”, “Vaso cerâmico branco nº 2” ou “Cesto organizador de fibra”. Evite cadastrar apenas “produto”.
+
+No catálogo, a lupa pesquisa pelo nome, categoria e descrição. O filtro **Todos** fica sempre disponível; as categorias padrão aparecem somente quando houver correspondência real nos produtos cadastrados, e as categorias personalizadas também são acrescentadas automaticamente. Assim, a categoria **Organização** estará disponível para itens de arrumação quando a loja cadastrar produtos desse tipo. O pedido continua sendo aberto no WhatsApp para a equipe confirmar disponibilidade e valor, com retirada na loja.

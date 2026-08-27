@@ -2,29 +2,37 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, Search, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { demoProducts, formatPrice, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
+import { buildCategoryFilters, filterCatalogProducts } from "@/lib/catalog-filters";
 import { storeAsset } from "@/lib/assets";
-import { getPublicProducts } from "@/lib/supabase";
+import { defaultStoreSettings, makeWhatsAppUrl, type StoreSettings } from "@/lib/store-settings";
+import { getPublicProducts, getStoreSettings, isSupabaseConfigured } from "@/lib/supabase";
 
-const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20as%20plantas%2C%20flores%2C%20vasos%20e%20itens%20de%20jardim%20dispon%C3%ADveis.";
 const maps = "https://www.google.com/maps/search/?api=1&query=Recanto+das+Plantas%2C+Macei%C3%B3%2C+AL";
-const instagram = "https://www.instagram.com/recantodasplantasal/";
-const wa = (message: string) => `https://wa.me/558233287315?text=${encodeURIComponent(message)}`;
+const defaultContactMessage = "Olá, gostaria de saber sobre as plantas, flores, vasos e itens de jardim disponíveis.";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalog, setCatalog] = useState<StoreProduct[]>(demoProducts);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [storeSettings, setStoreSettings] = useState<StoreSettings>(defaultStoreSettings);
+  const [catalogQuery, setCatalogQuery] = useState("");
+  const [catalogCategory, setCatalogCategory] = useState("Todos");
   const closeMenu = () => setMenuOpen(false);
   const cartQuantity = useMemo(() => cart.reduce((total, item) => total + item.quantity, 0), [cart]);
   const cartHasPendingPrice = useMemo(() => cart.some((item) => item.priceCents === null), [cart]);
   const cartTotalCents = useMemo(() => cart.reduce((total, item) => total + (item.priceCents ?? 0) * item.quantity, 0), [cart]);
+  const whatsapp = useMemo(() => makeWhatsAppUrl(storeSettings.whatsappNumber, defaultContactMessage), [storeSettings.whatsappNumber]);
+  const categoryFilters = useMemo(() => buildCategoryFilters(catalog), [catalog]);
+  const visibleCatalog = useMemo(() => filterCatalogProducts(catalog, catalogQuery, catalogCategory), [catalog, catalogQuery, catalogCategory]);
 
   useEffect(() => {
-    getPublicProducts().then((products) => { if (products.length) setCatalog(products); }).catch(() => undefined);
+    if (!isSupabaseConfigured) return;
+    getPublicProducts().then((products) => setCatalog(products.length ? products : demoProducts)).catch(() => setCatalog(demoProducts));
+    getStoreSettings().then(setStoreSettings).catch(() => undefined);
   }, []);
 
   function addToOrder(product: StoreProduct) {
@@ -95,16 +103,28 @@ export default function Home() {
             <div><p className="eyebrow"><span /> Produtos e possibilidades</p><h2>Para cultivar<br /><em>o seu canto.</em></h2></div>
             <p className="heading-copy">Fale com a equipe para consultar as opções disponíveis para sua casa, presente ou jardim.</p>
           </div>
-          <div className="catalog-grid">
-            {catalog.map((item, index) => <article className={`catalog-card ${index % 3 === 1 ? "short" : "tall"}`} key={item.id}>
-              <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" /><span>{String(index + 1).padStart(2, "0")}</span></div>
+          <div className="catalog-toolbar">
+            <label className="catalog-search" htmlFor="catalog-search">
+              <Search size={18} aria-hidden="true" />
+              <span className="sr-only">Pesquisar no catálogo</span>
+              <input id="catalog-search" type="search" value={catalogQuery} onChange={(event) => setCatalogQuery(event.target.value)} placeholder="Buscar planta, vaso ou item..." />
+            </label>
+            <div className="catalog-filters" aria-label="Filtrar por categoria" role="group">
+              {categoryFilters.map((category) => <button key={category} type="button" className="catalog-filter" aria-pressed={catalogCategory === category} onClick={() => setCatalogCategory(category)}>{category}</button>)}
+            </div>
+          </div>
+          <p className="catalog-result-note" aria-live="polite">{visibleCatalog.length} {visibleCatalog.length === 1 ? "opção encontrada" : "opções encontradas"}</p>
+          {visibleCatalog.length > 0 ? <div className="catalog-grid">
+            {visibleCatalog.map((item, index) => <article className={`catalog-card ${index % 3 === 1 ? "short" : "tall"}`} key={item.id}>
+              <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" style={{ objectPosition: `center ${item.imageFocusY}%` }} /></div>
               <div className="catalog-content">
                 <div className="catalog-meta"><span>{item.category}</span><i>{formatPrice(item.priceCents)}</i></div>
+                {item.isDemo && <span className="catalog-demo-label">Produto de demonstração</span>}
                 <h3>{item.name}</h3><p>{item.description}</p>
                 <button className="catalog-action" type="button" onClick={() => addToOrder(item)}><Plus size={17} /> Adicionar ao pedido</button>
               </div>
             </article>)}
-          </div>
+          </div> : <div className="catalog-empty" role="status"><Search size={22} /><strong>Nenhuma opção encontrada.</strong><span>Tente outro nome ou escolha a categoria Todos.</span><button type="button" onClick={() => { setCatalogQuery(""); setCatalogCategory("Todos"); }}>Limpar busca</button></div>}
           {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><button type="button" onClick={() => setCartOpen(true)}>Ver pedido <ArrowUpRight size={17} /></button></div>}
         </section>
 
@@ -116,7 +136,7 @@ export default function Home() {
             <p>Luz, tempo, rotina e espaço fazem diferença. Conte como é o seu ambiente e a equipe ajuda você a escolher com mais segurança.</p>
             <div className="care-points"><div><Sparkles size={19} />Orientação para escolher</div><div><Leaf size={19} />Dicas para os primeiros cuidados</div></div>
             <p className="care-stamp"><Leaf size={14} /> cultivo com cuidado, desde a escolha</p>
-            <a className="outline-button" href={wa("Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
+            <a className="outline-button" href={makeWhatsAppUrl(storeSettings.whatsappNumber, "Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
           </div>
         </section>
 
@@ -136,15 +156,15 @@ export default function Home() {
           <div className="visit-label"><p className="eyebrow"><span /> Perto de você</p><p>Passe para sentir de perto</p></div>
           <div className="visit-main">
             <h2>Venha conhecer<br />o <em>Recanto.</em></h2>
-            <p>Visite a loja na Serraria, retire seu pedido no local ou fale com a equipe para consultar opções de entrega.</p>
+            <p>Visite a loja na Serraria, retire seu pedido no local e fale com a equipe pelo WhatsApp para confirmar a disponibilidade.</p>
             <div className="contact-list">
               <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo · Serraria</strong><small>Maceió · AL · 57046-000</small></span><ArrowUpRight size={17} /></a>
               <a href="tel:+558233287315"><Phone size={20} /><span><strong>(82) 3328-7315</strong><small>Fale com a nossa equipe</small></span><ArrowUpRight size={17} /></a>
             </div>
-            <div className="service-note"><span>Retirada na loja</span><span>Entrega</span></div>
-            <a className="instagram-link" href={instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
+            <div className="service-note"><span>Retirada na loja</span><span>Pedido pelo WhatsApp</span></div>
+            <a className="instagram-link" href={storeSettings.instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
           </div>
-          <div className="visit-card"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Recanto das Plantas</p><strong>Serraria,<br /><em>Maceió.</em></strong><span>Visite, retire ou consulte as opções de entrega.</span><i>cultivo com cuidado</i></div>
+          <div className="visit-card"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Recanto das Plantas</p><strong>Serraria,<br /><em>Maceió.</em></strong><span>Visite a loja, retire seu pedido e fale com a equipe pelo WhatsApp.</span><i>cultivo com cuidado</i></div>
         </section>
 
         <section id="localizacao" className="location-section" aria-label="Localização da Recanto das Plantas">
@@ -163,7 +183,7 @@ export default function Home() {
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
-            <aside className="route-card" aria-label="Ficha de visita da Recanto das Plantas"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Ficha de visita</p><strong>Av. Menino Marcelo</strong><span>Serraria · Maceió, AL</span><small>Retirada na loja e entrega sob consulta.</small></aside>
+            <aside className="route-card" aria-label="Ficha de visita da Recanto das Plantas"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Ficha de visita</p><strong>Av. Menino Marcelo</strong><span>Serraria · Maceió, AL</span><small>Retirada na loja. Confirme a disponibilidade pelo WhatsApp.</small></aside>
           </div>
         </section>
       </main>
@@ -174,19 +194,19 @@ export default function Home() {
           <header className="order-drawer-header"><div><p className="eyebrow"><span /> Seu pedido</p><h2 id="order-title">Seu <em>recanto.</em></h2></div><button type="button" className="order-close" aria-label="Fechar pedido" onClick={() => setCartOpen(false)}><X size={21} /></button></header>
           <div className="order-lines">
             {cart.map((item) => <article className="order-line" key={item.id}>
-              {item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div className="order-line-image"><Leaf size={18} /></div>}
+              {item.imageUrl ? <img src={item.imageUrl} alt="" style={{ objectPosition: `center ${item.imageFocusY}%` }} /> : <div className="order-line-image"><Leaf size={18} /></div>}
               <div className="order-line-copy"><strong>{item.name}</strong><small>{item.priceCents === null ? "Valor será confirmado" : formatPrice(item.priceCents)}</small><div className="quantity-control"><button type="button" aria-label={`Diminuir ${item.name}`} onClick={() => decreaseQuantity(item.id)}><Minus size={14} /></button><span>{item.quantity}</span><button type="button" aria-label={`Adicionar mais ${item.name}`} onClick={() => addToOrder(item)}><Plus size={14} /></button></div></div>
               <button type="button" className="remove-line" aria-label={`Remover ${item.name} do pedido`} onClick={() => setCart((current) => current.filter((line) => line.id !== item.id))}><Trash2 size={16} /></button>
             </article>)}
           </div>
-          <footer className="order-drawer-footer"><div><span>{cartHasPendingPrice ? "Total a confirmar" : "Total do pedido"}</span><strong>{cartHasPendingPrice ? "Consulte a equipe" : formatPrice(cartTotalCents)}</strong></div><a href={whatsappOrderUrl(cart)} target="_blank" rel="noopener noreferrer">Enviar pedido para o WhatsApp <ArrowUpRight size={17} /></a><p>O pedido abre no WhatsApp para a equipe confirmar disponibilidade, valor e entrega.</p></footer>
+          <footer className="order-drawer-footer"><div><span>{cartHasPendingPrice ? "Total a confirmar" : "Total do pedido"}</span><strong>{cartHasPendingPrice ? "Consulte a equipe" : formatPrice(cartTotalCents)}</strong></div><a href={whatsappOrderUrl(cart, storeSettings.whatsappNumber)} target="_blank" rel="noopener noreferrer">Enviar pedido para o WhatsApp <ArrowUpRight size={17} /></a><p>O pedido abre no WhatsApp para a equipe confirmar disponibilidade e valor.</p></footer>
         </aside>
       </div>}
 
       <footer className="site-footer">
         <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
         <p>Plantas, flores, vasos e itens para jardim em Maceió.</p>
-        <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a>
+        <span className="footer-links"><a href={storeSettings.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a><a href={`${import.meta.env.BASE_URL}admin.html`}>Área da loja <ArrowUpRight size={15} /></a></span>
       </footer>
       <div className="mobile-action" aria-label="Ações rápidas">
         {cartQuantity > 0 ? <button type="button" onClick={() => setCartOpen(true)}><ShoppingBag size={17} />Ver pedido · {cartQuantity}</button> : <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>}

@@ -7,48 +7,44 @@ export type StoreProduct = {
   category: string;
   description: string;
   imageUrl: string;
+  imageFocusY: number;
   priceCents: number | null;
   isAvailable: boolean;
   isFeatured: boolean;
   sortOrder: number;
+  isDemo?: boolean;
 };
 
 export type CartLine = StoreProduct & { quantity: number };
 import { storeAsset } from "./assets";
+import { makeWhatsAppUrl } from "./store-settings";
 
 export const demoProducts: StoreProduct[] = [
   {
-    id: "cactos-suculentas",
-    name: "Cactos & suculentas",
-    category: "Para cultivar",
-    description: "Pequenos, resistentes e cheios de personalidade para diferentes cantos da casa.",
+    id: "cactos-decorativos-demo",
+    name: "Cactos decorativos",
+    category: "Plantas",
+    description: "Seleção de cactos para dar um toque verde, resistente e cheio de personalidade ao ambiente.",
     imageUrl: storeAsset("recanto-cactos_5b0cc2c6.png"),
-    priceCents: null,
+    imageFocusY: 50,
+    priceCents: 2490,
     isAvailable: true,
     isFeatured: true,
     sortOrder: 1,
+    isDemo: true,
   },
   {
-    id: "vasos-detalhes",
-    name: "Vasos & detalhes",
-    category: "Para compor",
-    description: "Peças e enfeites para dar um toque especial ao jardim ou a um presente.",
-    imageUrl: storeAsset("recanto-joaninhas_d2016244.png"),
-    priceCents: null,
+    id: "rosa-do-deserto-demo",
+    name: "Rosa-do-deserto",
+    category: "Flores",
+    description: "Flor de presença marcante para quem quer levar mais cor e delicadeza para o seu recanto.",
+    imageUrl: storeAsset("recanto-flor-deserto_f9c7231c.png"),
+    imageFocusY: 50,
+    priceCents: 4590,
     isAvailable: true,
     isFeatured: true,
     sortOrder: 2,
-  },
-  {
-    id: "flores-destaque",
-    name: "Flores em destaque",
-    category: "Para florescer",
-    description: "Cores que transformam o ambiente e tornam qualquer ocasião ainda mais especial.",
-    imageUrl: storeAsset("recanto-flor-deserto_f9c7231c.png"),
-    priceCents: null,
-    isAvailable: true,
-    isFeatured: true,
-    sortOrder: 3,
+    isDemo: true,
   },
 ];
 
@@ -57,14 +53,14 @@ export function formatPrice(priceCents: number | null) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(priceCents / 100);
 }
 
-export function whatsappOrderUrl(lines: CartLine[]) {
+export function whatsappOrderUrl(lines: CartLine[], whatsappNumber: string) {
   const items = lines.map((line) => {
     const price = line.priceCents === null ? "valor a consultar" : formatPrice(line.priceCents);
-    return `• ${line.quantity}x ${line.name} — ${price}`;
+    return `• ${line.quantity}x ${line.name} — ${price}${line.isDemo ? " (valor de demonstração)" : ""}`;
   });
   const total = lines.every((line) => line.priceCents !== null)
     ? `\nTotal: ${formatPrice(lines.reduce((sum, line) => sum + (line.priceCents ?? 0) * line.quantity, 0))}`
     : "";
   const text = `Olá, gostaria de fazer este pedido pelo site:\n\n${items.join("\n")}${total}\n\nPodem confirmar a disponibilidade?`;
-  return `https://wa.me/558233287315?text=${encodeURIComponent(text)}`;
+  return makeWhatsAppUrl(whatsappNumber, text);
 }

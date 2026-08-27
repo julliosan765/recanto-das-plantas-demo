@@ -96,6 +96,12 @@ export async function createProduct(product: Omit<StoreProduct, "id">) {
   if (error) throw error;
 }
 
+export async function setProductAvailability(productId: string, isAvailable: boolean) {
+  if (!supabase) throw new Error("Configure o Supabase antes de alterar produtos.");
+  const { error } = await supabase.from("products").update({ is_available: isAvailable }).eq("id", productId);
+  if (error) throw error;
+}
+
 export async function uploadProductImage(userId: string, file: File) {
   if (!supabase) throw new Error("Configure o Supabase antes de enviar imagens.");
   if (!file.type.startsWith("image/")) throw new Error("Escolha uma imagem válida.");

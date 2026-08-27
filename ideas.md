@@ -72,3 +72,6 @@ O wordmark deve unir uma serifada botânica em “Recanto” a uma assinatura sa
 - Toda fotografia deve parecer feita em casa, viveiro ou bancada editorial; fotos isoladas de produto em fundo branco, ou objetos de cor fria e saturada, ficam fora do sistema.
 - O catálogo sempre inclui uma etiqueta de cultivo ou uma nota de curadoria; os selos, etiquetas e traços botânicos devem reaparecer para costurar a experiência.
 - A apresentação institucional é breve e concreta: ela explica a proposta de cuidado da loja sem inventar história, fundador, anos de atuação ou promessas não confirmadas.
+- A vista aérea real permanece no hero por ser uma solicitação expressa para provar o espaço físico da loja; as demais imagens devem equilibrar essa prova com foco botânico e editorial.
+- A foto de itens decorativos coloridos aparece apenas uma vez, como registro de variedade, sem se repetir como imagem de apoio em outra seção.
+- A rota encerra a narrativa como uma ficha de visita botânica: papel claro, selo da marca, informações práticas e linhas finas equilibram visualmente o mapa.

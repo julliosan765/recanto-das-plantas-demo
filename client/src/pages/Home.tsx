@@ -2,7 +2,7 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Phone, Plus, ShoppingBag, Sparkles, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { demoProducts, formatPrice, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
 import { storeAsset } from "@/lib/assets";
@@ -17,18 +17,27 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [catalog, setCatalog] = useState<StoreProduct[]>(demoProducts);
   const [cart, setCart] = useState<CartLine[]>([]);
+  const [cartOpen, setCartOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
   const cartQuantity = useMemo(() => cart.reduce((total, item) => total + item.quantity, 0), [cart]);
+  const cartHasPendingPrice = useMemo(() => cart.some((item) => item.priceCents === null), [cart]);
+  const cartTotalCents = useMemo(() => cart.reduce((total, item) => total + (item.priceCents ?? 0) * item.quantity, 0), [cart]);
 
   useEffect(() => {
     getPublicProducts().then((products) => { if (products.length) setCatalog(products); }).catch(() => undefined);
   }, []);
 
   function addToOrder(product: StoreProduct) {
+    if (!product.isAvailable) return;
     setCart((current) => {
       const found = current.find((line) => line.id === product.id);
       return found ? current.map((line) => line.id === product.id ? { ...line, quantity: line.quantity + 1 } : line) : [...current, { ...product, quantity: 1 }];
     });
+    setCartOpen(true);
+  }
+
+  function decreaseQuantity(productId: string) {
+    setCart((current) => current.flatMap((line) => line.id !== productId ? [line] : line.quantity > 1 ? [{ ...line, quantity: line.quantity - 1 }] : []));
   }
 
   return (
@@ -96,7 +105,7 @@ export default function Home() {
               </div>
             </article>)}
           </div>
-          {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><a href={whatsappOrderUrl(cart)} target="_blank" rel="noopener noreferrer">Enviar para o WhatsApp <ArrowUpRight size={17} /></a></div>}
+          {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><button type="button" onClick={() => setCartOpen(true)}>Ver pedido <ArrowUpRight size={17} /></button></div>}
         </section>
 
         <section id="cuidado" className="care-section">
@@ -135,7 +144,7 @@ export default function Home() {
             <div className="service-note"><span>Retirada na loja</span><span>Entrega</span></div>
             <a className="instagram-link" href={instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
           </div>
-          <div className="visit-image"><img src={storeAsset("recanto-joaninhas_d2016244.png")} alt="Enfeites de joaninha disponíveis na Recanto das Plantas" loading="lazy" /><small>DETALHES QUE ENCANTAM</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
+          <div className="visit-card"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Recanto das Plantas</p><strong>Serraria,<br /><em>Maceió.</em></strong><span>Visite, retire ou consulte as opções de entrega.</span><i>cultivo com cuidado</i></div>
         </section>
 
         <section id="localizacao" className="location-section" aria-label="Localização da Recanto das Plantas">
@@ -154,9 +163,25 @@ export default function Home() {
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
+            <aside className="route-card" aria-label="Ficha de visita da Recanto das Plantas"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><p>Ficha de visita</p><strong>Av. Menino Marcelo</strong><span>Serraria · Maceió, AL</span><small>Retirada na loja e entrega sob consulta.</small></aside>
           </div>
         </section>
       </main>
+
+      {cartOpen && <div className="order-dialog" role="dialog" aria-modal="true" aria-labelledby="order-title">
+        <button className="order-dialog-backdrop" type="button" aria-label="Fechar pedido" onClick={() => setCartOpen(false)} />
+        <aside className="order-drawer">
+          <header className="order-drawer-header"><div><p className="eyebrow"><span /> Seu pedido</p><h2 id="order-title">Seu <em>recanto.</em></h2></div><button type="button" className="order-close" aria-label="Fechar pedido" onClick={() => setCartOpen(false)}><X size={21} /></button></header>
+          <div className="order-lines">
+            {cart.map((item) => <article className="order-line" key={item.id}>
+              {item.imageUrl ? <img src={item.imageUrl} alt="" /> : <div className="order-line-image"><Leaf size={18} /></div>}
+              <div className="order-line-copy"><strong>{item.name}</strong><small>{item.priceCents === null ? "Valor será confirmado" : formatPrice(item.priceCents)}</small><div className="quantity-control"><button type="button" aria-label={`Diminuir ${item.name}`} onClick={() => decreaseQuantity(item.id)}><Minus size={14} /></button><span>{item.quantity}</span><button type="button" aria-label={`Adicionar mais ${item.name}`} onClick={() => addToOrder(item)}><Plus size={14} /></button></div></div>
+              <button type="button" className="remove-line" aria-label={`Remover ${item.name} do pedido`} onClick={() => setCart((current) => current.filter((line) => line.id !== item.id))}><Trash2 size={16} /></button>
+            </article>)}
+          </div>
+          <footer className="order-drawer-footer"><div><span>{cartHasPendingPrice ? "Total a confirmar" : "Total do pedido"}</span><strong>{cartHasPendingPrice ? "Consulte a equipe" : formatPrice(cartTotalCents)}</strong></div><a href={whatsappOrderUrl(cart)} target="_blank" rel="noopener noreferrer">Enviar pedido para o WhatsApp <ArrowUpRight size={17} /></a><p>O pedido abre no WhatsApp para a equipe confirmar disponibilidade, valor e entrega.</p></footer>
+        </aside>
+      </div>}
 
       <footer className="site-footer">
         <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src={storeAsset("recanto-logo_e43dd42a.png")} alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
@@ -164,7 +189,7 @@ export default function Home() {
         <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a>
       </footer>
       <div className="mobile-action" aria-label="Ações rápidas">
-        <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>
+        {cartQuantity > 0 ? <button type="button" onClick={() => setCartOpen(true)}><ShoppingBag size={17} />Ver pedido · {cartQuantity}</button> : <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>}
         <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={17} />Como chegar</a>
       </div>
     </div>

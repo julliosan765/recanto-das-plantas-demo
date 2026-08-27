@@ -1,10 +1,10 @@
 /**
  * Estufa Editorial: painel administrativo contido, com uma única tarefa central — manter produtos visíveis, claros e atualizados.
  */
-import { ArrowLeft, Check, ImagePlus, Leaf, Loader2, LogOut, Plus, ShieldCheck } from "lucide-react";
+import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, Plus, ShieldCheck } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import type { StoreProduct } from "@/lib/catalog";
-import { createProduct, currentUserIsStoreAdmin, getAdminProducts, getAdminSession, isSupabaseConfigured, signInAdminWithGoogle, supabase, uploadProductImage } from "@/lib/supabase";
+import { createProduct, currentUserIsStoreAdmin, getAdminProducts, getAdminSession, isSupabaseConfigured, setProductAvailability, signInAdminWithGoogle, supabase, uploadProductImage } from "@/lib/supabase";
 
 const emptyForm = { name: "", category: "Plantas", description: "", price: "", imageUrl: "", isAvailable: true };
 
@@ -70,10 +70,20 @@ export default function Admin() {
     finally { setSaving(false); }
   }
 
-  if (!isSupabaseConfigured) return <AdminShell title="Conexão pendente"><p>O painel está pronto, mas falta inserir a URL e a chave pública do Supabase nas variáveis do projeto.</p><a className="admin-back" href="./">Voltar para o site <ArrowLeft size={16} /></a></AdminShell>;
+  async function handleAvailability(product: StoreProduct) {
+    setSaving(true); setNotice("");
+    try {
+      await setProductAvailability(product.id, !product.isAvailable);
+      await loadProducts();
+      setNotice(product.isAvailable ? "Produto ocultado do catálogo público." : "Produto liberado no catálogo público.");
+    } catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível atualizar a disponibilidade."); }
+    finally { setSaving(false); }
+  }
+
+  if (!isSupabaseConfigured) return <AdminShell title="Conexão pendente"><p>O painel está pronto. Para usar na demonstração, falta conectar o projeto Supabase e liberar temporariamente a sua conta Google como administradora.</p><a className="admin-back" href="./">Voltar para o site <ArrowLeft size={16} /></a></AdminShell>;
   if (loading) return <AdminShell title="Verificando acesso"><Loader2 className="admin-loader" size={25} /><p>Um instante.</p></AdminShell>;
-  if (!session) return <AdminShell title="Área da loja"><p>Entre com a conta Google autorizada da Recanto para cadastrar fotos, produtos, preços e disponibilidade.</p><button className="admin-primary" onClick={handleLogin}><ShieldCheck size={18} /> Entrar com Google</button>{notice && <p className="admin-notice">{notice}</p>}</AdminShell>;
-  if (!authorized) return <AdminShell title="Acesso aguardando liberação"><p>Você entrou como <strong>{session.user.email}</strong>. Para liberar esta conta, copie o ID deste usuário no Supabase e adicione-o à tabela de administradores conforme o guia do projeto.</p><code className="admin-user-id">{session.user.id}</code><button className="admin-secondary" onClick={() => supabase?.auth.signOut()}>Sair</button></AdminShell>;
+  if (!session) return <AdminShell title="Área da loja"><p>Na demonstração, entre com a sua conta Google temporária. Após a aprovação, o proprietário entra com a conta dele e assume o acesso administrativo.</p><button className="admin-primary" onClick={handleLogin}><ShieldCheck size={18} /> Entrar com Google</button>{notice && <p className="admin-notice">{notice}</p>}</AdminShell>;
+  if (!authorized) return <AdminShell title="Acesso aguardando liberação"><p>Você entrou como <strong>{session.user.email}</strong>. Copie este ID e cadastre-o no Supabase conforme o guia. Na entrega, o mesmo processo será feito uma vez para a conta Google do proprietário.</p><code className="admin-user-id">{session.user.id}</code><button className="admin-secondary" onClick={() => supabase?.auth.signOut()}>Sair</button></AdminShell>;
 
   return <main className="admin-page">
     <header className="admin-header"><a href="./" className="admin-brand"><Leaf size={24} />Recanto <span>das Plantas</span></a><button className="admin-signout" onClick={() => supabase?.auth.signOut()}><LogOut size={16} /> Sair</button></header>
@@ -90,7 +100,7 @@ export default function Admin() {
         <button className="admin-primary" type="submit" disabled={saving}>{saving ? <Loader2 className="admin-loader" size={18} /> : <Plus size={18} />} Salvar produto</button>
         {notice && <p className="admin-notice">{notice}</p>}
       </form>
-      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto cadastrado ainda.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{product.imageUrl ? <img src={product.imageUrl} alt="" /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><Check size={17} /></div>)}</div>}</aside>
+      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto cadastrado ainda.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{product.imageUrl ? <img src={product.imageUrl} alt="" /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button></div></div>)}</div>}{notice && <p className="admin-notice">{notice}</p>}</aside>
     </section>
   </main>;
 }

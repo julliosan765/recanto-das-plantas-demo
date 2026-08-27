@@ -8,7 +8,7 @@ Este projeto já tem duas telas: o site público e a área privada em `/admin.ht
 |---|---|---|
 | Projeto Supabase | Guarda produtos, fotos, preços e permissões | Você durante a demonstração; o proprietário após aprovação |
 | Conta Google | Entra na área `/admin.html` | Administrador atual da loja |
-| Repositório GitHub | Guarda o código e publica no GitHub Pages | Você; o proprietário pode ser convidado depois |
+| Repositório GitHub | Guarda o código e publica o site | Você durante a demonstração; proprietário como titular após a venda |
 
 ## Ativar o Supabase
 
@@ -33,9 +33,11 @@ values ('ID_DO_USUARIO_DO_SUPABASE', 'email-da-conta-google@exemplo.com');
 
 Depois disso, a conta cadastrada poderá adicionar fotos, nome, categoria, preço e disponibilidade. O site público buscará somente produtos ativos e disponíveis.
 
-## Trocar para o e-mail do proprietário depois da aprovação
+## Entregar as contas ao proprietário depois da aprovação
 
-O proprietário abre `/admin.html`, entra com a própria conta Google e informa o ID exibido. Você executa, no SQL Editor do Supabase:
+O proprietário cria ou acessa a própria conta no **GitHub**. Essa conta é separada do Google, embora ele possa escolher entrar no GitHub usando o Google dele. Antes da entrega, ele também cria ou acessa uma conta no **Supabase**.
+
+No painel do site, o proprietário abre `/admin.html`, entra com a própria conta Google e informa o ID exibido. Você executa, no SQL Editor do Supabase:
 
 ```sql
 insert into public.store_admins (user_id, email)
@@ -51,6 +53,10 @@ where email = 'seu-email@exemplo.com';
 
 Não é necessário mudar e-mail dentro do código. A troca acontece na tabela `store_admins`, protegida pelas políticas do Supabase. Isso evita deixar e-mails de administradores expostos no site público.
 
+Depois que tudo estiver confirmado, transfira o repositório: no GitHub, abra o repositório, vá até **Settings**, desça até **Danger Zone**, escolha **Transfer** e informe o usuário GitHub do proprietário. Ele precisa aceitar o convite em até um dia. Você continua como colaborador depois da transferência, então remova seu acesso se o combinado for que somente o proprietário tenha controle. A documentação do GitHub avisa que o endereço do GitHub Pages não é redirecionado automaticamente; após a transferência, atualize os links publicados no Instagram e no Google Maps. [4]
+
+Para entregar o Supabase, adicione o proprietário como membro da organização de destino. Depois, sendo proprietário da organização de origem, abra **Project Settings → General** e use a transferência de projeto. O Supabase exige que você seja membro da organização de destino e informa que a operação pode causar uma interrupção breve em alguns casos. [5]
+
 ## Publicar no GitHub Pages
 
 No repositório, abra **Settings → Pages** e escolha **GitHub Actions** em *Build and deployment*. A cada envio para a branch `main`, o arquivo `.github/workflows/deploy-pages.yml` compilará e publicará o site. Para esse repositório, a URL esperada é `https://julliosan765.github.io/recanto-das-plantas-demo/`.
@@ -62,3 +68,7 @@ No repositório, abra **Settings → Pages** e escolha **GitHub Actions** em *Bu
 [2] [Supabase — Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)
 
 [3] [Vite — Publicação no GitHub Pages](https://vite.dev/guide/static-deploy)
+
+[4] [GitHub Docs — Transferring a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/transferring-a-repository)
+
+[5] [Supabase Docs — Project transfers](https://supabase.com/docs/guides/platform/project-transfer)

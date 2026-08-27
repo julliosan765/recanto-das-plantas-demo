@@ -59,5 +59,12 @@
 - [ ] Criar o repositório de demonstração com a conta GitHub do usuário.
 - [ ] Criar projeto de demonstração no Supabase com a conta Google do usuário.
 - [ ] Registrar como transferir a permissão administrativa para o e-mail do proprietário após aprovação.
+- [ ] Analisar o fluxo público do site de delivery indicado pelo usuário.
+- [ ] Identificar como produtos, carrinho e pedido final são apresentados sem login Google do cliente.
+- [ ] Comparar o modelo de delivery com uma vitrine de plantas enviada ao WhatsApp.
 - [ ] Manter o painel administrativo restrito a foto, nome, preço, categoria e disponibilidade.
 - [ ] Garantir que o pedido seja enviado como texto pronto para o WhatsApp, sem pagamento online.
+- [ ] Revisar o catálogo e o carrinho da demonstração com dados disponíveis mesmo sem Supabase configurado.
+- [ ] Verificar o estado inicial claro do painel administrativo antes da conexão da conta temporária.
+- [ ] Atualizar a orientação de transferência para que o proprietário assuma GitHub, Supabase e acesso administrativo após a aprovação.
+- [ ] Validar o fluxo público em computador e celular antes de publicar a nova demonstração.

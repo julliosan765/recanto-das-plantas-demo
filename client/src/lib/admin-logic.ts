@@ -71,3 +71,7 @@ export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: st
     instagramUrl: instagramUrl.trim(),
   };
 }
+
+export function getPublicStoreUrl(origin: string, basePath: string): string {
+  return new URL(basePath || "/", origin).toString();
+}

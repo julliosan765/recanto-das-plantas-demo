@@ -4,12 +4,13 @@
 import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, PencilLine, Plus, ShieldCheck, X } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import type { StoreProduct } from "@/lib/catalog";
-import { buildStoreSettingsDraft, emptyProductForm, mergeProductWithForm, productFormToData, productToForm, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
+import { buildStoreSettingsDraft, emptyProductForm, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, normalizeWhatsAppNumber, type StoreSettings } from "@/lib/store-settings";
 import { createProduct, currentUserIsStoreAdmin, getAdminProducts, getAdminSession, getStoreSettings, isSupabaseConfigured, saveStoreSettings, setProductAvailability, signInAdminWithGoogle, supabase, updateProduct, uploadProductImage } from "@/lib/supabase";
 
 export default function Admin() {
+  const publicStoreUrl = getPublicStoreUrl(window.location.origin, import.meta.env.BASE_URL);
   const [session, setSession] = useState<Awaited<ReturnType<typeof getAdminSession>>>(null);
   const [authorized, setAuthorized] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -53,6 +54,19 @@ export default function Admin() {
     setNotice("");
     try { await signInAdminWithGoogle(); }
     catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível iniciar o acesso."); }
+  }
+
+  async function handleSignOut() {
+    setNotice("");
+    try {
+      if (supabase) {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+      }
+      window.location.assign(publicStoreUrl);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Não foi possível encerrar o acesso. Tente novamente.");
+    }
   }
 
   async function handleImage(event: ChangeEvent<HTMLInputElement>) {
@@ -129,13 +143,13 @@ export default function Admin() {
     finally { setSavingSettings(false); }
   }
 
-  if (!isSupabaseConfigured) return <AdminShell title="Conexão pendente"><p>O painel está pronto. Para usar na demonstração, falta conectar o projeto Supabase e liberar temporariamente a sua conta Google como administradora.</p><a className="admin-back" href="./">Voltar para o site <ArrowLeft size={16} /></a></AdminShell>;
+  if (!isSupabaseConfigured) return <AdminShell title="Conexão pendente"><p>O painel está pronto. Para usar na demonstração, falta conectar o projeto Supabase e liberar temporariamente a sua conta Google como administradora.</p><a className="admin-back" href={publicStoreUrl}>Voltar para o site <ArrowLeft size={16} /></a></AdminShell>;
   if (loading) return <AdminShell title="Verificando acesso"><Loader2 className="admin-loader" size={25} /><p>Um instante.</p></AdminShell>;
-  if (!session) return <AdminShell title="Área da loja"><p>Entre com a sua conta Google temporária. Depois da aprovação, o proprietário entra com a conta dele e assume o acesso administrativo.</p><button className="admin-primary" onClick={handleLogin}><ShieldCheck size={18} /> Entrar com Google</button>{notice && <p className="admin-notice">{notice}</p>}</AdminShell>;
-  if (!authorized) return <AdminShell title="Acesso aguardando liberação"><p>Você entrou como <strong>{session.user.email}</strong>. O administrador temporário será liberado no Supabase e, na transferência, essa permissão será passada para a conta Google do proprietário.</p><code className="admin-user-id">{session.user.id}</code><button className="admin-secondary" onClick={() => supabase?.auth.signOut()}>Sair</button></AdminShell>;
+  if (!session) return <AdminShell><div className="admin-login-actions"><button className="admin-google-login" onClick={handleLogin}><ShieldCheck size={18} /> Entrar com Google</button><a className="admin-store-link" href={publicStoreUrl}><ArrowLeft size={16} /> Ver a loja</a></div>{notice && <p className="admin-notice">{notice}</p>}</AdminShell>;
+  if (!authorized) return <AdminShell title="Acesso aguardando liberação"><p>Você entrou como <strong>{session.user.email}</strong>. O administrador temporário será liberado no Supabase e, na transferência, essa permissão será passada para a conta Google do proprietário.</p><code className="admin-user-id">{session.user.id}</code><button className="admin-secondary" onClick={handleSignOut}>Sair</button></AdminShell>;
 
   return <main className="admin-page">
-    <header className="admin-header"><a href="./" className="admin-logo-link" aria-label="Recanto das Plantas — voltar ao site"><img className="admin-brand-logo" src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><span className="admin-brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a><button className="admin-signout" onClick={() => supabase?.auth.signOut()}><LogOut size={16} /> Sair</button></header>
+    <header className="admin-header"><a href={publicStoreUrl} className="admin-logo-link" aria-label="Recanto das Plantas — voltar ao site"><img className="admin-brand-logo" src={storeAsset("recanto-logo_e43dd42a.png")} alt="" /><span className="admin-brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a><div className="admin-header-actions"><a className="admin-store-link" href={publicStoreUrl}><ArrowLeft size={16} /> Ver a loja</a><button className="admin-signout" onClick={handleSignOut}><LogOut size={16} /> Sair</button></div></header>
     <section className="admin-hero"><p className="eyebrow"><span /> Área da loja</p><h1>Produtos<br /><em>do dia.</em></h1><p>Somente duas partes: produtos e contatos da loja. Foto, nome, preço, descrição, disponibilidade, WhatsApp e Instagram.</p></section>
     <section className="admin-content">
       <form className="product-form" onSubmit={handleSubmit}>
@@ -155,6 +169,6 @@ export default function Admin() {
   </main>;
 }
 
-function AdminShell({ title, children }: { title: string; children: React.ReactNode }) {
-  return <main className="admin-gate"><div><p className="eyebrow"><span /> Recanto das Plantas</p><h1>{title}</h1>{children}</div></main>;
+function AdminShell({ title, children }: { title?: string; children: React.ReactNode }) {
+  return <main className="admin-gate"><div><p className="eyebrow"><span /> Recanto das Plantas</p>{title && <h1>{title}</h1>}{children}</div></main>;
 }

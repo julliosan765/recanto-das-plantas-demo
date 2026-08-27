@@ -179,3 +179,16 @@
 - [x] Enviar o histórico local e a versão atual ao repositório GitHub autorizado.
 - [x] Confirmar o branch `main` e os arquivos publicados no repositório remoto.
 - [x] Confirmar a execução do fluxo GitHub Pages e revisar o domínio de destino.
+
+## Revisão de autenticação e navegação
+
+- [x] Reproduzir o erro relatado ao entrar na área administrativa pelo GitHub Pages.
+- [ ] Corrigir o encerramento de sessão administrativa para redirecionar à loja pública.
+- [ ] Revisar no navegador conectado o catálogo, a entrada administrativa e a saída em computador e celular.
+- [ ] Executar testes automatizados e publicar a correção validada no Manus e no GitHub Pages.
+- [x] Restaurar a leitura pública mínima de `products` e `store_settings` no Supabase, preservando as regras administrativas.
+- [ ] Adicionar um botão explícito "Ver a loja" no painel administrativo para abrir o catálogo público.
+- [ ] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.
+- [ ] Refinar o botão "Entrar com Google" com hierarquia, contraste e acabamento coerentes com a marca.
+- [ ] Sincronizar a correção imediatamente no GitHub para disparar a publicação automática no GitHub Pages.
+- [ ] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.

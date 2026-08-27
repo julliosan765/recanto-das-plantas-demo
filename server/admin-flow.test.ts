@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { StoreProduct } from "../client/src/lib/catalog";
 import {
   buildStoreSettingsDraft,
+  getPublicStoreUrl,
   mergeProductWithForm,
   productFormToData,
   productToForm,
@@ -78,5 +79,10 @@ describe("fluxos administrativos da loja", () => {
       whatsappNumber: "5582999998888",
       instagramUrl: "https://www.instagram.com/recanto/",
     });
+  });
+
+  it("monta o retorno do painel para a raiz pública, inclusive no subcaminho do GitHub Pages", () => {
+    expect(getPublicStoreUrl("https://julliosan765.github.io", "/recanto-das-plantas-demo/")).toBe("https://julliosan765.github.io/recanto-das-plantas-demo/");
+    expect(getPublicStoreUrl("https://recantoplt-9svuvrks.manus.space", "/")).toBe("https://recantoplt-9svuvrks.manus.space/");
   });
 });

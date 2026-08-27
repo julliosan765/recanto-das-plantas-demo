@@ -2,17 +2,18 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Leaf, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 
 const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20saber%20sobre%20as%20plantas%2C%20flores%2C%20vasos%20e%20itens%20de%20jardim%20dispon%C3%ADveis.";
 const maps = "https://www.google.com/maps/search/?api=1&query=Recanto+das+Plantas%2C+Macei%C3%B3%2C+AL";
+const instagram = "https://www.instagram.com/recantodasplantasal/";
 const wa = (message: string) => `https://wa.me/558233287315?text=${encodeURIComponent(message)}`;
 
 const catalog = [
-  { n: "01", tag: "Para cultivar", title: "Plantas & mudas", description: "Opções para começar, renovar ou completar o seu espaço com mais verde.", image: "/manus-storage/recanto-collection-folhagens_29f447ca.jpg", message: "Olá, gostaria de saber quais plantas e mudas estão disponíveis.", style: "tall" },
-  { n: "02", tag: "Para compor", title: "Vasos & jardim", description: "Vasos, terra e itens para cuidar ou transformar seu jardim com intenção.", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=88", message: "Olá, gostaria de conhecer os vasos e itens para jardim disponíveis.", style: "short" },
-  { n: "03", tag: "Para presentear", title: "Flores & arranjos", description: "Para marcar uma data especial ou levar mais beleza para o dia de alguém.", image: "/manus-storage/recanto-arranjo-atmosfera_b754d2b3.jpg", message: "Olá, gostaria de saber sobre flores e arranjos disponíveis.", style: "tall" },
+  { n: "01", tag: "Para cultivar", title: "Cactos & suculentas", description: "Pequenos, resistentes e cheios de personalidade para diferentes cantos da casa.", image: "/manus-storage/recanto-cactos_5b0cc2c6.png", message: "Olá, gostaria de saber quais cactos e suculentas estão disponíveis.", style: "tall" },
+  { n: "02", tag: "Para compor", title: "Vasos & detalhes", description: "Peças e enfeites para dar um toque especial ao jardim ou a um presente.", image: "/manus-storage/recanto-joaninhas_d2016244.png", message: "Olá, gostaria de conhecer os vasos e itens de decoração disponíveis.", style: "short" },
+  { n: "03", tag: "Para florescer", title: "Flores em destaque", description: "Cores que transformam o ambiente e tornam qualquer ocasião ainda mais especial.", image: "/manus-storage/recanto-flor-deserto_f9c7231c.png", message: "Olá, gostaria de saber sobre flores e plantas em destaque disponíveis.", style: "tall" },
 ];
 
 export default function Home() {
@@ -53,8 +54,8 @@ export default function Home() {
             <div className="hero-details" aria-label="Atalhos para atendimento"><span><Leaf size={15} />Escolha com calma</span><span><MessageCircle size={15} />Fale pelo WhatsApp</span></div>
           </div>
           <figure className="hero-visual">
-            <img src="/manus-storage/recanto-hero-estufa_caef30d9.jpg" alt="Ambiente luminoso com plantas tropicais e vasos em terracota" />
-            <figcaption><span /> Verde que encontra lugar na sua casa</figcaption>
+            <img src="/manus-storage/recanto-espaco-aereo_e3d028fc.png" alt="Vista aérea da Recanto das Plantas na Avenida Menino Marcelo, em Maceió" />
+            <figcaption><span /> Conheça o espaço do Recanto</figcaption>
             <div className="floating-seal" aria-hidden="true"><span>cultivo</span><Leaf size={20} /><span>com cuidado</span></div>
           </figure>
           <p className="side-note">a casa também floresce</p>
@@ -120,15 +121,35 @@ export default function Home() {
               <a href="tel:+558233287315"><Phone size={20} /><span><strong>(82) 3328-7315</strong><small>Fale com a nossa equipe</small></span><ArrowUpRight size={17} /></a>
             </div>
             <div className="service-note"><span>Retirada na loja</span><span>Entrega</span></div>
+            <a className="instagram-link" href={instagram} target="_blank" rel="noopener noreferrer"><Instagram size={18} /> Acompanhe as novidades no Instagram <ArrowUpRight size={16} /></a>
           </div>
-          <div className="visit-image"><img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1000&q=88" alt="Plantas em uma estufa iluminada" loading="lazy" /><small>FOLHAS, VASOS & ARRANJOS</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
+          <div className="visit-image"><img src="/manus-storage/recanto-joaninhas_d2016244.png" alt="Enfeites de joaninha disponíveis na Recanto das Plantas" loading="lazy" /><small>DETALHES QUE ENCANTAM</small><span>Escolha a planta.<br />A gente ajuda no resto.</span></div>
+        </section>
+
+        <section id="localizacao" className="location-section" aria-label="Localização da Recanto das Plantas">
+          <div className="location-copy">
+            <p className="eyebrow"><span /> Como chegar</p>
+            <h2>O Recanto<br />fica <em>perto.</em></h2>
+            <p>Encontre a Recanto das Plantas na Av. Menino Marcelo, na Serraria. Abra a rota e venha visitar a loja.</p>
+            <a className="primary-button" href={maps} target="_blank" rel="noopener noreferrer">Abrir rota no Maps <ArrowUpRight size={18} /></a>
+          </div>
+          <div className="map-wrap">
+            <iframe
+              className="location-map"
+              title="Localização da Recanto das Plantas no Google Maps"
+              src="https://www.google.com/maps?q=Recanto+das+Plantas,+Av.+Menino+Marcelo+-+Serraria,+Macei%C3%B3+-+AL,+57046-000&output=embed"
+              loading="eager"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+            />
+          </div>
         </section>
       </main>
 
       <footer className="site-footer">
         <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src="/manus-storage/recanto-logo_e43dd42a.png" alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
-        <p>Plantas, vasos e arranjos para deixar Maceió mais verde.</p>
-        <a href={whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp <ArrowUpRight size={15} /></a>
+        <p>Plantas, flores, vasos e itens para jardim em Maceió.</p>
+        <a href={instagram} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a>
       </footer>
       <div className="mobile-action" aria-label="Ações rápidas">
         <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>

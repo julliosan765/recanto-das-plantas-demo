@@ -16,6 +16,15 @@
 - [x] Avaliar as fotos públicas da Recanto das Plantas no Google Maps como referência visual.
 - [ ] Separar imagens possivelmente oficiais de imagens atribuídas a clientes ou terceiros.
 - [ ] Solicitar autorização ou arquivos originais antes de colocar imagens do Google Maps em uma publicação.
+- [ ] Receber uma foto aérea original ou autorização formal para usar a imagem do espaço físico no topo do site.
+- [x] Inserir uma galeria de produtos e do espaço físico no site de venda.
+- [x] Adicionar uma localização visual interativa do Google Maps no final da página.
+- [ ] Confirmar o perfil oficial do Instagram da Recanto das Plantas.
+- [x] Incluir acesso ao Instagram oficial em pontos estratégicos do site.
+- [x] Inserir no site as imagens limpas preparadas a partir das referências fornecidas pelo usuário.
+- [x] Revisar tamanhos de toque, leitura e atalhos de conversão na tela móvel.
+- [x] Concluir a seção visual do espaço físico e o mapa interativo para a apresentação comercial.
+- [x] Validar galeria, mapa e navegação em uma largura de celular antes da entrega.
 - [x] Substituir linguagem genérica por informações institucionais confirmadas da loja.
 - [x] Exibir endereço completo, retirada na loja, entrega e contato em uma versão comercial final.
 - [x] Revisar a página final para evitar promessas, horários, preços ou produtos não confirmados.

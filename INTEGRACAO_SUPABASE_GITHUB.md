@@ -23,3 +23,9 @@ A conta Google temporária `san765ad@gmail.com` foi localizada no Auth do Supaba
 O catálogo público pode ser visitado sem login: qualquer cliente pode pesquisar itens, ver os preços e montar o pedido. O pedido não realiza pagamento e é aberto no WhatsApp para a equipe confirmar disponibilidade e valor. O login Google é exigido somente na área `admin.html`, que protege o cadastro de produtos, WhatsApp e Instagram. O site informa somente a retirada na loja.
 
 O cliente agora remove automaticamente da barra de endereço os fragmentos que carregam tokens Supabase depois de processar a sessão, preservando âncoras comuns como `#catalogo`. A URL de teste que expôs tokens deve ser considerada comprometida; a sessão correspondente deve ser encerrada antes de novos testes.
+
+## Registro de segurança — 27 de agosto de 2026
+
+A auditoria do Supabase confirmou que as tabelas expostas usam RLS e que a leitura anônima se limita aos produtos ativos, disponíveis e com preço, além dos contatos públicos da loja. As funções `is_store_admin` e `keep_project_active` foram removidas da API pública. A autorização administrativa agora é feita pelas políticas RLS com a tabela `public.store_admins`; a automação diária registra somente uma leitura permitida do catálogo.
+
+O único aviso residual do Supabase é a proteção contra senhas vazadas. A interface atual não oferece cadastro ou login por senha: a única entrada administrativa é o OAuth do Google. Portanto, o aviso não se aplica ao fluxo operacional presente. **Se o projeto passar a oferecer login por senha no futuro, a proteção contra senhas vazadas deverá ser habilitada no Supabase Auth antes dessa funcionalidade ser publicada.**

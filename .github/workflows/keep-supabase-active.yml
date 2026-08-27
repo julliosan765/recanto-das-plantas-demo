@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: Chamar verificação segura do catálogo
+      - name: Registrar leitura segura do catálogo
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
@@ -22,8 +22,6 @@ jobs:
           test -n "$SUPABASE_URL"
           test -n "$SUPABASE_PUBLISHABLE_KEY"
           curl --fail --silent --show-error \
-            --request POST "$SUPABASE_URL/rest/v1/rpc/keep_project_active" \
+            "$SUPABASE_URL/rest/v1/products?select=id&is_active=eq.true&is_available=eq.true&price_cents=not.is.null&limit=1" \
             --header "apikey: $SUPABASE_PUBLISHABLE_KEY" \
-            --header "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY" \
-            --header "Content-Type: application/json" \
-            --data '{}'
+            --header "Authorization: Bearer $SUPABASE_PUBLISHABLE_KEY"

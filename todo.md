@@ -188,7 +188,19 @@
 - [ ] Executar testes automatizados e publicar a correção validada no Manus e no GitHub Pages.
 - [x] Restaurar a leitura pública mínima de `products` e `store_settings` no Supabase, preservando as regras administrativas.
 - [ ] Adicionar um botão explícito "Ver a loja" no painel administrativo para abrir o catálogo público.
-- [ ] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.
-- [ ] Refinar o botão "Entrar com Google" com hierarquia, contraste e acabamento coerentes com a marca.
+- [x] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.
+- [x] Refinar o botão "Entrar com Google" com hierarquia, contraste e acabamento coerentes com a marca.
 - [ ] Sincronizar a correção imediatamente no GitHub para disparar a publicação automática no GitHub Pages.
-- [ ] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.
+- [ ] Corrigir o roteamento público para reconhecer o subcaminho `/recanto-das-plantas-demo/` no GitHub Pages.
+
+## Auditoria de segurança e confiabilidade
+
+- [x] Revisar cabeçalhos HTTP, políticas de conteúdo, rotas e dependências do site publicado.
+- [x] Revisar autenticação Google/Supabase, permissões RLS e dados acessíveis a visitantes.
+- [ ] Verificar erros recentes de navegador e rede e corrigir as causas confirmadas.
+- [ ] Revalidar os fluxos público e administrativo após os ajustes de segurança.
+- [x] Revogar execução pública das funções `is_store_admin` e `keep_project_active`, mantendo apenas o uso necessário no banco.
+- [x] Avaliar a proteção contra senhas vazadas no Supabase e registrar a limitação aplicável ao login exclusivo por Google.
+- [x] Atualizar dependências diretas com alertas de segurança e repetir a varredura de produção.
+- [ ] Concluir e publicar somente as correções essenciais já confirmadas nesta revisão.
+- [x] Simplificar a tela de entrada administrativa, removendo título e texto longo para uma apresentação mais profissional.

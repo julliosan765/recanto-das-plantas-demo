@@ -14,14 +14,12 @@ export async function keepSupabaseActive(req: Request, res: Response) {
     const publishableKey = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
     if (!url || !publishableKey) return res.status(500).json({ error: "supabase-not-configured" });
 
-    const response = await fetch(`${url}/rest/v1/rpc/keep_project_active`, {
-      method: "POST",
+    const response = await fetch(`${url}/rest/v1/products?select=id&is_active=eq.true&is_available=eq.true&price_cents=not.is.null&limit=1`, {
+      method: "GET",
       headers: {
         apikey: publishableKey,
         Authorization: `Bearer ${publishableKey}`,
-        "Content-Type": "application/json",
       },
-      body: "{}",
     });
 
     if (!response.ok) throw new Error(`Supabase respondeu ${response.status}`);

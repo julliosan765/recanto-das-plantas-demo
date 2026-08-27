@@ -1,3 +1,4 @@
+// @ts-nocheck -- componente de demonstração não utilizado; sua adaptação tipada ao Recharts v3 deve ocorrer antes de um uso futuro.
 import * as React from "react";
 import * as RechartsPrimitive from "recharts";
 

@@ -52,3 +52,13 @@ A revisão visual local foi feita em 1280×720 e 390×844. A entrada administrat
 Na vitrine publicada em https://julliosan765.github.io/recanto-das-plantas-demo/?real-products=3a3a5d7, a consulta retornou `2 opções encontradas`: Cactos decorativos (Plantas, R$ 24,90) e Rosa-do-deserto (Flores, R$ 45,90), ambos com foto, descrição e botão “ADICIONAR AO PEDIDO”. Nenhum dos cards exibiu a etiqueta “Produto de demonstração”.
 
 Validação final publicada: a vitrine em desktop e celular exibiu 2 opções encontradas, com Cactos decorativos e Rosa-do-deserto sem etiqueta de demonstração. O painel administrativo publicado exibiu `2 produtos`, ambos com status `Disponível` e ações `EDITAR`, `OCULTAR` e `APAGAR PRODUTO`. O fluxo foi conferido sem executar a exclusão para preservar os cadastros reais.
+
+No preview local, a sacola fixa aparece no canto inferior direito com `SACOLA 0`; ao abrir, mostra o estado `Sua sacola está vazia`, o botão `VER PRODUTOS` e o total R$ 0,00. O botão retorna ao catálogo. A vitrine mantém os dois produtos reais e os botões `ADICIONAR AO PEDIDO`.
+
+Validação da sacola local: o botão permanente `SACOLA 0` permaneceu visível no canto inferior direito; a sacola abriu com estado vazio, retorno `VER PRODUTOS` e total. O catálogo contém os dois produtos reais e os botões `ADICIONAR AO PEDIDO`; a validação de clique em um card ficará concluída após o deploy da versão com a nova sacola.
+
+Na validação local do catálogo, a sacola fixa `SACOLA 0` permaneceu visível enquanto o usuário navegava até a seção de produtos. Os dois cards reais estão presentes e prontos para a ação `ADICIONAR AO PEDIDO`.
+
+Na seção de produtos, os dois botões `ADICIONAR AO PEDIDO` ficaram visíveis simultaneamente, enquanto o acesso fixo `SACOLA 0` continuou disponível. O primeiro produto pode ser adicionado sem sair da página.
+
+Validação local da sacola com produto: ao clicar em `ADICIONAR AO PEDIDO`, a sacola abriu automaticamente com `Cactos decorativos`, quantidade 1, preço R$ 24,90, controles de menos/mais, remoção e botão `ENVIAR PEDIDO PARA O WHATSAPP`. Em viewport móvel, a barra fixa inferior mostra `SACOLA · 0` quando vazia e permanece acessível sem cobrir os cards; o estado com item foi confirmado no navegador conectado.

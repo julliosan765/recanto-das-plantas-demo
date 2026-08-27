@@ -250,3 +250,29 @@
 - [x] Remover a seção separada de itens demonstrativos do painel e atualizar os textos de catálogo vazio.
 - [x] Confirmar no catálogo público que os produtos reais aparecem com foto, preço, categoria e descrição.
 - [x] Validar o fluxo em desktop e celular e publicar no Manus e GitHub Pages.
+
+
+## Prévia de compartilhamento do site
+
+- [x] Configurar imagem pública da empresa para compartilhamento do site.
+- [x] Adicionar metadados Open Graph com título, descrição, URL e imagem.
+- [x] Adicionar Twitter Card como fallback para outras plataformas de compartilhamento.
+- [x] Validar o HTML gerado, o build e a disponibilidade pública da imagem.
+- [ ] Publicar a alteração no Manus e no GitHub Pages.
+
+
+## Compactação mobile da vitrine
+
+- [x] Reduzir a altura das imagens dos cards de produtos em telas pequenas.
+- [x] Compactar espaçamentos, títulos, descrições e botões dos cards sem perder legibilidade.
+- [x] Ajustar a barra fixa inferior para ocupar menos espaço e não cobrir o conteúdo.
+- [x] Validar a vitrine em celular e desktop, mantendo preço, fotos, carrinho e WhatsApp funcionando.
+
+
+## Sacola de compras sempre disponível
+
+- [x] Exibir um acesso permanente à sacola na vitrine, com contador de itens.
+- [x] Fazer “Adicionar ao pedido” incluir o produto na sacola e abrir ou destacar a sacola.
+- [x] Permitir revisar itens, quantidades, remoção e total antes do WhatsApp.
+- [x] Manter a sacola utilizável no celular sem cobrir o conteúdo e preservar o envio pelo WhatsApp.
+- [x] Criar ou atualizar testes para o fluxo da sacola e validar em celular e desktop.

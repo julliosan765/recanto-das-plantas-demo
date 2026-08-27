@@ -169,3 +169,43 @@ button, a { -webkit-tap-highlight-color: transparent; } a { color: inherit; text
 .admin-brand-lockup strong { font-size: 29px; font-weight: 700; }
 .admin-brand-lockup span { display: block; font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .15em; margin: 6px 0 0 2px; text-transform: uppercase; }
 @media (max-width: 720px) { .admin-logo-link .admin-brand-logo { height: 40px; width: 40px; } .admin-brand-lockup strong { font-size: 26px; } }
+
+
+/* Mobile compacto: reduz a rolagem dos cards sem sacrificar foto, preço ou ação de pedido. */
+@media (max-width:620px) {
+  .catalog-section.section-pad { padding-bottom:72px; padding-top:58px; }
+  .section-heading { gap:16px; margin-bottom:28px; }
+  .section-heading h2 { font-size:clamp(48px,14vw,62px); }
+  .heading-copy { font-size:13px; }
+  .catalog-grid { gap:14px; }
+  .catalog-image-wrap,.catalog-card.short .catalog-image-wrap { height:190px; }
+  .catalog-gallery-thumbs { gap:6px; padding:11px 9px 8px; }
+  .catalog-gallery-thumb { flex-basis:38px; height:36px; }
+  .catalog-content { min-height:0; padding:16px 17px 17px; }
+  .catalog-meta { margin-bottom:10px; }
+  .catalog-meta span { font-size:7px; padding:4px 6px; }
+  .catalog-price { font-size:17px; padding:8px 9px; }
+  .catalog-content h3 { font-size:27px; line-height:1; }
+  .catalog-content p { font-size:12px; line-height:1.42; margin:9px 0 11px; max-width:none; }
+  .catalog-action { font-size:9px; gap:6px; padding:11px 0 5px; }
+  .mobile-action a,.mobile-action button { font-size:9px; min-height:48px; }
+  .site-footer { padding-bottom:74px; }
+}
+
+
+/* Sacola sempre disponível: acesso rápido no desktop e integrado à barra inferior no mobile. */
+.bag-trigger { align-items:center; background:#1F5C3E; border:0; bottom:24px; box-shadow:0 12px 28px rgba(13,49,34,.2); color:#FFF9EF; display:flex; gap:9px; min-height:48px; padding:0 15px; position:fixed; right:24px; z-index:55; }
+.bag-trigger span { font:700 10px "DM Sans",sans-serif; letter-spacing:.08em; text-transform:uppercase; }
+.bag-trigger strong { align-items:center; background:#D7774B; border-radius:50%; display:flex; font-size:11px; height:23px; justify-content:center; min-width:23px; }
+.bag-trigger.has-items { background:#133726; }
+.order-empty { align-items:center; color:#668171; display:flex; flex-direction:column; gap:9px; justify-content:center; min-height:220px; padding:24px; text-align:center; }
+.order-empty svg { color:#A65C39; }
+.order-empty strong { color:#1F5C3E; font:600 25px/1 "Cormorant Garamond",serif; }
+.order-empty span { font-size:12px; line-height:1.5; }
+.order-empty button { background:#1F5C3E; border:0; color:#FFF9EF; font:700 10px "DM Sans",sans-serif; letter-spacing:.07em; padding:12px 15px; text-transform:uppercase; }
+@media (max-width:620px) {
+  .bag-trigger { display:none; }
+  .mobile-action { padding-bottom:env(safe-area-inset-bottom); }
+  .mobile-action button { border:0; }
+  .order-empty { min-height:190px; }
+}

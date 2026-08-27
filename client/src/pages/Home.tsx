@@ -200,12 +200,14 @@ export default function Home() {
         </section>
       </main>
 
+      <button className={`bag-trigger${cartQuantity > 0 ? " has-items" : ""}`} type="button" onClick={() => setCartOpen(true)} aria-label={`Abrir sacola${cartQuantity > 0 ? ` com ${cartQuantity} item${cartQuantity === 1 ? "" : "ns"}` : " vazia"}`}><ShoppingBag size={18} /><span>Sacola</span><strong>{cartQuantity}</strong></button>
+
       {cartOpen && <div className="order-dialog" role="dialog" aria-modal="true" aria-labelledby="order-title">
         <button className="order-dialog-backdrop" type="button" aria-label="Fechar pedido" onClick={() => setCartOpen(false)} />
         <aside className="order-drawer">
           <header className="order-drawer-header"><div><p className="eyebrow"><span /> Seu pedido</p><h2 id="order-title">Seu <em>recanto.</em></h2></div><button type="button" className="order-close" aria-label="Fechar pedido" onClick={() => setCartOpen(false)}><X size={21} /></button></header>
           <div className="order-lines">
-            {cart.map((item) => <article className="order-line" key={item.id}>
+            {cart.length === 0 ? <div className="order-empty"><ShoppingBag size={25} /><strong>Sua sacola está vazia.</strong><span>Adicione uma planta para montar seu pedido.</span><button type="button" onClick={() => { setCartOpen(false); document.getElementById("catalogo")?.scrollIntoView({ behavior: "smooth" }); }}>Ver produtos</button></div> : cart.map((item) => <article className="order-line" key={item.id}>
               {item.imageUrl ? <img src={item.imageUrl} alt="" style={{ objectPosition: `center ${item.imageFocusY}%` }} /> : <div className="order-line-image"><Leaf size={18} /></div>}
               <div className="order-line-copy"><strong>{item.name}</strong><small>{item.priceCents === null ? "Valor será confirmado" : formatPrice(item.priceCents)}</small><div className="quantity-control"><button type="button" aria-label={`Diminuir ${item.name}`} onClick={() => decreaseQuantity(item.id)}><Minus size={14} /></button><span>{item.quantity}</span><button type="button" aria-label={`Adicionar mais ${item.name}`} onClick={() => addToOrder(item)}><Plus size={14} /></button></div></div>
               <button type="button" className="remove-line" aria-label={`Remover ${item.name} do pedido`} onClick={() => setCart((current) => current.filter((line) => line.id !== item.id))}><Trash2 size={16} /></button>
@@ -221,7 +223,7 @@ export default function Home() {
         <span className="footer-links"><a href={storeSettings.instagramUrl} target="_blank" rel="noopener noreferrer">Instagram <ArrowUpRight size={15} /></a><a href={`${import.meta.env.BASE_URL}admin.html`}>Área da loja <ArrowUpRight size={15} /></a></span>
       </footer>
       <div className="mobile-action" aria-label="Ações rápidas">
-        {cartQuantity > 0 ? <button type="button" onClick={() => setCartOpen(true)}><ShoppingBag size={17} />Ver pedido · {cartQuantity}</button> : <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>}
+        <button type="button" onClick={() => setCartOpen(true)}><ShoppingBag size={17} />Sacola · {cartQuantity}</button>
         <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={17} />Como chegar</a>
       </div>
     </div>

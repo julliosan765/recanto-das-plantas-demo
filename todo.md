@@ -212,6 +212,6 @@
 
 ## Padronização do catálogo de produtos
 
-- [ ] Padronizar a altura dos cards e das imagens dos produtos para que todos tenham o mesmo tamanho em desktop e celular.
-- [ ] Manter essa seção como o catálogo central para cadastro e exibição de plantas, vasos, flores, organização e acessórios.
-- [ ] Validar a leitura de preço, nome, descrição e ação de pedido após a redução das imagens.
+- [x] Padronizar a altura dos cards e das imagens dos produtos para que todos tenham o mesmo tamanho em desktop e celular.
+- [x] Manter essa seção como o catálogo central para cadastro e exibição de plantas, vasos, flores, organização e acessórios.
+- [x] Validar a leitura de preço, nome, descrição e ação de pedido após a redução das imagens.

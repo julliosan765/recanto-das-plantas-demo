@@ -115,7 +115,7 @@ export default function Home() {
           </div>
           <p className="catalog-result-note" aria-live="polite">{visibleCatalog.length} {visibleCatalog.length === 1 ? "opção encontrada" : "opções encontradas"}</p>
           {visibleCatalog.length > 0 ? <div className="catalog-grid">
-            {visibleCatalog.map((item, index) => <article className={`catalog-card ${index % 3 === 1 ? "short" : "tall"}`} key={item.id}>
+            {visibleCatalog.map((item) => <article className="catalog-card" key={item.id}>
               <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" style={{ objectPosition: `center ${item.imageFocusY}%` }} /></div>
               <div className="catalog-content">
                 <div className="catalog-meta"><span>{item.category}</span><strong className="catalog-price">{formatPrice(item.priceCents)}</strong></div>

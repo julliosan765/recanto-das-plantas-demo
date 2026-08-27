@@ -2,7 +2,7 @@
  * Estufa Editorial: composição assimétrica, cores de viveiro e conversão calma.
  * O Verde Folhagem (#1F5C3E) conduz ações; Cormorant Garamond + DM Sans criam o tom de catálogo botânico.
  */
-import { ArrowDownRight, ArrowUpRight, Leaf, MapPin, Menu, Phone, Sparkles, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Leaf, MapPin, Menu, MessageCircle, Phone, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 
 const whatsapp = "https://wa.me/558233287315?text=Ol%C3%A1%2C%20gostaria%20de%20conhecer%20as%20plantas%20e%20arranjos%20dispon%C3%ADveis.";
@@ -27,15 +27,15 @@ export default function Home() {
           <span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span>
         </a>
         <nav className="desktop-nav" aria-label="Navegação principal">
-          <a href="#catalogo">Coleções</a><a href="#cuidado">Cuidado</a><a href="#visite">Visite</a>
+          <a href="#catalogo">Coleções</a><a href="#cuidado">Como escolher</a><a href="#visite">A loja</a>
         </nav>
-        <a className="header-cta" href={whatsapp} target="_blank" rel="noreferrer">Pedir pelo WhatsApp <ArrowUpRight size={15} strokeWidth={2.2} /></a>
+        <a className="header-cta" href={whatsapp} target="_blank" rel="noopener noreferrer">Pedir pelo WhatsApp <ArrowUpRight size={15} strokeWidth={2.2} /></a>
         <button className="menu-trigger" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={23} /> : <Menu size={23} />}
         </button>
         {menuOpen && <nav className="mobile-nav" aria-label="Navegação móvel">
-          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#cuidado" onClick={closeMenu}>Cuidado</a><a href="#visite" onClick={closeMenu}>Visite</a>
-          <a href={whatsapp} target="_blank" rel="noreferrer" onClick={closeMenu}>Pedir pelo WhatsApp <ArrowUpRight size={16} /></a>
+          <a href="#catalogo" onClick={closeMenu}>Coleções</a><a href="#cuidado" onClick={closeMenu}>Como escolher</a><a href="#visite" onClick={closeMenu}>A loja</a>
+          <a href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={closeMenu}>Pedir pelo WhatsApp <ArrowUpRight size={16} /></a>
         </nav>}
       </header>
 
@@ -46,10 +46,11 @@ export default function Home() {
             <h1>Mais verde,<br /><em>mais vida.</em></h1>
             <p className="hero-intro">Plantas, vasos e arranjos escolhidos para deixar a sua casa mais viva — no seu tempo e do seu jeito.</p>
             <div className="hero-actions">
-              <a className="primary-button" href={whatsapp} target="_blank" rel="noreferrer">Ver disponibilidade <ArrowUpRight size={18} /></a>
+              <a className="primary-button" href={whatsapp} target="_blank" rel="noopener noreferrer">Ver disponibilidade <ArrowUpRight size={18} /></a>
               <a className="text-link" href="#catalogo">Explorar coleções <ArrowDownRight size={17} /></a>
             </div>
             <p className="hero-note"><Leaf size={18} strokeWidth={1.8} />Cada planta é única. A gente ajuda a encontrar a certa para você.</p>
+            <div className="hero-details" aria-label="Atalhos para atendimento"><span><Leaf size={15} />Escolha com calma</span><span><MessageCircle size={15} />Fale pelo WhatsApp</span></div>
           </div>
           <figure className="hero-visual">
             <img src="/manus-storage/recanto-hero-estufa_caef30d9.jpg" alt="Ambiente luminoso com plantas tropicais e vasos em terracota" />
@@ -57,6 +58,15 @@ export default function Home() {
             <div className="floating-seal" aria-hidden="true"><span>cultivo</span><Leaf size={20} /><span>com cuidado</span></div>
           </figure>
           <p className="side-note">a casa também floresce</p>
+        </section>
+
+        <section className="selection-strip" aria-label="Como navegar pelo Recanto das Plantas">
+          <p>Do seu espaço<br />para <em>o seu recanto.</em></p>
+          <div className="selection-links">
+            <a href="#catalogo"><span>01</span><strong>Explore</strong><small>Conheça as coleções</small><ArrowDownRight size={18} /></a>
+            <a href="#cuidado"><span>02</span><strong>Converse</strong><small>Peça uma indicação</small><ArrowDownRight size={18} /></a>
+            <a href="#visite"><span>03</span><strong>Visite</strong><small>Encontre a loja</small><ArrowDownRight size={18} /></a>
+          </div>
         </section>
 
         <section id="catalogo" className="catalog-section section-pad">
@@ -70,7 +80,7 @@ export default function Home() {
               <div className="catalog-content">
                 <div className="catalog-meta"><span>{item.tag}</span><i>seleção do recanto</i></div>
                 <h3>{item.title}</h3><p>{item.description}</p>
-                <a href={wa(item.message)} target="_blank" rel="noreferrer">Consultar <ArrowUpRight size={17} /></a>
+                <a href={wa(item.message)} target="_blank" rel="noopener noreferrer">Consultar <ArrowUpRight size={17} /></a>
               </div>
             </article>)}
           </div>
@@ -84,7 +94,7 @@ export default function Home() {
             <p>Luz, tempo, rotina e espaço fazem diferença. Conte como é o seu ambiente e a gente indica caminhos para o seu verde continuar bonito.</p>
             <div className="care-points"><div><Sparkles size={19} />Orientação para escolher</div><div><Leaf size={19} />Dicas para os primeiros cuidados</div></div>
             <p className="care-stamp"><Leaf size={14} /> cultivo com cuidado, desde a escolha</p>
-            <a className="outline-button" href={wa("Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
+            <a className="outline-button" href={wa("Olá, preciso de ajuda para escolher uma planta para o meu ambiente.")} target="_blank" rel="noopener noreferrer">Quero uma indicação <ArrowUpRight size={17} /></a>
           </div>
         </section>
 
@@ -94,7 +104,7 @@ export default function Home() {
             <h2>Venha escolher<br />com <em>calma.</em></h2>
             <p>Estamos em Maceió para transformar a escolha da sua planta em um momento mais simples e mais bonito.</p>
             <div className="contact-list">
-              <a href={maps} target="_blank" rel="noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo</strong><small>Maceió · Alagoas</small></span><ArrowUpRight size={17} /></a>
+              <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={21} /><span><strong>Av. Menino Marcelo</strong><small>Maceió · Alagoas</small></span><ArrowUpRight size={17} /></a>
               <a href="tel:+558233287315"><Phone size={20} /><span><strong>(82) 3328-7315</strong><small>Fale com a nossa equipe</small></span><ArrowUpRight size={17} /></a>
             </div>
           </div>
@@ -105,8 +115,12 @@ export default function Home() {
       <footer className="site-footer">
         <a className="brand-mark footer-brand" href="#inicio" aria-label="Voltar ao início"><img src="/manus-storage/recanto-logo_e43dd42a.png" alt="" className="brand-logo" /><span className="brand-lockup"><strong>Recanto</strong><span>das Plantas</span></span></a>
         <p>Plantas, vasos e arranjos para deixar Maceió mais verde.</p>
-        <a href={whatsapp} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={15} /></a>
+        <a href={whatsapp} target="_blank" rel="noopener noreferrer">WhatsApp <ArrowUpRight size={15} /></a>
       </footer>
+      <div className="mobile-action" aria-label="Ações rápidas">
+        <a href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={17} />Falar no WhatsApp</a>
+        <a href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={17} />Como chegar</a>
+      </div>
     </div>
   );
 }

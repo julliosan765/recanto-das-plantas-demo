@@ -48,3 +48,7 @@ Após o deploy do commit `264c9a8d`, o painel autenticado do GitHub Pages mostro
 Na versão publicada `e66365cc`, o painel exibiu `0 produtos` para o catálogo real e, logo abaixo, a seção `PRÉVIA DA VITRINE` com `Itens de demonstração`: `Cactos decorativos` (Plantas · R$ 24,90) e `Rosa-do-deserto` (Flores · R$ 45,90), ambos marcados como `DEMONSTRAÇÃO`. Isso explica a diferença observada pelo usuário e confirma que os exemplos não foram misturados aos registros administráveis.
 
 A revisão visual local foi feita em 1280×720 e 390×844. A entrada administrativa permanece centralizada, legível e responsiva em ambas as larguras. No domínio público autenticado, o conteúdo textual da seção `PRÉVIA DA VITRINE` confirmou os dois exemplos e a separação do catálogo real.
+
+Na vitrine publicada em https://julliosan765.github.io/recanto-das-plantas-demo/?real-products=3a3a5d7, a consulta retornou `2 opções encontradas`: Cactos decorativos (Plantas, R$ 24,90) e Rosa-do-deserto (Flores, R$ 45,90), ambos com foto, descrição e botão “ADICIONAR AO PEDIDO”. Nenhum dos cards exibiu a etiqueta “Produto de demonstração”.
+
+Validação final publicada: a vitrine em desktop e celular exibiu 2 opções encontradas, com Cactos decorativos e Rosa-do-deserto sem etiqueta de demonstração. O painel administrativo publicado exibiu `2 produtos`, ambos com status `Disponível` e ações `EDITAR`, `OCULTAR` e `APAGAR PRODUTO`. O fluxo foi conferido sem executar a exclusão para preservar os cadastros reais.

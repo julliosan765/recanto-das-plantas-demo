@@ -248,5 +248,5 @@
 - [x] Cadastrar Cactos decorativos e Rosa-do-deserto como registros reais no Supabase, sem duplicar registros existentes.
 - [x] Garantir que os dois produtos reais possam ser editados, ocultados, liberados e apagados pelo painel normal.
 - [x] Remover a seção separada de itens demonstrativos do painel e atualizar os textos de catálogo vazio.
-- [ ] Confirmar no catálogo público que os produtos reais aparecem com foto, preço, categoria e descrição.
-- [ ] Validar o fluxo em desktop e celular e publicar no Manus e GitHub Pages.
+- [x] Confirmar no catálogo público que os produtos reais aparecem com foto, preço, categoria e descrição.
+- [x] Validar o fluxo em desktop e celular e publicar no Manus e GitHub Pages.

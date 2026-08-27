@@ -118,7 +118,7 @@ export default function Home() {
             {visibleCatalog.map((item, index) => <article className={`catalog-card ${index % 3 === 1 ? "short" : "tall"}`} key={item.id}>
               <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" style={{ objectPosition: `center ${item.imageFocusY}%` }} /></div>
               <div className="catalog-content">
-                <div className="catalog-meta"><span>{item.category}</span><i>{formatPrice(item.priceCents)}</i></div>
+                <div className="catalog-meta"><span>{item.category}</span><strong className="catalog-price">{formatPrice(item.priceCents)}</strong></div>
                 {item.isDemo && <span className="catalog-demo-label">Produto de demonstração</span>}
                 <h3>{item.name}</h3><p>{item.description}</p>
                 <button className="catalog-action" type="button" onClick={() => addToOrder(item)}><Plus size={17} /> Adicionar ao pedido</button>

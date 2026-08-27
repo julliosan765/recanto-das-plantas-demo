@@ -150,6 +150,7 @@
 
 - [x] Mostrar somente o valor em reais na área de preço, sem texto complementar ao lado
 - [x] Remover a numeração decorativa dos cartões de produto
+- [x] Aumentar o tamanho, o peso e o contraste do preço para leitura imediata pelos clientes
 
 ## Cabeçalho da Área da loja
 

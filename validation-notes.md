@@ -44,3 +44,7 @@ O fluxo de saída foi validado no Pages: ao clicar em `SAIR` no painel, o navega
 A proteção da rota também foi revalidada: depois do logout, abrir `admin.html` no Pages mostra somente `ENTRAR COM GOOGLE` e `VER A LOJA`, sem catálogo administrativo nem formulário. Isso confirma que uma sessão não autenticada não recebe acesso ao painel.
 
 Após o deploy do commit `264c9a8d`, o painel autenticado do GitHub Pages mostrou o item existente `vaso` com as ações `EDITAR`, `OCULTAR` e `APAGAR PRODUTO`. A presença e o posicionamento foram confirmados no navegador conectado; a exclusão real não foi acionada para preservar o produto do proprietário durante a validação.
+
+Na versão publicada `e66365cc`, o painel exibiu `0 produtos` para o catálogo real e, logo abaixo, a seção `PRÉVIA DA VITRINE` com `Itens de demonstração`: `Cactos decorativos` (Plantas · R$ 24,90) e `Rosa-do-deserto` (Flores · R$ 45,90), ambos marcados como `DEMONSTRAÇÃO`. Isso explica a diferença observada pelo usuário e confirma que os exemplos não foram misturados aos registros administráveis.
+
+A revisão visual local foi feita em 1280×720 e 390×844. A entrada administrativa permanece centralizada, legível e responsiva em ambas as larguras. No domínio público autenticado, o conteúdo textual da seção `PRÉVIA DA VITRINE` confirmou os dois exemplos e a separação do catálogo real.

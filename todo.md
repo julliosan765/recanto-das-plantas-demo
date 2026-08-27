@@ -240,4 +240,4 @@
 - [x] Exibir no painel os itens demonstrativos de Cactos decorativos e Rosa-do-deserto quando eles estiverem sendo usados na vitrine.
 - [x] Identificar claramente esses itens como demonstração, sem permitir que sejam confundidos com produtos reais do Supabase.
 - [x] Manter o catálogo administrativo real separado e pronto para edição, disponibilidade e exclusão.
-- [ ] Validar a explicação e a visualização em desktop e celular antes de publicar.
+- [x] Validar a explicação e a visualização em desktop e celular antes de publicar.

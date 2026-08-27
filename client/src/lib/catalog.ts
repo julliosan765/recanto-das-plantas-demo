@@ -8,6 +8,8 @@ export type StoreProduct = {
   description: string;
   imageUrl: string;
   imageFocusY: number;
+  imageUrls?: string[];
+  imageFocusYs?: number[];
   priceCents: number | null;
   isAvailable: boolean;
   isFeatured: boolean;
@@ -27,6 +29,8 @@ export const demoProducts: StoreProduct[] = [
     description: "Seleção de cactos para dar um toque verde, resistente e cheio de personalidade ao ambiente.",
     imageUrl: storeAsset("recanto-cactos_5b0cc2c6.png"),
     imageFocusY: 50,
+    imageUrls: [storeAsset("recanto-cactos_5b0cc2c6.png")],
+    imageFocusYs: [50],
     priceCents: 2490,
     isAvailable: true,
     isFeatured: true,
@@ -40,6 +44,8 @@ export const demoProducts: StoreProduct[] = [
     description: "Flor de presença marcante para quem quer levar mais cor e delicadeza para o seu recanto.",
     imageUrl: storeAsset("recanto-flor-deserto_f9c7231c.png"),
     imageFocusY: 50,
+    imageUrls: [storeAsset("recanto-flor-deserto_f9c7231c.png")],
+    imageFocusYs: [50],
     priceCents: 4590,
     isAvailable: true,
     isFeatured: true,
@@ -47,6 +53,12 @@ export const demoProducts: StoreProduct[] = [
     isDemo: true,
   },
 ];
+
+export function getProductImages(product: StoreProduct) {
+  const urls = product.imageUrls?.length ? product.imageUrls : product.imageUrl ? [product.imageUrl] : [];
+  const focusYs = urls.map((_, index) => product.imageFocusYs?.[index] ?? product.imageFocusY ?? 50);
+  return urls.map((url, index) => ({ url, focusY: focusYs[index] ?? 50 }));
+}
 
 export function formatPrice(priceCents: number | null) {
   if (priceCents === null) return "Consulte o valor";

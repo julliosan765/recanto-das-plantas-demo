@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { type StoreProduct, whatsappOrderUrl } from "../client/src/lib/catalog";
+import { getProductImages, type StoreProduct, whatsappOrderUrl } from "../client/src/lib/catalog";
 import { buildCategoryFilters, filterCatalogProducts } from "../client/src/lib/catalog-filters";
 
 const products: StoreProduct[] = [
@@ -26,6 +26,14 @@ describe("filtros do catálogo", () => {
   it("combina categoria e busca e retorna vazio quando não há correspondência", () => {
     expect(filterCatalogProducts(products, "cerâmica", "Plantas")).toEqual([]);
     expect(filterCatalogProducts(products, "parede", "Acessórios").map((product) => product.id)).toEqual(["p4"]);
+  });
+
+  it("normaliza a galeria e preserva o enquadramento individual de cada foto", () => {
+    expect(getProductImages({ ...products[0], imageUrl: "capa.jpg", imageFocusY: 74, imageUrls: ["capa.jpg", "detalhe.jpg"], imageFocusYs: [74, 22] })).toEqual([
+      { url: "capa.jpg", focusY: 74 },
+      { url: "detalhe.jpg", focusY: 22 },
+    ]);
+    expect(getProductImages({ ...products[0], imageUrl: "legado.jpg", imageFocusY: 31, imageUrls: [], imageFocusYs: [] })).toEqual([{ url: "legado.jpg", focusY: 31 }]);
   });
 
   it("mantém o produto filtrado apto a gerar um pedido no WhatsApp", () => {

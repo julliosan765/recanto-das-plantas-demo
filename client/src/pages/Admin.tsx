@@ -1,10 +1,10 @@
 /**
  * Estufa Editorial: painel administrativo reduzido a produtos e dados essenciais de contato.
  */
-import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, PencilLine, Plus, ShieldCheck, X } from "lucide-react";
+import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, PencilLine, Plus, ShieldCheck, Trash2, X } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
-import type { StoreProduct } from "@/lib/catalog";
-import { buildStoreSettingsDraft, emptyProductForm, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
+import { getProductImages, type StoreProduct } from "@/lib/catalog";
+import { buildStoreSettingsDraft, emptyProductForm, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, updateImageFocusY, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, normalizeWhatsAppNumber, type StoreSettings } from "@/lib/store-settings";
 import { createProduct, currentUserIsStoreAdmin, getAdminProducts, getAdminSession, getStoreSettings, isSupabaseConfigured, saveStoreSettings, setProductAvailability, signInAdminWithGoogle, supabase, updateProduct, uploadProductImage } from "@/lib/supabase";
@@ -21,6 +21,7 @@ export default function Admin() {
   const [form, setForm] = useState<ProductFormState>(emptyProductForm);
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
   const [settings, setSettings] = useState<StoreSettings>(defaultStoreSettings);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   async function loadProducts() {
     const items = await getAdminProducts();
@@ -70,14 +71,50 @@ export default function Admin() {
   }
 
   async function handleImage(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (!file || !session) return;
+    const files = Array.from(event.target.files ?? []);
+    if (!files.length || !session) return;
     setNotice(""); setSaving(true);
     try {
-      const imageUrl = await uploadProductImage(session.user.id, file);
-      setForm((current) => ({ ...current, imageUrl }));
-    } catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível enviar a imagem."); }
-    finally { setSaving(false); }
+      const imageUrls = await Promise.all(files.map((file) => uploadProductImage(session.user.id, file)));
+      setForm((current) => {
+        const urls = [...current.imageUrls, ...imageUrls];
+        const focusYs = [...current.imageFocusYs, ...imageUrls.map(() => 50)];
+        return { ...current, imageUrl: urls[0] ?? "", imageFocusY: focusYs[0] ?? 50, imageUrls: urls, imageFocusYs: focusYs };
+      });
+      setSelectedImageIndex(0);
+      setNotice(`${imageUrls.length} foto${imageUrls.length === 1 ? "" : "s"} adicionada${imageUrls.length === 1 ? "" : "s"}.`);
+    } catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível enviar as imagens."); }
+    finally { setSaving(false); event.target.value = ""; }
+  }
+
+  function handleFocusChange(index: number, value: number) {
+    setForm((current) => {
+      const imageFocusYs = current.imageUrls.map((_, currentIndex) => current.imageFocusYs[currentIndex] ?? 50);
+      const nextFocusYs = updateImageFocusY(imageFocusYs, index, value);
+      return { ...current, imageFocusY: nextFocusYs[0] ?? 50, imageFocusYs: nextFocusYs };
+    });
+  }
+
+  function makeCover(index: number) {
+    setForm((current) => {
+      const imageUrls = [...current.imageUrls];
+      const imageFocusYs = [...current.imageFocusYs];
+      const [url] = imageUrls.splice(index, 1);
+      const [focusY] = imageFocusYs.splice(index, 1);
+      imageUrls.unshift(url);
+      imageFocusYs.unshift(focusY ?? 50);
+      return { ...current, imageUrl: imageUrls[0] ?? "", imageFocusY: imageFocusYs[0] ?? 50, imageUrls, imageFocusYs };
+    });
+    setSelectedImageIndex(0);
+  }
+
+  function removeImage(index: number) {
+    setForm((current) => {
+      const imageUrls = current.imageUrls.filter((_, currentIndex) => currentIndex !== index);
+      const imageFocusYs = current.imageFocusYs.filter((_, currentIndex) => currentIndex !== index);
+      return { ...current, imageUrl: imageUrls[0] ?? "", imageFocusY: imageFocusYs[0] ?? 50, imageUrls, imageFocusYs };
+    });
+    setSelectedImageIndex((current) => Math.max(0, Math.min(current, form.imageUrls.length - 2)));
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -114,6 +151,7 @@ export default function Admin() {
   function startEdit(product: StoreProduct) {
     setEditingProductId(product.id);
     setForm(productToForm(product));
+    setSelectedImageIndex(0);
     setNotice("");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
@@ -121,6 +159,7 @@ export default function Admin() {
   function cancelEdit() {
     setEditingProductId(null);
     setForm(emptyProductForm);
+    setSelectedImageIndex(0);
     setNotice("");
   }
 
@@ -157,13 +196,22 @@ export default function Admin() {
         <label>Nome do produto<input value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Ex.: Jiboia em vaso" /></label>
         <div className="admin-two-columns"><label>Categoria<input value={form.category} onChange={(event) => setForm({ ...form, category: event.target.value })} placeholder="Ex.: Plantas" /></label><label>Preço (R$)<input inputMode="decimal" value={form.price} onChange={(event) => setForm({ ...form, price: event.target.value })} placeholder="Ex.: 49,90" /></label></div>
         <label>Descrição curta<textarea value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} placeholder="Uma frase simples sobre o produto." rows={3} /></label>
-        <label className="admin-file"><ImagePlus size={18} /><span>{form.imageUrl ? "Trocar foto do produto" : "Enviar foto do produto"}</span><input type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImage} /></label>
-        {form.imageUrl && <div className="admin-image-editor"><div className="admin-preview-wrap"><img className="admin-preview" src={form.imageUrl} alt="Prévia da foto no catálogo" style={{ objectPosition: `center ${form.imageFocusY}%` }} /><span>Prévia no celular</span></div><label className="admin-focus">Ajustar enquadramento vertical<input type="range" min="0" max="100" value={form.imageFocusY} onChange={(event) => setForm({ ...form, imageFocusY: Number(event.target.value) })} /><small>Mova para mostrar melhor a planta no celular. A foto original não é cortada.</small></label></div>}
+        <label className="admin-file"><ImagePlus size={18} /><span>{form.imageUrls.length ? "Adicionar mais fotos" : "Adicionar fotos do produto"}</span><input type="file" accept="image/png,image/jpeg,image/webp" multiple onChange={handleImage} /></label>
+        {form.imageUrls.length > 0 && <div className="admin-gallery-editor">
+          <div className="admin-gallery-thumbs" role="list" aria-label="Fotos do produto">
+            {form.imageUrls.map((url, index) => <div className={`admin-gallery-thumb-item ${selectedImageIndex === index ? "selected" : ""}`} key={`${url}-${index}`} role="listitem">
+              <button className="admin-gallery-thumb" type="button" onClick={() => setSelectedImageIndex(index)} aria-label={`Editar foto ${index + 1}`} aria-pressed={selectedImageIndex === index}><img src={url} alt="" style={{ objectPosition: `center ${form.imageFocusYs[index] ?? 50}%` }} /></button>
+              {index === 0 ? <span className="admin-gallery-cover-label">Principal</span> : <button className="admin-gallery-cover" type="button" onClick={() => makeCover(index)}>Usar principal</button>}
+              <button className="admin-gallery-remove" type="button" onClick={() => removeImage(index)} aria-label={`Remover foto ${index + 1}`}><Trash2 size={14} /></button>
+            </div>)}
+          </div>
+          <div className="admin-image-editor"><div className="admin-preview-wrap"><img className="admin-preview" src={form.imageUrls[selectedImageIndex]} alt={`Prévia da foto ${selectedImageIndex + 1} no catálogo`} style={{ objectPosition: `center ${form.imageFocusYs[selectedImageIndex] ?? 50}%` }} /><span>Prévia no celular</span></div><label className="admin-focus">Ajustar enquadramento vertical<input type="range" min="0" max="100" value={form.imageFocusYs[selectedImageIndex] ?? 50} onChange={(event) => handleFocusChange(selectedImageIndex, Number(event.target.value))} /><small>Selecione uma miniatura e mova o controle para posicionar essa foto. A imagem original não é cortada.</small></label></div>
+        </div>}
         <label className="admin-switch"><input type="checkbox" checked={form.isAvailable} onChange={(event) => setForm({ ...form, isAvailable: event.target.checked })} /> Disponível para pedido</label>
         <div className="admin-form-actions"><button className="admin-primary" type="submit" disabled={saving}>{saving ? <Loader2 className="admin-loader" size={18} /> : editingProductId ? <PencilLine size={18} /> : <Plus size={18} />}{editingProductId ? " Salvar alterações" : " Salvar produto"}</button>{editingProductId && <button className="admin-cancel" type="button" onClick={cancelEdit}><X size={16} /> Cancelar edição</button>}</div>
         {notice && <p className="admin-notice">{notice}</p>}
       </form>
-      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto real cadastrado ainda. Os cards de Cactos decorativos e Rosa-do-deserto são exemplos da vitrine; ao salvar o primeiro produto disponível com preço, ele passa a aparecer no catálogo público.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{product.imageUrl ? <img src={product.imageUrl} alt="" style={{ objectPosition: `center ${product.imageFocusY}%` }} /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => startEdit(product)}>Editar</button><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button></div></div>)}</div>}</aside>
+      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto real cadastrado ainda. Os cards de Cactos decorativos e Rosa-do-deserto são exemplos da vitrine; ao salvar o primeiro produto disponível com preço, ele passa a aparecer no catálogo público.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{getProductImages(product)[0] ? <img src={getProductImages(product)[0].url} alt="" style={{ objectPosition: `center ${getProductImages(product)[0].focusY}%` }} /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => startEdit(product)}>Editar</button><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button></div></div>)}</div>}</aside>
     </section>
     <section className="store-settings-section"><div><p className="eyebrow"><span /> Informações da loja</p><h2>WhatsApp e Instagram.</h2><p>Altere somente estes dois dados quando precisar. Os botões do site acompanham a mudança.</p></div><form className="store-settings-form" onSubmit={handleSaveSettings}><label>Número do WhatsApp<input inputMode="tel" value={settings.whatsappNumber} onChange={(event) => setSettings({ ...settings, whatsappNumber: event.target.value })} placeholder="Ex.: (82) 99999-9999" /></label><label>Link do Instagram<input inputMode="url" value={settings.instagramUrl} onChange={(event) => setSettings({ ...settings, instagramUrl: event.target.value })} placeholder="https://www.instagram.com/sualoja/" /></label><button className="admin-primary" type="submit" disabled={savingSettings}>{savingSettings ? <Loader2 className="admin-loader" size={18} /> : <PencilLine size={18} />} Salvar informações</button>{notice && <p className="admin-notice">{notice}</p>}</form></section>
   </main>;

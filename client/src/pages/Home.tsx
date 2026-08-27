@@ -4,7 +4,7 @@
  */
 import { ArrowDownRight, ArrowUpRight, Instagram, Leaf, MapPin, Menu, MessageCircle, Minus, Phone, Plus, Search, ShoppingBag, Sparkles, Trash2, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { demoProducts, formatPrice, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
+import { demoProducts, formatPrice, getProductImages, type CartLine, type StoreProduct, whatsappOrderUrl } from "@/lib/catalog";
 import { buildCategoryFilters, filterCatalogProducts } from "@/lib/catalog-filters";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, makeWhatsAppUrl, type StoreSettings } from "@/lib/store-settings";
@@ -12,6 +12,27 @@ import { getPublicProducts, getStoreSettings, isSupabaseConfigured } from "@/lib
 
 const maps = "https://www.google.com/maps/search/?api=1&query=Recanto+das+Plantas%2C+Macei%C3%B3%2C+AL";
 const defaultContactMessage = "Olá, gostaria de saber sobre as plantas, flores, vasos e itens de jardim disponíveis.";
+
+function CatalogCard({ item, onAdd }: { item: StoreProduct; onAdd: () => void }) {
+  const images = getProductImages(item);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const activeImage = images[activeImageIndex] ?? images[0];
+
+  return <article className="catalog-card">
+    <div className="catalog-gallery">
+      <div className="catalog-image-wrap">{activeImage ? <img src={activeImage.url} alt={`${item.name} — foto ${activeImageIndex + 1}`} loading="lazy" style={{ objectPosition: `center ${activeImage.focusY}%` }} /> : <div className="catalog-image-empty"><Leaf size={28} /><span>Foto em breve</span></div>}</div>
+      {images.length > 1 && <div className="catalog-gallery-thumbs" role="list" aria-label={`Fotos de ${item.name}`}>
+        {images.map((image, index) => <button className={`catalog-gallery-thumb ${index === activeImageIndex ? "selected" : ""}`} key={`${image.url}-${index}`} type="button" role="listitem" onClick={() => setActiveImageIndex(index)} aria-label={`Ver foto ${index + 1} de ${item.name}`} aria-pressed={index === activeImageIndex}><img src={image.url} alt="" style={{ objectPosition: `center ${image.focusY}%` }} /></button>)}
+      </div>}
+    </div>
+    <div className="catalog-content">
+      <div className="catalog-meta"><span>{item.category}</span><strong className="catalog-price">{formatPrice(item.priceCents)}</strong></div>
+      {item.isDemo && <span className="catalog-demo-label">Produto de demonstração</span>}
+      <h3>{item.name}</h3><p>{item.description}</p>
+      <button className="catalog-action" type="button" onClick={onAdd}><Plus size={17} /> Adicionar ao pedido</button>
+    </div>
+  </article>;
+}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -115,15 +136,7 @@ export default function Home() {
           </div>
           <p className="catalog-result-note" aria-live="polite">{visibleCatalog.length} {visibleCatalog.length === 1 ? "opção encontrada" : "opções encontradas"}</p>
           {visibleCatalog.length > 0 ? <div className="catalog-grid">
-            {visibleCatalog.map((item) => <article className="catalog-card" key={item.id}>
-              <div className="catalog-image-wrap"><img src={item.imageUrl} alt={item.name} loading="lazy" style={{ objectPosition: `center ${item.imageFocusY}%` }} /></div>
-              <div className="catalog-content">
-                <div className="catalog-meta"><span>{item.category}</span><strong className="catalog-price">{formatPrice(item.priceCents)}</strong></div>
-                {item.isDemo && <span className="catalog-demo-label">Produto de demonstração</span>}
-                <h3>{item.name}</h3><p>{item.description}</p>
-                <button className="catalog-action" type="button" onClick={() => addToOrder(item)}><Plus size={17} /> Adicionar ao pedido</button>
-              </div>
-            </article>)}
+            {visibleCatalog.map((item) => <CatalogCard key={item.id} item={item} onAdd={() => addToOrder(item)} />)}
           </div> : <div className="catalog-empty" role="status"><Search size={22} /><strong>Nenhuma opção encontrada.</strong><span>Tente outro nome ou escolha a categoria Todos.</span><button type="button" onClick={() => { setCatalogQuery(""); setCatalogCategory("Todos"); }}>Limpar busca</button></div>}
           {cartQuantity > 0 && <div className="order-summary" aria-live="polite"><span><ShoppingBag size={19} /> {cartQuantity} item{cartQuantity === 1 ? "" : "ns"} no pedido</span><button type="button" onClick={() => setCartOpen(true)}>Ver pedido <ArrowUpRight size={17} /></button></div>}
         </section>

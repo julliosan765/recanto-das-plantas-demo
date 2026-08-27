@@ -215,3 +215,11 @@
 - [x] Padronizar a altura dos cards e das imagens dos produtos para que todos tenham o mesmo tamanho em desktop e celular.
 - [x] Manter essa seção como o catálogo central para cadastro e exibição de plantas, vasos, flores, organização e acessórios.
 - [x] Validar a leitura de preço, nome, descrição e ação de pedido após a redução das imagens.
+
+## Galeria e enquadramento dos produtos
+
+- [x] Permitir selecionar duas ou mais fotos para um mesmo produto no painel administrativo.
+- [x] Salvar e carregar a galeria de fotos sem perder a foto principal nem o identificador do produto.
+- [x] Exibir miniaturas ou navegação simples das fotos no card/detalhe do catálogo público.
+- [x] Fazer o controle de enquadramento vertical atualizar a prévia imediatamente e persistir a posição escolhida.
+- [ ] Teste manual opcional: o dono selecionar duas ou mais fotos no painel e confirmar a galeria no celular e no desktop.

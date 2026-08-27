@@ -36,6 +36,8 @@ type ProductRow = {
   description: string | null;
   image_url: string | null;
   image_focus_y: number;
+  image_urls: string[] | null;
+  image_focus_ys: number[] | null;
   price_cents: number | null;
   is_available: boolean;
   is_featured: boolean;
@@ -43,13 +45,17 @@ type ProductRow = {
 };
 
 function toProduct(row: ProductRow): StoreProduct {
+  const imageUrls = row.image_urls?.length ? row.image_urls : row.image_url ? [row.image_url] : [];
+  const imageFocusYs = row.image_focus_ys?.length ? row.image_focus_ys : row.image_url ? [row.image_focus_y ?? 50] : [];
   return {
     id: row.id,
     name: row.name,
     category: row.category,
     description: row.description ?? "",
-    imageUrl: row.image_url ?? "",
-    imageFocusY: row.image_focus_y ?? 50,
+    imageUrl: row.image_url ?? imageUrls[0] ?? "",
+    imageFocusY: row.image_focus_y ?? imageFocusYs[0] ?? 50,
+    imageUrls,
+    imageFocusYs,
     priceCents: row.price_cents,
     isAvailable: row.is_available,
     isFeatured: row.is_featured,
@@ -57,7 +63,7 @@ function toProduct(row: ProductRow): StoreProduct {
   };
 }
 
-const productSelect = "id,name,category,description,image_url,image_focus_y,price_cents,is_available,is_featured,sort_order";
+const productSelect = "id,name,category,description,image_url,image_focus_y,image_urls,image_focus_ys,price_cents,is_available,is_featured,sort_order";
 
 export async function getPublicProducts(): Promise<StoreProduct[]> {
   if (!supabase) return [];
@@ -118,6 +124,8 @@ export async function createProduct(product: Omit<StoreProduct, "id">) {
     description: product.description,
     image_url: product.imageUrl || null,
     image_focus_y: product.imageFocusY,
+    image_urls: product.imageUrls,
+    image_focus_ys: product.imageFocusYs,
     price_cents: product.priceCents,
     is_available: product.isAvailable,
     is_featured: product.isFeatured,
@@ -135,6 +143,8 @@ export async function updateProduct(product: StoreProduct) {
     description: product.description,
     image_url: product.imageUrl || null,
     image_focus_y: product.imageFocusY,
+    image_urls: product.imageUrls,
+    image_focus_ys: product.imageFocusYs,
     price_cents: product.priceCents,
     is_available: product.isAvailable,
   }).eq("id", product.id);

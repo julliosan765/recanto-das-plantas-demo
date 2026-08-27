@@ -8,6 +8,8 @@ export type ProductFormState = {
   price: string;
   imageUrl: string;
   imageFocusY: number;
+  imageUrls: string[];
+  imageFocusYs: number[];
   isAvailable: boolean;
 };
 
@@ -18,6 +20,8 @@ export const emptyProductForm: ProductFormState = {
   price: "",
   imageUrl: "",
   imageFocusY: 50,
+  imageUrls: [],
+  imageFocusYs: [],
   isAvailable: true,
 };
 
@@ -29,6 +33,8 @@ export function productToForm(product: StoreProduct): ProductFormState {
     price: product.priceCents === null ? "" : (product.priceCents / 100).toFixed(2).replace(".", ","),
     imageUrl: product.imageUrl,
     imageFocusY: product.imageFocusY,
+    imageUrls: product.imageUrls?.length ? product.imageUrls : product.imageUrl ? [product.imageUrl] : [],
+    imageFocusYs: product.imageFocusYs?.length ? product.imageFocusYs : product.imageUrl ? [product.imageFocusY] : [],
     isAvailable: product.isAvailable,
   };
 }
@@ -54,6 +60,8 @@ export function productFormToData(form: ProductFormState): Omit<StoreProduct, "i
     description: form.description.trim(),
     imageUrl: form.imageUrl,
     imageFocusY: form.imageFocusY,
+    imageUrls: form.imageUrls,
+    imageFocusYs: form.imageFocusYs,
     priceCents: price,
     isAvailable: form.isAvailable,
     isFeatured: false,
@@ -63,6 +71,12 @@ export function productFormToData(form: ProductFormState): Omit<StoreProduct, "i
 
 export function mergeProductWithForm(product: StoreProduct, form: ProductFormState): StoreProduct {
   return { ...product, ...productFormToData(form) };
+}
+
+export function updateImageFocusY(imageFocusYs: number[], index: number, value: number) {
+  const next = [...imageFocusYs];
+  next[index] = Math.max(0, Math.min(100, Math.round(value)));
+  return next;
 }
 
 export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string): StoreSettings {

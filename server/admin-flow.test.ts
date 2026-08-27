@@ -3,6 +3,7 @@ import type { StoreProduct } from "../client/src/lib/catalog";
 import {
   buildStoreSettingsDraft,
   getPublicStoreUrl,
+  updateImageFocusY,
   mergeProductWithForm,
   productFormToData,
   productToForm,
@@ -17,6 +18,8 @@ const existingProduct: StoreProduct = {
   description: "Verde para dentro de casa.",
   imageUrl: "https://cdn.example.com/jiboia-antiga.jpg",
   imageFocusY: 40,
+  imageUrls: ["https://cdn.example.com/jiboia-antiga.jpg"],
+  imageFocusYs: [40],
   priceCents: 2990,
   isAvailable: true,
   isFeatured: false,
@@ -30,6 +33,8 @@ const editedForm: ProductFormState = {
   price: "39,90",
   imageUrl: "https://cdn.example.com/jiboia-nova.jpg",
   imageFocusY: 62,
+  imageUrls: ["https://cdn.example.com/jiboia-nova.jpg", "https://cdn.example.com/jiboia-detalhe.jpg"],
+  imageFocusYs: [62, 28],
   isAvailable: false,
 };
 
@@ -41,6 +46,8 @@ describe("fluxos administrativos da loja", () => {
       description: "Folhagem resistente para ambientes iluminados.",
       imageUrl: "https://cdn.example.com/jiboia-nova.jpg",
       imageFocusY: 62,
+      imageUrls: ["https://cdn.example.com/jiboia-nova.jpg", "https://cdn.example.com/jiboia-detalhe.jpg"],
+      imageFocusYs: [62, 28],
       priceCents: 3990,
       isAvailable: false,
       isFeatured: false,
@@ -48,11 +55,13 @@ describe("fluxos administrativos da loja", () => {
     });
   });
 
-  it("edita o mesmo produto e preserva o identificador ao trocar a foto", () => {
+  it("preserva a galeria e os enquadramentos ao editar o mesmo produto", () => {
     const updated = mergeProductWithForm(existingProduct, editedForm);
     expect(updated.id).toBe(existingProduct.id);
     expect(updated.imageUrl).toBe("https://cdn.example.com/jiboia-nova.jpg");
     expect(updated.imageFocusY).toBe(62);
+    expect(updated.imageUrls).toEqual(["https://cdn.example.com/jiboia-nova.jpg", "https://cdn.example.com/jiboia-detalhe.jpg"]);
+    expect(updated.imageFocusYs).toEqual([62, 28]);
     expect(updated.isAvailable).toBe(false);
   });
 
@@ -64,8 +73,21 @@ describe("fluxos administrativos da loja", () => {
       price: "29,90",
       imageUrl: "https://cdn.example.com/jiboia-antiga.jpg",
       imageFocusY: 40,
+      imageUrls: ["https://cdn.example.com/jiboia-antiga.jpg"],
+      imageFocusYs: [40],
       isAvailable: true,
     });
+  });
+
+  it("normaliza uma galeria antiga de foto única ao reabrir o produto", () => {
+    const legacyProduct = { ...existingProduct, imageUrls: [], imageFocusYs: [] };
+    expect(productToForm(legacyProduct).imageUrls).toEqual(["https://cdn.example.com/jiboia-antiga.jpg"]);
+    expect(productToForm(legacyProduct).imageFocusYs).toEqual([40]);
+  });
+
+  it("limita o enquadramento vertical e altera somente a foto escolhida", () => {
+    expect(updateImageFocusY([18, 42], 1, 125)).toEqual([18, 100]);
+    expect(updateImageFocusY([18, 42], 0, -10)).toEqual([0, 42]);
   });
 
   it("exige preço para produto disponível e permite deixar sem preço quando indisponível", () => {

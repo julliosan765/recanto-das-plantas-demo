@@ -338,3 +338,10 @@
 - [x] Remover a referência à conta autorizada do proprietário da tela de acesso negado.
 - [x] Manter somente uma explicação curta de que a conta não tem permissão, sem dados ou instruções administrativas.
 - [x] Validar a tela e publicar a mensagem revisada.
+
+## Correção do ano institucional
+
+- [x] Atualizar o início da empresa de 2004 para 1999 no Supabase.
+- [x] Confirmar na vitrine o texto “Desde 1999” e o tempo de mercado calculado automaticamente.
+- [x] Validar e publicar a correção no GitHub Pages.
+- [x] Atualizar o valor padrão da aplicação para 1999, preservando a informação correta em caso de indisponibilidade momentânea do banco.

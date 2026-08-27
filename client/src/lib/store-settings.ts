@@ -12,7 +12,7 @@ export type StoreSettings = {
 export const defaultStoreSettings: StoreSettings = {
   whatsappNumber: "558233287315",
   instagramUrl: "https://www.instagram.com/recantodasplantasal/",
-  aboutSinceYear: 2004,
+  aboutSinceYear: 1999,
   aboutIntro: "Em Maceió, o Recanto reúne plantas, flores, vasos e itens para jardim, oferecendo qualidade e um atendimento próximo para quem quer cultivar, renovar ou presentear.",
   aboutDetail: "Fale com a equipe, consulte a disponibilidade e escolha com mais calma o que combina com o seu espaço.",
 };

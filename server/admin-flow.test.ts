@@ -135,7 +135,7 @@ describe("fluxos administrativos da loja", () => {
 
   it("usa valores padrão para ano inválido e textos vazios de Sobre nós", () => {
     expect(buildStoreSettingsDraft("5582999998888", "https://www.instagram.com/recanto/", 1800, " ", " ")).toMatchObject({
-      aboutSinceYear: 2004,
+      aboutSinceYear: 1999,
       aboutIntro: expect.stringContaining("Em Maceió"),
       aboutDetail: expect.stringContaining("Fale com a equipe"),
     });

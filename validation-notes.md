@@ -78,3 +78,5 @@ As políticas RLS do Supabase mantêm leitura anônima apenas de produtos ativos
 Na correção final do mapa em celular, `.route-card` passou a usar `display:none` até 620 px. O endereço e o botão “Abrir rota no Maps” continuam antes do mapa; assim, o cartão branco duplicado deixa de cobrir os controles e a área visual do Google Maps. A página foi revisada novamente em 390 px após a alteração.
 
 Na tela de acesso negado, a mensagem foi reduzida para “Esta conta Google não tem permissão para acessar a área administrativa.”. O teste automatizado confirma que o texto não cita proprietário, conta autorizada, e-mail ou identificadores internos; as ações “Ver a loja” e “Sair” foram preservadas para uma saída clara.
+
+O ano institucional foi corrigido no Supabase e no valor padrão da aplicação para 1999. A vitrine publicada confirmou “Desde 1999” e o cálculo automático de 27 anos de mercado em 2026. Checagem de tipos, build e 25 testes foram executados após o alinhamento do valor padrão.

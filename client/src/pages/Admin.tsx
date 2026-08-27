@@ -4,10 +4,10 @@
 import { ArrowLeft, ImagePlus, Leaf, Loader2, LogOut, PencilLine, Plus, ShieldCheck, Trash2, X } from "lucide-react";
 import { type ChangeEvent, type FormEvent, useEffect, useState } from "react";
 import { getProductImages, type StoreProduct } from "@/lib/catalog";
-import { buildStoreSettingsDraft, emptyProductForm, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, updateImageFocusY, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
+import { buildStoreSettingsDraft, emptyProductForm, getDeleteProductConfirmation, getPublicStoreUrl, mergeProductWithForm, productFormToData, productToForm, updateImageFocusY, validateProductForm, type ProductFormState } from "@/lib/admin-logic";
 import { storeAsset } from "@/lib/assets";
 import { defaultStoreSettings, normalizeWhatsAppNumber, type StoreSettings } from "@/lib/store-settings";
-import { createProduct, currentUserIsStoreAdmin, getAdminProducts, getAdminSession, getStoreSettings, isSupabaseConfigured, saveStoreSettings, setProductAvailability, signInAdminWithGoogle, supabase, updateProduct, uploadProductImage } from "@/lib/supabase";
+import { createProduct, currentUserIsStoreAdmin, deleteProduct, getAdminProducts, getAdminSession, getStoreSettings, isSupabaseConfigured, saveStoreSettings, setProductAvailability, signInAdminWithGoogle, supabase, updateProduct, uploadProductImage } from "@/lib/supabase";
 
 export default function Admin() {
   const publicStoreUrl = getPublicStoreUrl(window.location.origin, import.meta.env.BASE_URL);
@@ -148,6 +148,23 @@ export default function Admin() {
     finally { setSaving(false); }
   }
 
+  async function handleDelete(product: StoreProduct) {
+    const confirmed = window.confirm(getDeleteProductConfirmation(product.name));
+    if (!confirmed) return;
+    setSaving(true); setNotice("");
+    try {
+      const result = await deleteProduct(product);
+      if (editingProductId === product.id) {
+        setEditingProductId(null);
+        setForm(emptyProductForm);
+        setSelectedImageIndex(0);
+      }
+      await loadProducts();
+      setNotice(result.imageCleanupFailed ? "Produto apagado; algumas imagens não puderam ser limpas." : "Produto apagado do catálogo.");
+    } catch (error) { setNotice(error instanceof Error ? error.message : "Não foi possível apagar o produto."); }
+    finally { setSaving(false); }
+  }
+
   function startEdit(product: StoreProduct) {
     setEditingProductId(product.id);
     setForm(productToForm(product));
@@ -211,7 +228,7 @@ export default function Admin() {
         <div className="admin-form-actions"><button className="admin-primary" type="submit" disabled={saving}>{saving ? <Loader2 className="admin-loader" size={18} /> : editingProductId ? <PencilLine size={18} /> : <Plus size={18} />}{editingProductId ? " Salvar alterações" : " Salvar produto"}</button>{editingProductId && <button className="admin-cancel" type="button" onClick={cancelEdit}><X size={16} /> Cancelar edição</button>}</div>
         {notice && <p className="admin-notice">{notice}</p>}
       </form>
-      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto real cadastrado ainda. Os cards de Cactos decorativos e Rosa-do-deserto são exemplos da vitrine; ao salvar o primeiro produto disponível com preço, ele passa a aparecer no catálogo público.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{getProductImages(product)[0] ? <img src={getProductImages(product)[0].url} alt="" style={{ objectPosition: `center ${getProductImages(product)[0].focusY}%` }} /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => startEdit(product)}>Editar</button><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button></div></div>)}</div>}</aside>
+      <aside className="admin-products"><p className="eyebrow"><span /> Catálogo atual</p><h2>{products.length} produto{products.length === 1 ? "" : "s"}</h2>{products.length === 0 ? <p>Nenhum produto real cadastrado ainda. Os cards de Cactos decorativos e Rosa-do-deserto são exemplos da vitrine; ao salvar o primeiro produto disponível com preço, ele passa a aparecer no catálogo público.</p> : <div className="admin-product-list">{products.map((product) => <div className="admin-product" key={product.id}>{getProductImages(product)[0] ? <img src={getProductImages(product)[0].url} alt="" style={{ objectPosition: `center ${getProductImages(product)[0].focusY}%` }} /> : <div className="admin-product-empty"><Leaf size={18} /></div>}<span><strong>{product.name}</strong><small>{product.category} · {product.isAvailable ? "Disponível" : "Indisponível"}</small></span><div className="admin-product-actions"><i className={product.isAvailable ? "available" : "unavailable"}>{product.isAvailable ? "Visível" : "Oculto"}</i><button type="button" disabled={saving} onClick={() => startEdit(product)}>Editar</button><button type="button" disabled={saving} onClick={() => handleAvailability(product)}>{product.isAvailable ? "Ocultar" : "Liberar"}</button><button className="admin-delete" type="button" disabled={saving} onClick={() => handleDelete(product)} aria-label={`Apagar produto ${product.name}`}>Apagar produto</button></div></div>)}</div>}</aside>
     </section>
     <section className="store-settings-section"><div><p className="eyebrow"><span /> Informações da loja</p><h2>WhatsApp e Instagram.</h2><p>Altere somente estes dois dados quando precisar. Os botões do site acompanham a mudança.</p></div><form className="store-settings-form" onSubmit={handleSaveSettings}><label>Número do WhatsApp<input inputMode="tel" value={settings.whatsappNumber} onChange={(event) => setSettings({ ...settings, whatsappNumber: event.target.value })} placeholder="Ex.: (82) 99999-9999" /></label><label>Link do Instagram<input inputMode="url" value={settings.instagramUrl} onChange={(event) => setSettings({ ...settings, instagramUrl: event.target.value })} placeholder="https://www.instagram.com/sualoja/" /></label><button className="admin-primary" type="submit" disabled={savingSettings}>{savingSettings ? <Loader2 className="admin-loader" size={18} /> : <PencilLine size={18} />} Salvar informações</button>{notice && <p className="admin-notice">{notice}</p>}</form></section>
   </main>;

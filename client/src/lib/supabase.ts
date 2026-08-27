@@ -4,6 +4,7 @@
 import { createClient, type Session } from "@supabase/supabase-js";
 import type { StoreProduct } from "./catalog";
 import { defaultStoreSettings, type StoreSettings } from "./store-settings";
+import { getProductStoragePaths } from "./product-storage";
 
 const url = import.meta.env.VITE_SUPABASE_URL?.trim();
 const publishableKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY?.trim();
@@ -168,6 +169,17 @@ export async function setProductAvailability(productId: string, isAvailable: boo
   if (!supabase) throw new Error("Configure o Supabase antes de alterar produtos.");
   const { error } = await supabase.from("products").update({ is_available: isAvailable }).eq("id", productId);
   if (error) throw error;
+}
+
+export async function deleteProduct(product: StoreProduct) {
+  if (!supabase) throw new Error("Configure o Supabase antes de apagar produtos.");
+  const { error } = await supabase.from("products").delete().eq("id", product.id);
+  if (error) throw error;
+
+  const imagePaths = getProductStoragePaths(product);
+  if (!imagePaths.length) return { imageCleanupFailed: false };
+  const { error: storageError } = await supabase.storage.from("product-images").remove(imagePaths);
+  return { imageCleanupFailed: Boolean(storageError) };
 }
 
 export async function uploadProductImage(userId: string, file: File) {

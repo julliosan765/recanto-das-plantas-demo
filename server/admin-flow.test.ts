@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import type { StoreProduct } from "../client/src/lib/catalog";
+import { getProductStoragePaths } from "../client/src/lib/product-storage";
 import {
   buildStoreSettingsDraft,
+  getDeleteProductConfirmation,
   getPublicStoreUrl,
   updateImageFocusY,
   mergeProductWithForm,
@@ -94,6 +96,25 @@ describe("fluxos administrativos da loja", () => {
     expect(validateProductForm({ ...editedForm, price: "", isAvailable: true })).toContain("preço");
     expect(validateProductForm({ ...editedForm, price: "", isAvailable: false })).toBeNull();
     expect(validateProductForm({ ...editedForm, price: "39,90", isAvailable: true })).toBeNull();
+  });
+
+  it("exibe uma confirmação explícita antes de apagar um produto", () => {
+    expect(getDeleteProductConfirmation("Jiboia grande")).toBe("Apagar o produto “Jiboia grande”? Essa ação não pode ser desfeita.");
+  });
+
+  it("seleciona somente as imagens do bucket de produtos para a limpeza após exclusão", () => {
+    const productWithStorageImages = {
+      ...existingProduct,
+      imageUrl: "https://project.supabase.co/storage/v1/object/public/product-images/admin-user/capa.webp",
+      imageUrls: [
+        "https://project.supabase.co/storage/v1/object/public/product-images/admin-user/capa.webp",
+        "https://project.supabase.co/storage/v1/object/public/product-images/admin-user/detalhe.jpg",
+        "https://cdn.example.com/imagem-externa.jpg",
+      ],
+      imageFocusYs: [50, 24, 75],
+    };
+    expect(getProductStoragePaths(productWithStorageImages)).toEqual(["admin-user/capa.webp", "admin-user/detalhe.jpg"]);
+    expect(getProductStoragePaths({ ...existingProduct, imageUrls: ["https://cdn.example.com/imagem-externa.jpg"] })).toEqual([]);
   });
 
   it("normaliza WhatsApp e remove espaços do Instagram para os links públicos", () => {

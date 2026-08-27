@@ -223,3 +223,13 @@
 - [x] Exibir miniaturas ou navegação simples das fotos no card/detalhe do catálogo público.
 - [x] Fazer o controle de enquadramento vertical atualizar a prévia imediatamente e persistir a posição escolhida.
 - [x] Teste manual opcional: o dono selecionar duas ou mais fotos no painel e confirmar a galeria no celular e no desktop.
+
+
+## Exclusão segura de produtos
+
+- [x] Adicionar botão visível `APAGAR PRODUTO` para cada item do catálogo administrativo.
+- [x] Exigir confirmação explícita antes de excluir um produto.
+- [x] Criar procedimento administrativo protegido para apagar o registro do produto sem expor a ação ao público.
+- [x] Remover referências de imagens associadas ao produto quando a exclusão for concluída, sem afetar outros produtos.
+- [x] Atualizar a lista do painel após exclusão bem-sucedida e tratar erros sem perder o estado da tela.
+- [ ] Cobrir a exclusão com teste automatizado e validar o fluxo no navegador em desktop e celular.

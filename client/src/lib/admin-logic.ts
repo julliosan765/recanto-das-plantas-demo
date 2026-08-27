@@ -79,6 +79,10 @@ export function updateImageFocusY(imageFocusYs: number[], index: number, value: 
   return next;
 }
 
+export function getDeleteProductConfirmation(productName: string) {
+  return `Apagar o produto “${productName}”? Essa ação não pode ser desfeita.`;
+}
+
 export function buildStoreSettingsDraft(whatsappNumber: string, instagramUrl: string): StoreSettings {
   return {
     whatsappNumber: normalizeWhatsAppNumber(whatsappNumber),

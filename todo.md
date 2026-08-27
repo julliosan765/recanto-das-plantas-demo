@@ -233,3 +233,11 @@
 - [x] Remover referências de imagens associadas ao produto quando a exclusão for concluída, sem afetar outros produtos.
 - [x] Atualizar a lista do painel após exclusão bem-sucedida e tratar erros sem perder o estado da tela.
 - [x] Cobrir a exclusão com teste automatizado e validar o fluxo no navegador em desktop e celular.
+
+
+## Alinhamento entre vitrine e painel
+
+- [x] Exibir no painel os itens demonstrativos de Cactos decorativos e Rosa-do-deserto quando eles estiverem sendo usados na vitrine.
+- [x] Identificar claramente esses itens como demonstração, sem permitir que sejam confundidos com produtos reais do Supabase.
+- [x] Manter o catálogo administrativo real separado e pronto para edição, disponibilidade e exclusão.
+- [ ] Validar a explicação e a visualização em desktop e celular antes de publicar.

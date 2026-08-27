@@ -14,12 +14,12 @@
 - [x] Executar checagem final de compilação, logs e política de conteúdo antes da entrega.
 - [x] Avaliar a experiência da versão atual no My Browser, sem fazer alterações nesta etapa.
 - [x] Avaliar as fotos públicas da Recanto das Plantas no Google Maps como referência visual.
-- [ ] Separar imagens possivelmente oficiais de imagens atribuídas a clientes ou terceiros.
-- [ ] Solicitar autorização ou arquivos originais antes de colocar imagens do Google Maps em uma publicação.
-- [ ] Receber uma foto aérea original ou autorização formal para usar a imagem do espaço físico no topo do site.
+- [~] Backlog externo: separar imagens possivelmente oficiais de imagens atribuídas a clientes ou terceiros.
+- [~] Backlog externo: solicitar autorização ou arquivos originais antes de colocar imagens do Google Maps em uma publicação.
+- [~] Backlog externo: receber uma foto aérea original ou autorização formal para usar a imagem do espaço físico no topo do site.
 - [x] Inserir uma galeria de produtos e do espaço físico no site de venda.
 - [x] Adicionar uma localização visual interativa do Google Maps no final da página.
-- [ ] Confirmar o perfil oficial do Instagram da Recanto das Plantas.
+- [~] Backlog externo: confirmar o perfil oficial do Instagram da Recanto das Plantas.
 - [x] Incluir acesso ao Instagram oficial em pontos estratégicos do site.
 - [x] Inserir no site as imagens limpas preparadas a partir das referências fornecidas pelo usuário.
 - [x] Revisar tamanhos de toque, leitura e atalhos de conversão na tela móvel.
@@ -28,21 +28,21 @@
 - [x] Substituir linguagem genérica por informações institucionais confirmadas da loja.
 - [x] Exibir endereço completo, retirada na loja, entrega e contato em uma versão comercial final.
 - [x] Revisar a página final para evitar promessas, horários, preços ou produtos não confirmados.
-- [ ] Verificar se a integração com GitHub está disponível para exportar o projeto.
-- [ ] Preparar as orientações de GitHub Pages para um site estático exportado.
-- [ ] Indicar como obter e divulgar a URL pública no Google Maps e no Instagram.
-- [ ] Escolher entre catálogo leve editável e painel completo de gestão de produtos.
-- [ ] Definir campos do produto: foto, nome, categoria, preço, disponibilidade e mensagem para WhatsApp.
-- [ ] Estruturar área segura para a empresa cadastrar e alterar produtos.
-- [ ] Montar pedido com itens e enviar resumo automaticamente para o WhatsApp.
-- [ ] Criar modelo de dados de produtos compatível com um catálogo de plantas administrável.
-- [ ] Documentar as variáveis e as etapas necessárias para conectar o Supabase posteriormente.
-- [ ] Configurar os arquivos necessários para publicar a versão estática no GitHub Pages.
-- [ ] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
-- [ ] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
-- [ ] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
-- [ ] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
-- [x] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
+- [x] Verificar se a integração com GitHub está disponível para exportar o projeto.
+- [x] Preparar as orientações de GitHub Pages para um site estático exportado.
+- [~] Backlog de divulgação: indicar como obter e divulgar a URL pública no Google Maps e no Instagram.
+- [x] Escolher entre catálogo leve editável e painel completo de gestão de produtos.
+- [x] Definir campos do produto: foto, nome, categoria, preço, disponibilidade e mensagem para WhatsApp.
+- [x] Estruturar área segura para a empresa cadastrar e alterar produtos.
+- [x] Montar pedido com itens e enviar resumo automaticamente para o WhatsApp.
+- [x] Criar modelo de dados de produtos compatível com um catálogo de plantas administrável.
+- [x] Documentar as variáveis e as etapas necessárias para conectar o Supabase posteriormente.
+- [x] Configurar os arquivos necessários para publicar a versão estática no GitHub Pages.
+- [x] Definir variáveis públicas do Supabase e controle de administradores por `public.store_admins`/`user_id` com RLS.
+- [x] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
+- [x] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
+- [x] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
+- [x] Definir variáveis públicas do Supabase e controle de administradores por `public.store_admins`/`user_id` com RLS.
 - [x] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
 - [x] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
 - [x] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
@@ -51,7 +51,7 @@
 - [x] Criar modelo de dados de produtos compatível com um catálogo de plantas administrável.
 - [x] Documentar as variáveis e as etapas necessárias para conectar o Supabase posteriormente.
 - [x] Configurar os arquivos necessários para publicar a versão estática no GitHub Pages.
-- [x] Definir variáveis públicas do Supabase e uma lista configurável de e-mails administradores.
+- [x] Definir variáveis públicas do Supabase e controle de administradores por `public.store_admins`/`user_id` com RLS.
 - [x] Documentar a ativação do login Google no painel do Supabase sem armazenar chaves no repositório.
 - [x] Criar modelo de banco com produtos, categorias e controle de acesso administrativo.
 - [x] Preparar catálogo para trocar dados de demonstração por dados reais após a conexão.
@@ -59,9 +59,9 @@
 - [x] Criar o repositório de demonstração com a conta GitHub do usuário.
 - [x] Criar projeto de demonstração no Supabase com a conta Google do usuário.
 - [x] Registrar como transferir a permissão administrativa para o e-mail do proprietário após aprovação.
-- [ ] Analisar o fluxo público do site de delivery indicado pelo usuário.
-- [ ] Identificar como produtos, carrinho e pedido final são apresentados sem login Google do cliente.
-- [ ] Comparar o modelo de delivery com uma vitrine de plantas enviada ao WhatsApp.
+- [~] Backlog de estudo: analisar o fluxo público do site de delivery indicado pelo usuário.
+- [~] Backlog de estudo: identificar como produtos, carrinho e pedido final são apresentados sem login Google do cliente.
+- [~] Backlog de estudo: comparar o modelo de delivery com uma vitrine de plantas enviada ao WhatsApp.
 - [x] Manter o painel administrativo restrito a foto, nome, preço, categoria e disponibilidade.
 - [x] Garantir que o pedido seja enviado como texto pronto para o WhatsApp, sem pagamento online.
 - [x] Revisar o catálogo e o carrinho da demonstração com dados disponíveis mesmo sem Supabase configurado.
@@ -76,7 +76,7 @@
 - [x] Criar uma área simples no painel para editar o link do Instagram da loja.
 - [x] Atualizar automaticamente os botões públicos de WhatsApp e Instagram após a alteração pelo administrador.
 - [x] Manter a tela administrativa limitada às seções Produtos e Informações da loja.
-- [x] Exigir login Google antes que visitantes usem o catálogo e o pedido pelo WhatsApp.
+- [x] Requisito superado por decisão posterior: manter o catálogo e o pedido pelo WhatsApp sem login Google do cliente.
 - [x] Diferenciar um visitante autenticado de um administrador autorizado.
 - [x] Manter o painel do dono acessível apenas após autenticação e permissão administrativa.
 - [x] Configurar as URLs de retorno do site e da área administrativa no login Google do Supabase.
@@ -98,7 +98,7 @@
 - [x] Executar pnpm check, pnpm test e pnpm build
 - [x] Revisar responsividade final em desktop e celular
 - [x] Atualizar documentação de transferência para o proprietário
-- [ ] Exportar o código para o repositório GitHub Pages após aprovação
+- [x] Exportar o código para o repositório GitHub após aprovação
 
 ## Correção identificada no teste de login
 
@@ -164,8 +164,8 @@
 
 ## Sincronização externa autorizada
 
-- [ ] Enviar o commit validado para o repositório GitHub via API, pois o token permite API mas recusou o protocolo Git
-- [ ] Confirmar a presença do commit e dos arquivos no branch remoto após a sincronização
+- [x] Substituir a tentativa de sincronização via API pela autenticação GitHub com permissão de escrita e enviar pelo protocolo Git.
+- [x] Confirmar a presença do commit e dos arquivos no branch remoto após a sincronização.
 
 ## Demonstração visual do catálogo
 
@@ -176,5 +176,6 @@
 
 - [x] Reexecutar validações de tipos, testes e compilação da versão atual.
 - [x] Salvar checkpoint Manus com os ajustes visuais posteriores ao checkpoint `be83856a`.
-- [ ] Enviar o histórico local e a versão atual ao repositório GitHub autorizado.
-- [ ] Confirmar o branch `main` e os arquivos publicados no repositório remoto.
+- [x] Enviar o histórico local e a versão atual ao repositório GitHub autorizado.
+- [x] Confirmar o branch `main` e os arquivos publicados no repositório remoto.
+- [x] Confirmar a execução do fluxo GitHub Pages e revisar o domínio de destino.

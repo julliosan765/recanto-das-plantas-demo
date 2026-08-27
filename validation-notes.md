@@ -42,3 +42,5 @@ A vitrine pública abriu pelo endereço do Pages sem solicitar login. A página 
 O fluxo de saída foi validado no Pages: ao clicar em `SAIR` no painel, o navegador retornou para `https://julliosan765.github.io/recanto-das-plantas-demo/`. A vitrine abriu sem autenticação, exibindo catálogo, preços, busca, retirada na loja e WhatsApp.
 
 A proteção da rota também foi revalidada: depois do logout, abrir `admin.html` no Pages mostra somente `ENTRAR COM GOOGLE` e `VER A LOJA`, sem catálogo administrativo nem formulário. Isso confirma que uma sessão não autenticada não recebe acesso ao painel.
+
+Após o deploy do commit `264c9a8d`, o painel autenticado do GitHub Pages mostrou o item existente `vaso` com as ações `EDITAR`, `OCULTAR` e `APAGAR PRODUTO`. A presença e o posicionamento foram confirmados no navegador conectado; a exclusão real não foi acionada para preservar o produto do proprietário durante a validação.

@@ -232,4 +232,4 @@
 - [x] Criar procedimento administrativo protegido para apagar o registro do produto sem expor a ação ao público.
 - [x] Remover referências de imagens associadas ao produto quando a exclusão for concluída, sem afetar outros produtos.
 - [x] Atualizar a lista do painel após exclusão bem-sucedida e tratar erros sem perder o estado da tela.
-- [ ] Cobrir a exclusão com teste automatizado e validar o fluxo no navegador em desktop e celular.
+- [x] Cobrir a exclusão com teste automatizado e validar o fluxo no navegador em desktop e celular.

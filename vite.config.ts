@@ -173,6 +173,7 @@ export default defineConfig({
       input: {
         site: path.resolve(import.meta.dirname, "client/index.html"),
         admin: path.resolve(import.meta.dirname, "client/admin.html"),
+        almeida: path.resolve(import.meta.dirname, "client/almeida.html"),
       },
     },
   },

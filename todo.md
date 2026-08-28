@@ -345,3 +345,37 @@
 - [x] Confirmar na vitrine o texto “Desde 1999” e o tempo de mercado calculado automaticamente.
 - [x] Validar e publicar a correção no GitHub Pages.
 - [x] Atualizar o valor padrão da aplicação para 1999, preservando a informação correta em caso de indisponibilidade momentânea do banco.
+
+## Retomada da prospecção local
+
+- [x] Revisar empresas de Maceió previamente pesquisadas e confirmar a presença de site próprio.
+- [x] Priorizar negócios com presença visual no Google Maps, mas sem site oficial identificável.
+- [x] Indicar a melhor oportunidade atual e uma abordagem inicial apropriada.
+
+## Novo filtro de prospecção
+
+- [x] Excluir negócios que já tenham assinatura, agenda online ou plataforma digital bem estruturada.
+- [x] Buscar empresas de Maceió com boa atividade visual, mas sem site próprio e sem solução digital equivalente.
+- [x] Apresentar uma nova prioridade de contato com necessidade evidente de site.
+
+## Análise aprofundada — Flores e Decor (PH Casa)
+
+- [x] Mapear produtos, público, localização e canais de contato a partir de fontes públicas.
+- [x] Verificar os links de Instagram, Linktree, WhatsApp, Google Maps e resultados de busca por site próprio.
+- [x] Identificar lacunas concretas de catálogo, descoberta e conversão que um site pode resolver.
+- [x] Preparar uma recomendação de proposta comercial baseada apenas em informações confirmadas.
+
+## Prospecção com necessidade comprovada
+
+- [x] Excluir empresas com site próprio, catálogo funcional, agenda online, delivery estruturado ou hub digital completo.
+- [x] Buscar negócios locais ativos que dependam somente de Instagram, Google Maps e WhatsApp para apresentar produtos ou serviços.
+- [x] Confirmar em fontes públicas a falta de site e de solução digital equivalente antes de recomendar contato.
+- [x] Entregar apenas oportunidades com necessidade comercial clara e proposta adequada ao tipo de empresa.
+
+## Prévia comercial — Almeida Móveis Usados
+
+- [x] Criar uma prévia separada, inspirada na navegação simples da Recanto, sem alterar o site da Recanto das Plantas.
+- [x] Desenvolver uma vitrine sofisticada com categorias, busca, filtros, preço, medidas, estado do móvel e disponibilidade.
+- [x] Organizar um fluxo de consulta pelo WhatsApp que envie ao vendedor o produto escolhido e reduza perguntas repetidas.
+- [x] Usar apenas logotipo e referências de fachada permitidos; deixar fotos e dados de móveis claramente identificados como conteúdo a confirmar.
+- [x] Validar em celular, tablet e computador antes de apresentar ao possível cliente.

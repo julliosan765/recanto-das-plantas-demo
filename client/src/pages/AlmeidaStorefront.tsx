@@ -43,8 +43,8 @@ type Product = {
 
 const WHATSAPP_NUMBER = "5582988066137";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
-const ASSET_BASE_URL = "https://recantoplt-9svuvrks.manus.space/manus-storage";
-const STORE_FRONT_IMAGE = `${ASSET_BASE_URL}/almeida-fachada-vitrine_a707c2f7.png`;
+const ASSET_BASE_URL = `${import.meta.env.BASE_URL}almeida`;
+const STORE_FRONT_IMAGE = `${ASSET_BASE_URL}/fachada-vitrine.webp`;
 const MAPS_URL =
   "https://www.google.com/maps/search/?api=1&query=Almeida%20M%C3%B3veis%20Usados%2C%20Rua%20Capit%C3%A3o%20Marinho%20Falc%C3%A3o%2C%20958%2C%20Macei%C3%B3%20-%20AL";
 
@@ -55,7 +55,7 @@ const products: Product[] = [
     category: "Sofás",
     condition: "Seminovo",
     price: "R$ 1.290",
-    image: `${ASSET_BASE_URL}/almeida-sofa-marrom-vitrine_fa370271.png`,
+    image: `${ASSET_BASE_URL}/sofa-marrom-vitrine.webp`,
     alt: "Sofá marrom de dois lugares em tecido",
     summary: "Conforto para a sala, com acabamento em tecido marrom.",
     description:
@@ -73,7 +73,7 @@ const products: Product[] = [
     category: "Poltronas",
     condition: "Seminovo",
     price: "R$ 690",
-    image: `${ASSET_BASE_URL}/almeida-poltrona-clara-vitrine_35e9a318.png`,
+    image: `${ASSET_BASE_URL}/poltrona-clara-vitrine.webp`,
     alt: "Poltrona clara estofada",
     summary: "Uma peça confortável e versátil para leitura ou descanso.",
     description:
@@ -91,7 +91,7 @@ const products: Product[] = [
     category: "Armários",
     condition: "Novo",
     price: "R$ 1.190",
-    image: `${ASSET_BASE_URL}/almeida-armario-madeira-vitrine_adcd6966.png`,
+    image: `${ASSET_BASE_URL}/armario-madeira-vitrine.webp`,
     alt: "Armário multiuso branco e madeira",
     summary: "Organização com portas, gavetas e nicho central.",
     description:

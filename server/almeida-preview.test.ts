@@ -11,10 +11,10 @@ describe("prévia Almeida Móveis Usados", () => {
     expect(source).toContain("Poltrona em tecido claro");
     expect(source).toContain("Armário multiuso madeira e branco");
     expect(source).toContain("ASSET_BASE_URL");
-    expect(source).toContain("almeida-sofa-marrom-vitrine_fa370271.png");
-    expect(source).toContain("almeida-poltrona-clara-vitrine_35e9a318.png");
-    expect(source).toContain("almeida-armario-madeira-vitrine_adcd6966.png");
-    expect(source).toContain("almeida-fachada-vitrine_a707c2f7.png");
+    expect(source).toContain("sofa-marrom-vitrine.webp");
+    expect(source).toContain("poltrona-clara-vitrine.webp");
+    expect(source).toContain("armario-madeira-vitrine.webp");
+    expect(source).toContain("fachada-vitrine.webp");
   });
 
   it("organiza a consulta para o vendedor por WhatsApp", () => {
